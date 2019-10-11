@@ -4,15 +4,18 @@
         <Header></Header>
         <!--头部 END-->
 
-        <!--左侧导航 START-->
-        <LeftBar class="fl"></LeftBar>
-        <!--左侧导航 END-->
+        <div class="clearfix">
+            <!--左侧导航 START-->
+            <LeftBar class="fl"></LeftBar>
+            <!--左侧导航 END-->
 
-        <!--中间内容 START-->
-        <div class="main">
-            我是中间的内容
+            <!--中间内容 START-->
+            <div class="main clearfix">
+                <router-view/>
+            </div>
+            <!--中间内容 END-->
         </div>
-        <!--中间内容 END-->
+
     </div>
 </template>
 
