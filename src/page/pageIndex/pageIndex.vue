@@ -1,9 +1,10 @@
 <template>
+    <!--首页-->
     <div class="pageIndex">
         <!--面包屑-->
-        <div class="routeBack">
-            <router-link to="/content/pageIndex">首页</router-link>
-        </div>
+        <!--<div class="routeBack">-->
+            <!--<router-link to="/content/pageIndex">首页</router-link>-->
+        <!--</div>-->
         <!--首页内容-->
         <div class="columnData">
             <el-row :gutter="20" style="height: 500px;">
@@ -83,7 +84,6 @@
                 <el-table-column prop="studentNum" label="总人数" width="" align="center"></el-table-column>
                 <el-table-column prop="signNum" label="已签到" width="" align="center"></el-table-column>
                 <!--<el-table-column prop="noSignNum" label="未签到" width="" align="center"></el-table-column>-->
-
                 <el-table-column label="未签到" width="" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" size="18px;">{{scope.row.noSignNum}}</el-button>
@@ -243,12 +243,6 @@
 <style scoped lang="less">
     .pageIndex{
         width: 100%;
-        padding:0 20px;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -o-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-        box-sizing: border-box;
         .columnFour{
             height: 500px;
             box-shadow: 0 2px 12px 0 #999;

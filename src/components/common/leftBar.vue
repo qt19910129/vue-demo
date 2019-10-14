@@ -7,7 +7,9 @@
                 @close="handleClose"
                 background-color="#202D3D"
                 text-color="#ccc"
-                active-text-color="#1890ff">
+                active-text-color="#1890ff"
+                 :default-openeds="['8']"
+        >
             <router-link to="/content/pageIndex">
                 <el-menu-item index="/content/pageIndex">
                     <i class="el-icon-menu"></i>

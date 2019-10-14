@@ -42,7 +42,7 @@
         height: 100%;
         width: 100%;
         .main{
-            padding-left: 219px;
+            padding: 20px 20px 20px 239px;
             width: 100%;
             -moz-box-sizing: border-box;
             -webkit-box-sizing: border-box;

@@ -6,6 +6,11 @@ import App from './App'
 
 Vue.config.productionTip = false
 
+//ueditor
+import '../static/UE/ueditor.config.js'
+import '../static/UE/ueditor.all.min.js'
+import '../static/UE/lang/zh-cn/zh-cn.js'
+import '../static/UE/ueditor.parse.min.js'
 
 //添加
 import ElementUI from 'element-ui';

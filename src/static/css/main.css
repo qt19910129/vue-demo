@@ -17,7 +17,6 @@ ol {
 	margin: 0;
 	padding: 0;
 	/*font: 14px microsoft yahei;*/
-	color: #000;
     cursor: default;
 }
 body {
@@ -92,10 +91,19 @@ th {
     font-size: 18px;
     color: #333;
 }
-
+.greenText{
+    color: green;
+}
+.color999{
+    color: #999;
+}
+.el-button{
+    font-size: 16px;
+}
 /* element-ui 公共设置 */
-.el-menu{
+.el-menu:first-child{
     height: 100%;
+    padding-bottom: 140px;
 }
 .el-menu-item, .el-submenu__title{
     background: #1d2837;
@@ -122,4 +130,145 @@ th {
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
     background-color: #ccc;
+}
+/*排课管理样式*/
+.timeTableSet .el-calendar{
+    border-radius: 10px;
+}
+.timeTableSet .el-calendar-table .el-calendar-day{
+    height: auto !important;
+    min-height: 85px;
+    cursor: default !important;
+    padding:20px;
+    position: relative;
+    font-size: 16px;
+}
+.timeTableSet .el-calendar .el-calendar-day:hover{
+    background: none !important;
+}
+.timeTableSet .el-calendar .el-button--primary{
+    border: 1px solid #1C89E8;
+    background: none;
+    color: #1C89E8;
+    border-radius: 20px;
+    padding: 8px 10px;
+    margin: 10px auto 0 auto;
+    width: 100%;
+}
+.timeTableSet .el-calendar .el-dropdown{
+    width: 100%;
+}
+/*每日食谱样式*/
+.dayFood .el-switch .el-switch__label *{
+    font-size: 18px;
+}
+.dayFood .el-switch__core{
+    height: 20px;
+    width: 50px !important;
+}
+.dayFood .el-calendar{
+    border-top: 1px solid #ddd;
+}
+.dayFood .el-calendar-table .el-calendar-day{
+    height: auto !important;
+    min-height: 85px;
+    cursor: default !important;
+    padding:20px;
+    position: relative;
+    font-size: 16px;
+}
+.dayFood .el-calendar .el-calendar-day:hover{
+    background: none !important;
+}
+.dayFood .el-calendar .el-dropdown{
+    width: 100%;
+}
+/*报名管理样式*/
+.signSet .el-form-item__content{
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+
+}
+.signSet .el-col-2{
+    margin: 0 0 0 -60px;
+    text-align: center;
+}
+.signSetStyle .el-form-item__content{
+    width: 80%;
+}
+/*班级管理样式*/
+.classSet .el-form-item{
+    width: 100%;
+}
+.classSet .el-form-item__content{
+    width: 80%;
+}
+.classSet .el-select{
+    width: 100%;
+}
+/*学生管理样式*/
+.studentSet .el-form-item{
+    width: 100%;
+}
+.studentSet .el-form-item__content{
+    width: 80%;
+}
+.studentSet .el-select{
+    width: 100%;
+}
+/*教师管理样式*/
+.teacherSet .el-form-item{
+    width: 100%;
+}
+.teacherSet .el-form-item__content{
+    width: 80%;
+}
+.teacherSet .el-select{
+    width: 100%;
+}
+/*教师管理弹窗设置*/
+.el-message-box{
+    width: 600px;
+    height: 200px;
+}
+.el-message-box__content{
+    font-size: 16px;
+    margin: 25px 15px;
+}
+.el-message-box__btns{
+    padding: 15px 15px 0;
+}
+.el-button--small, .el-button--small.is-round {
+    padding: 12px 30px;
+    font-size: 16px;
+}
+/*课程管理样式*/
+.courseSet .el-form-item{
+    width: 100%;
+}
+.courseSet .el-form-item__content{
+    width: 80%;
+}
+.courseSet .el-select{
+    width: 100%;
+}
+
+.el-upload-list--picture .el-upload-list__item{
+    width: 20%;
+    float: left;
+    margin: 0 20px 20px 0;
+}
+/*学校介绍 样式*/
+.schoolIntroduce .el-input__inner{
+    width: 25%;
+}
+/*学校公告 样式*/
+.schoolNotice .el-form-item{
+    width: 100%;
+}
+.schoolNotice .el-form-item__content{
+    width: 80%;
+}
+.schoolNotice .el-select{
+    width: 100%;
 }
