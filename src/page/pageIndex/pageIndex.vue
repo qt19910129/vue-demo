@@ -65,8 +65,11 @@
                 <el-table-column prop="studentState" label="学生状态" width="" align="center"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="18px;">查看</el-button>
-                        <el-button type="text" size="18px;">续费</el-button>
+                        <el-button type="text" size="18px;" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
+                        <!--<router-link to="/content/detail/students">-->
+                            <!---->
+                        <!--</router-link>-->
+                        <el-button type="text" size="18px;" icon="el-icon-money">续费</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -107,6 +110,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '上课中',
+                    studentId:11,
                 }, {
                     num : '2',
                     studentName: '哈哈哈',
@@ -115,6 +119,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '上课中',
+                    studentId:22,
                 }, {
                     num : '3',
                     studentName: '休息下',
@@ -123,6 +128,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '休学',
+                    studentId:33,
                 }, {
                     num : '4',
                     studentName: '对得起',
@@ -131,6 +137,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '退学',
+                    studentId:44,
                 }, {
                     num : '5',
                     studentName: '发送到',
@@ -139,6 +146,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '退学',
+                    studentId:55,
                 }, {
                     num : '6',
                     studentName: '发送到',
@@ -147,6 +155,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '退学',
+                    studentId:66,
                 }, {
                     num : '7',
                     studentName: '发送到',
@@ -155,6 +164,7 @@
                     phoneNumber: '15911003912',
                     class: '智障一班',
                     studentState: '退学',
+                    studentId:77,
                 }],
                 //今日签到信息
                 signTableData: [{
@@ -235,6 +245,13 @@
                     noSignNum: '11',
                     attendance: '10%'
                 }]
+            }
+        },
+        methods: {
+            goDetail(studentId) {
+                this.$router.push({
+                    path: `/content/detail/students/${studentId}`,
+                })
             }
         }
     }

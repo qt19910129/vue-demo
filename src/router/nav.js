@@ -15,6 +15,7 @@ const CourseSet = () => import("@/page/courseSet/courseSet.vue");  //课程管�
 const SubjectSet = () => import("@/page/subjectSet/subjectSet.vue");  //科目设置
 const LevelSet = () => import("@/page/levelSet/levelSet.vue");  //级别设置
 
+const Students = () => import("@/page/detail/students.vue");  //查看学生
 export default [
     { path: "/content/pageIndex", name: "首页", component: PageIndex },
     { path: "/content/dayFood", name: "每日食谱", component: DayFood },
@@ -30,4 +31,5 @@ export default [
     { path: "/content/courseSet", name: "课程管理", component: CourseSet },
     { path: "/content/subjectSet", name: "科目设置", component: SubjectSet },
     { path: "/content/levelSet", name: "级别设置", component: LevelSet },
+    { path: "/content/detail/students/:studentId", name: "查看学生", component: Students },
 ]
