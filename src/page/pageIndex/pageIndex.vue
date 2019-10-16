@@ -69,11 +69,26 @@
                         <!--<router-link to="/content/detail/students">-->
                             <!---->
                         <!--</router-link>-->
-                        <el-button type="text" size="18px;" icon="el-icon-money">续费</el-button>
+                        <el-button type="text" size="18px;" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
+        <!--续费弹窗-->
+        <el-dialog title="续费" :visible.sync="dialogFormVisible">
+            <el-form :model="form" :rules="rules" ref="form">
+                <el-form-item label="续费课时" :label-width="formLabelWidth" prop="renewNum">
+                    <el-input v-model="form.renewNum" autocomplete="off" placeholder="请输入续费课时"></el-input>
+                </el-form-item>
+                <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="form.renewDay" style="width: 80%;"></el-date-picker>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="resetForm('form')">取 消</el-button>
+                <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+            </div>
+        </el-dialog>
         <!--今日签到信息-->
         <div class="signMessage">
             <div class="signTitle">今日签到信息</div>
@@ -89,11 +104,28 @@
                 <!--<el-table-column prop="noSignNum" label="未签到" width="" align="center"></el-table-column>-->
                 <el-table-column label="未签到" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="18px;">{{scope.row.noSignNum}}</el-button>
+                        <el-button type="text" size="18px;" icon="el-icon-user" @click="dialogTableVisible = true">{{scope.row.noSignNum}}</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column prop="attendance" label="出勤率" width="" align="center"></el-table-column>
+                <el-table-column prop="attendance" label="出勤率" width="" align="center">
+                    <template slot-scope="scope">
+                        <span type="text" class="attendance">{{scope.row.attendance}}</span>
+                    </template>
+                </el-table-column>
             </el-table>
+            <!--未签到表格-->
+            <el-dialog title="二年级三班签到表" :visible.sync="dialogTableVisible">
+                <el-table :data="gridData" border style="font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
+                    <el-table-column property="num" label="序号" width="150" align="center"></el-table-column>
+                    <el-table-column property="name" label="学生姓名" width="200" align="center"></el-table-column>
+                    <el-table-column property="edit" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="text" icon="el-icon-document" @click="signIn">签到</el-button>
+                            <el-button type="text" icon="el-icon-pie-chart" @click="signOut">请假</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -244,14 +276,83 @@
                     signNum: '33',
                     noSignNum: '11',
                     attendance: '10%'
-                }]
+                }],
+                dialogFormVisible: false,
+                form: {
+                    renewNum: '',
+                    renewDay: '',
+                },
+                formLabelWidth: '120px',
+                rules: {
+                    renewNum: [
+                        { required: true, message: '请输入续费课时数', trigger: 'blur' },
+                    ],
+                    renewDay: [
+                        { required: true, message: '请选择续费日期', trigger: 'blur' }
+                    ],
+                },
+                gridData: [{
+                    num: '1',
+                    name: '王小虎',
+                }, {
+                    num: '2',
+                    name: '王小虎',
+                }, {
+                    num: '3',
+                    name: '王小虎',
+                }, {
+                    num: '4',
+                    name: '王小虎',
+                }],
+                dialogTableVisible: false,
             }
         },
         methods: {
-            goDetail(studentId) {
+            goDetail(studentId) {  //跳转差看学生详情页
                 this.$router.push({
                     path: `/content/detail/students/${studentId}`,
                 })
+            },
+            openrenew() {  //打开续费弹窗
+
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$message({
+                            type: 'success',
+                            message: '修改成功'
+                        });
+                        this.$refs[formName].resetFields();
+                        this.dialogFormVisible = false;
+                    } else {
+                        console.log('error submit!!');
+                        this.dialogFormVisible = true;
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.dialogFormVisible = false;
+                this.$refs[formName].resetFields();
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });
+            },
+            signIn() {
+                this.dialogTableVisible = false;
+                this.$message({
+                    type: 'success',
+                    message: '签到成功'
+                });
+            },
+            signOut() {
+                this.dialogTableVisible = false;
+                this.$message({
+                    type: 'success',
+                    message: '请假成功'
+                });
             }
         }
     }
@@ -342,6 +443,9 @@
         }
         .renewTable td{
             padding: 8px 0 !important;
+        }
+        .attendance{
+            color: #1298D6;
         }
     }
 </style>

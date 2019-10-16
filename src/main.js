@@ -6,11 +6,15 @@ import App from './App'
 
 Vue.config.productionTip = false
 
-//ueditor
+//ueditor 引入
 import '../static/UE/ueditor.config.js'
 import '../static/UE/ueditor.all.min.js'
 import '../static/UE/lang/zh-cn/zh-cn.js'
 import '../static/UE/ueditor.parse.min.js'
+
+//Echarts 引入
+import Echarts from 'echarts'
+Vue.prototype.$echarts=Echarts;
 
 //添加
 import ElementUI from 'element-ui';

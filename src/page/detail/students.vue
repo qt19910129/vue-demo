@@ -61,8 +61,8 @@
                 <el-col :span="6">50</el-col>
                 <el-col :span="6" class="tableName">学习奖励</el-col>
                 <el-col :span="6">
-                    50星
-                    <el-button type="text" icon="el-icon-star-off">兑换</el-button>
+                    {{starNum}}星
+                    <el-button type="text" icon="el-icon-star-off" @click="openChangeStar()">兑换</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -76,6 +76,7 @@
         </el-table>
         <!--学习分析-->
         <div class="tit">学习分析</div>
+        <div id="studentEcharts"></div>
     </div>
 </template>
 
@@ -89,13 +90,72 @@
                         subject:'数学',
                         num:20,
                         readyNum:10,
-                        leaveNum:10
+                        leaveNum:10,
                     },
-                ]
+                ],
+                starNum:50,  //星星数量（模拟）
+                option:{
+                    backgroundColor: '#F6FAFF',
+                    textStyle: {
+                        color: '#333'
+                    },
+                    title : {
+                        text: '某站点用户访问来源',
+                        subtext: '纯属虚构',
+                        x:'center',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bolder',
+                            color: '#333'          // 主标题文字颜色
+                        },
+                        subtextStyle: {
+                            color: '#333'          // 副标题文字颜色
+                        }
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+                        textStyle: {
+                            fontSize: 14,
+                            color: '#333'          // 主标题文字颜色
+                        },
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:[
+                                {value:335, name:'直接访问'},
+                                {value:310, name:'邮件营销'},
+                                {value:234, name:'联盟广告'},
+                                {value:135, name:'视频广告'},
+                                {value:1548, name:'搜索引擎'}
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                },
             }
         },
         mounted() {
+            window.scrollTo(0,0); //每次路由进入 页面滚动到顶部
             this.studentId = this.$route.params.studentId;  //获取学生id
+            //基于准备好的dom 初始化echarts实例
+            var myChart = this.$echarts.init(document.getElementById('studentEcharts'),'dark');
+            myChart.setOption(this.option);
         },
         methods: {
             goBack() {  //返回首页
@@ -138,6 +198,31 @@
                         message: '取消输入'
                     });
                 });
+            },
+            openChangeStar() {
+                this.$prompt('请输入要兑换的星星数量', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: /\S/,
+                    inputErrorMessage: '请输入要兑换的星星数量'
+                }).then(({ value }) => {
+                    if(this.starNum * 1 < value * 1) {
+                        this.$message({
+                            type: 'error',
+                            message: '兑换失败，您输入的星星数量大于已有的星星数量'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'success',
+                            message: '兑换成功'
+                        });
+                    }
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消输入'
+                    });
+                });
             }
         }
     }
@@ -167,6 +252,11 @@
             button{
                 padding: 0;
             }
+        }
+        #studentEcharts{
+            height: 600px;
+            width: 600px;
+            margin: 20px auto;
         }
     }
 </style>
