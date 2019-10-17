@@ -66,7 +66,7 @@
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" size="18px;" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
-                        <!--<router-link to="/content/detail/students">-->
+                        <!--<router-link to="/content/details/students">-->
                             <!---->
                         <!--</router-link>-->
                         <el-button type="text" size="18px;" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
@@ -310,7 +310,7 @@
         methods: {
             goDetail(studentId) {  //跳转差看学生详情页
                 this.$router.push({
-                    path: `/content/detail/students/${studentId}`,
+                    path: `/content/details/students/${studentId}`,
                 })
             },
             openrenew() {  //打开续费弹窗

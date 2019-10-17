@@ -13,7 +13,6 @@ Router.prototype.push = function push(location) {
 //防止路由报错 END
 
 export default new Router({
-    mode: "history",
     routes: [
         {
             path:'/',           //这个表示的是根目录，即一进入的页面

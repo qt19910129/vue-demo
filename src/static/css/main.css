@@ -117,16 +117,30 @@ th {
     font-weight: bold;
 }
 /*左侧滚动条样式*/
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
     border-radius: 5px;
     background-color: rgba(255,255,255,0.8);
 }
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
     width: 5px;
     background-color: rgba(0,0,0,0);
 }
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
+    background-color: #ccc;
+}
+.leftBar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.8);
+}
+.leftBar::-webkit-scrollbar {
+    width: 5px;
+    background-color: rgba(0,0,0,0);
+}
+.leftBar::-webkit-scrollbar-thumb {
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
     background-color: #ccc;
@@ -270,4 +284,24 @@ th {
 }
 .schoolNotice .el-select{
     width: 100%;
+}
+/*添加排课样式*/
+.addTimeTable .el-input{
+    width: 40%;
+}
+.addTimeTable .el-select{
+    width: 40%;
+}
+.addTimeTable .el-select .el-input{
+    width: 100%;
+}
+.addTimeTable .el-form-item__content{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.addTimeTable .el-form{
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
 }
