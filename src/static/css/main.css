@@ -316,3 +316,11 @@ body::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: #fff;
 }
+/*添加食谱样式*/
+.foods .el-input{
+    width: 40%;
+    margin-right: 20px;
+}
+.foods .el-form-item__label{
+    width: 110px;
+}

@@ -16,11 +16,11 @@
                 </p>
                 <div v-for="a in aa" v-if="data.day == a.day && aa.child != [] && data.type == 'current-month'">
                     <div v-for="b in a.child">
-                        <span class="foodStyle">{{b.food}}</span>
+                        <span class="foodStyle" @click="goFoods(2)">{{b.food}}</span>
                     </div>
                 </div>
                 <!--{{data}}-->
-                <span class="addFood" v-if="data.type == 'current-month'">+</span>
+                <span class="addFood" v-if="data.type == 'current-month'" @click="goFoods(1)">+</span>
             </template>
         </el-calendar>
         <!--关闭食谱 显示空展位图-->
@@ -58,7 +58,14 @@
                     }
                 ]
             }
-        }
+        },
+        methods:{
+            goFoods(edit) {   //跳转新增修改食谱，1为新增 2为修改
+                this.$router.push({
+                    path: `/content/details/foods/${edit}`,
+                })
+            }
+        },
     }
 </script>
 
@@ -104,6 +111,7 @@
             box-sizing: border-box;
             font-size: 12px;
             line-height: 12px;
+            cursor: pointer;
         }
         .foodClose{
             min-height: 550px;
