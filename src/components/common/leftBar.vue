@@ -138,7 +138,7 @@
 
 <style scoped lang="less">
     .leftBar{
-        width: 220px;
+        width: 190px;
         position: fixed;
         height: 100%;
         overflow-y: scroll;

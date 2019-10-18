@@ -5,7 +5,7 @@
             <el-button type="primary" @click="">新增</el-button>
         </div>
         <!--数据表格-->
-        <el-table :data="classRoomSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+        <el-table :data="classRoomSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
             <el-table-column prop="classRoomName" label="教室名称" align="center"></el-table-column>
             <el-table-column prop="equipment" label="教室设备" align="center"></el-table-column>

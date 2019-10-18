@@ -69,7 +69,7 @@
         background: #fff;
         padding: 20px;
         .switch{
-            font-size: 18px;
+            font-size: 12px;
             line-height: 18px;
             margin-bottom: 20px;
         }
@@ -102,11 +102,11 @@
             width: 100%;
             text-align: center;
             box-sizing: border-box;
-            font-size: 14px;
-            line-height: 14px;
+            font-size: 12px;
+            line-height: 12px;
         }
         .foodClose{
-            min-height: 730px;
+            min-height: 550px;
             display: flex;
             display: -webkit-flex;
             align-items: center;

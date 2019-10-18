@@ -7,7 +7,7 @@
         <!--</div>-->
         <!--首页内容-->
         <div class="columnData">
-            <el-row :gutter="20" style="height: 500px;">
+            <el-row :gutter="20" style="height: 440px;">
                 <el-col :span="6">
                     <div class="columnFour columnFour-1">
                         <img src="../../static/img/pageIndex/stuNum.png">
@@ -55,7 +55,7 @@
         <!--续费学员-->
         <div class="renewStudent">
             <div class="renewTitle">续费学员</div>
-            <el-table :data="renewTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
+            <el-table :data="renewTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
                 <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
                 <el-table-column prop="studentName" label="学生姓名" width="160" align="center"></el-table-column>
                 <el-table-column prop="renewDate" label="续费截止日期" width="" align="center"></el-table-column>
@@ -63,13 +63,13 @@
                 <el-table-column prop="phoneNumber" label="联系电话" width="" align="center"></el-table-column>
                 <el-table-column prop="class" label="所在班级" width="" align="center"></el-table-column>
                 <el-table-column prop="studentState" label="学生状态" width="" align="center"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="" align="center">
+                <el-table-column fixed="right" label="操作" width="130" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="18px;" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
+                        <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
                         <!--<router-link to="/content/details/students">-->
                             <!---->
                         <!--</router-link>-->
-                        <el-button type="text" size="18px;" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
+                        <el-button type="text" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -92,7 +92,7 @@
         <!--今日签到信息-->
         <div class="signMessage">
             <div class="signTitle">今日签到信息</div>
-            <el-table :data="signTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="signTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
                 <el-table-column prop="className" label="班级名称" width="160" align="center"></el-table-column>
                 <el-table-column prop="teacherName" label="主讲" width="" align="center"></el-table-column>
@@ -104,7 +104,7 @@
                 <!--<el-table-column prop="noSignNum" label="未签到" width="" align="center"></el-table-column>-->
                 <el-table-column label="未签到" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="18px;" icon="el-icon-user" @click="dialogTableVisible = true">{{scope.row.noSignNum}}</el-button>
+                        <el-button type="text" icon="el-icon-user" @click="dialogTableVisible = true">{{scope.row.noSignNum}}</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column prop="attendance" label="出勤率" width="" align="center">
@@ -115,7 +115,7 @@
             </el-table>
             <!--未签到表格-->
             <el-dialog title="二年级三班签到表" :visible.sync="dialogTableVisible">
-                <el-table :data="gridData" border style="font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
+                <el-table :data="gridData" border style="font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
                     <el-table-column property="num" label="序号" width="150" align="center"></el-table-column>
                     <el-table-column property="name" label="学生姓名" width="200" align="center"></el-table-column>
                     <el-table-column property="edit" label="操作" align="center">
@@ -362,7 +362,7 @@
     .pageIndex{
         width: 100%;
         .columnFour{
-            height: 500px;
+            height: 100%;
             box-shadow: 0 2px 12px 0 #999;
             text-align: center;
             min-width: 130px;
@@ -372,7 +372,7 @@
             img{
                 width: 130px;
                 height: 140px;
-                margin: 80px 0 50px 0;
+                margin: 70px 0 10px 0;
             }
             div{
                 margin-top: 40px;
@@ -396,21 +396,21 @@
         }
         .columnTwo{
             margin-top: 20px;
-            height: 232px;
+            height: 180px;
             .columnTwo-1,.columnTwo-2{
                 box-shadow: 0 2px 12px 0 #999;
                 font-weight: bold;
                 color: #fff;
                 font-size: 30px;
                 text-align: center;
-                height: 166px;
-                padding-top: 66px;
+                height: 130px;
+                padding-top: 50px;
                 animation:rotaX 2s 1;
                 -webkit-animation:rotaX 2s 1;
                 border-radius: 10px;
                 div{
                     line-height: 30px;
-                    margin-bottom: 40px;
+                    margin-bottom: 30px;
                 }
             }
         }
@@ -432,11 +432,11 @@
             width: 100%;
             height: 20px;
             line-height: 20px;
-            font-size: 20px;
+            font-size: 16px;
             padding-top: 50px;
         }
         .renewTable,.signTable{
-            margin: 50px 0 0 0;
+            margin: 20px 0 0 0;
         }
         .renewTable th{
             padding: 10px 0 !important;

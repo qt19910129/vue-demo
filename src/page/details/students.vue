@@ -68,7 +68,7 @@
         </div>
         <div class="tit">上课信息<el-button type="text" icon="el-icon-download" class="fr">导出</el-button></div>
         <!--数据表格-->
-        <el-table :data="studentClassData" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+        <el-table :data="studentClassData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="subject" label="科目" align="center"></el-table-column>
             <el-table-column prop="num" label="课时" align="center"></el-table-column>
             <el-table-column prop="readyNum" label="课耗" align="center"></el-table-column>
@@ -233,6 +233,7 @@
         .studentsMain{
             background: #fff;
             border-radius: 10px;
+            font-size: 14px;
             .tableName{
                 background: #E8EEF3;
             }

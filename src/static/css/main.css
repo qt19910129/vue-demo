@@ -16,7 +16,7 @@ dd,
 ol {
 	margin: 0;
 	padding: 0;
-	/*font: 14px microsoft yahei;*/
+	font: 12px microsoft yahei;
     cursor: default;
 }
 body {
@@ -58,7 +58,10 @@ input {
 	border: 0 none;
 	outline-style: none;
 }
-
+::-webkit-input-placeholder { /* WebKit browsers */ font-size: 12px!important;}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  font-size: 12px!important;}
+::-moz-placeholder { /* Mozilla Firefox 19+ */  font-size: 12px!important;}
+:-ms-input-placeholder { /* Internet Explorer 10+ */  font-size: 12px!important;}
 th {
 	background-color: #E8EEF3;
 }
@@ -98,7 +101,7 @@ th {
     color: #999;
 }
 .el-button{
-    font-size: 16px;
+    font-size: 12px;
 }
 /* element-ui 公共设置 */
 .el-menu:first-child{
@@ -107,12 +110,12 @@ th {
 }
 .el-menu-item, .el-submenu__title{
     background: #1d2837;
-    height: 66px;
-    line-height: 66px;
-    font-size: 16px;
+    height: 54px;
+    line-height: 54px;
+    font-size: 14px;
 }
 .el-breadcrumb__inner{
-    font-size: 18px;
+    font-size: 14px;
     color: #000;
     font-weight: bold;
 }
@@ -145,13 +148,20 @@ body::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
     background-color: #ccc;
 }
+/*首页样式*/
+.pageIndex .el-col-6{
+    height: 100%;
+}
+.pageIndex .el-col-12{
+    height: 100%;
+}
 /*排课管理样式*/
 .timeTableSet .el-calendar{
     border-radius: 10px;
 }
 .timeTableSet .el-calendar-table .el-calendar-day{
     height: auto !important;
-    min-height: 85px;
+    min-height: 65px;
     cursor: default !important;
     padding:20px;
     position: relative;
@@ -174,7 +184,7 @@ body::-webkit-scrollbar-thumb {
 }
 /*每日食谱样式*/
 .dayFood .el-switch .el-switch__label *{
-    font-size: 18px;
+    font-size: 14px;
 }
 .dayFood .el-switch__core{
     height: 20px;
@@ -185,7 +195,7 @@ body::-webkit-scrollbar-thumb {
 }
 .dayFood .el-calendar-table .el-calendar-day{
     height: auto !important;
-    min-height: 85px;
+    min-height: 65px;
     cursor: default !important;
     padding:20px;
     position: relative;
@@ -204,7 +214,8 @@ body::-webkit-scrollbar-thumb {
 
 }
 .signSet .el-col-2{
-    margin: 0 0 0 -60px;
+    margin: 0 0 0 0;
+    font-size: 12px;
     text-align: center;
 }
 .signSetStyle .el-form-item__content{
@@ -242,7 +253,7 @@ body::-webkit-scrollbar-thumb {
 }
 /*教师管理弹窗设置*/
 .el-message-box{
-    width: 600px;
+    width: 460px;
 }
 .el-message-box__content{
     font-size: 16px;
@@ -252,8 +263,8 @@ body::-webkit-scrollbar-thumb {
     padding: 15px 15px 0;
 }
 .el-button--small, .el-button--small.is-round {
-    padding: 12px 30px;
-    font-size: 16px;
+    padding: 10px 24px;
+    font-size: 12px;
 }
 /*课程管理样式*/
 .courseSet .el-form-item{

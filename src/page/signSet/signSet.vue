@@ -17,20 +17,20 @@
                     <el-form-item required>
                         <el-col :span="11">
                             <el-form-item prop="date1">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 80%;"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                             </el-form-item>
                         </el-col>
-                        <el-col class="line" :span="2">至</el-col>
+                        <el-col :span="2">至</el-col>
                         <el-col :span="11">
                             <el-form-item prop="date1">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date2" style="width: 80%;"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date2" style="width: 100%;"></el-date-picker>
                             </el-form-item>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="4">
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">搜索</el-button>
+                        <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 20px;">搜索</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -42,23 +42,23 @@
                 <el-button type="primary" @click="">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="signSetData" height="600" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
-                <el-table-column prop="studentName" label="孩子姓名" width="160" align="center"></el-table-column>
-                <el-table-column prop="birthday" label="出生日期" width="" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" width="" align="center"></el-table-column>
+            <el-table :data="signSetData" height="500" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+                <el-table-column prop="num" label="序号" width="60px" align="center"></el-table-column>
+                <el-table-column prop="studentName" label="孩子姓名" width="120" align="center"></el-table-column>
+                <el-table-column prop="birthday" label="出生日期" width="120" align="center"></el-table-column>
+                <el-table-column prop="sex" label="性别" width="60" align="center"></el-table-column>
                 <el-table-column prop="phoneNum" label="联系电话" width="" align="center"></el-table-column>
                 <el-table-column prop="address" label="家庭地址" width="" align="center"></el-table-column>
                 <el-table-column prop="signDate" label="报名时间" width="" align="center"></el-table-column>
-                <el-table-column label="沟通记录" width="" align="center">
+                <el-table-column label="沟通记录" width="100" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-edit">记录</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="" align="center">
+                <el-table-column fixed="right" label="操作" width="150" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text">签约</el-button>
-                        <el-button type="text">未签约</el-button>
+                        <el-button type="text" icon="el-icon-document-checked">签约</el-button>
+                        <el-button type="text" icon="el-icon-document-delete">未签约</el-button>
                     </template>
                 </el-table-column>
             </el-table>

@@ -4,7 +4,7 @@
         <Header></Header>
         <!--头部 END-->
 
-        <div class="clearfix">
+        <div class="clearfix wrap">
             <!--左侧导航 START-->
             <LeftBar class="fl"></LeftBar>
             <!--左侧导航 END-->
@@ -41,8 +41,11 @@
     .bg{
         height: 100%;
         width: 100%;
+        .wrap{
+            margin-top: 70px;
+        }
         .main{
-            padding: 20px 20px 20px 239px;
+            padding: 20px 20px 20px 210px;
             width: 100%;
             -moz-box-sizing: border-box;
             -webkit-box-sizing: border-box;

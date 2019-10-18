@@ -19,13 +19,18 @@
 
 <style scoped lang="less">
     .header{
-        height: 70px;
+        height: 50px;
         background: #fff;
         padding: 10px 40px;
-        line-height: 70px;
+        line-height: 50px;
         display: flex;
         display: -webkit-flex;
         justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
         .logo{
             width: 450px;
             height: 100%;

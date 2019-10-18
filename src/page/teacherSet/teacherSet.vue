@@ -38,7 +38,7 @@
                 <el-button type="primary" @click="">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="teacherSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="teacherSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
                 <el-table-column prop="teacherName" label="教师名称" width="120" align="center"></el-table-column>
                 <el-table-column prop="phoneNum" label="联系电话" width="" align="center" width="200"></el-table-column>
@@ -57,7 +57,7 @@
                         <span type="text" v-if="scope.row.teacherState == 2">离职</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="" align="center">
+                <el-table-column fixed="right" label="操作" width="130" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view">查看</el-button>
                         <el-button type="text" icon="el-icon-edit">编辑</el-button>

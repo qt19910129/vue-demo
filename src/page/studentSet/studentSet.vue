@@ -21,7 +21,7 @@
             </el-row>
         </el-form>
         <!--数据表格-->
-        <el-table :data="studentSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;margin-top: 20px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+        <el-table :data="studentSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;margin-top: 20px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
             <el-table-column prop="studentName" label="学生姓名" width="160" align="center"></el-table-column>
             <el-table-column prop="birthday" label="出生日期" width="" align="center"></el-table-column>

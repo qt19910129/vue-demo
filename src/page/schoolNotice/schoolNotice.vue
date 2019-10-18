@@ -22,7 +22,7 @@
                 <el-button type="primary" @click="">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="noticeData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 16px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="noticeData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
                 <el-table-column prop="noticeName" label="公告标题" width="160" align="center"></el-table-column>
                 <el-table-column prop="noticeTime" label="发布时间" width="" align="center"></el-table-column>
