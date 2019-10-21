@@ -43,7 +43,7 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-view">查看</el-button>
+                        <el-button type="text" icon="el-icon-view" @click="goSeeClass()">查看</el-button>
                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
                         <el-button type="text" icon="el-icon-tickets">结课</el-button>
                     </template>
@@ -98,6 +98,11 @@
                     }
                 });
             },
+            goSeeClass() {   //跳转查看班级
+                this.$router.push({
+                    path: `/content/details/seeClass`,
+                })
+            }
         }
     }
 </script>

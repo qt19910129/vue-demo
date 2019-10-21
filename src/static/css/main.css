@@ -103,6 +103,9 @@ th {
 .el-button{
     font-size: 12px;
 }
+.blueText{
+    color: #1D82FE;
+}
 /* element-ui 公共设置 */
 .el-menu:first-child{
     height: 100%;
@@ -211,7 +214,6 @@ body::-webkit-scrollbar-thumb {
 .signSet .el-form-item__content{
     margin-right: 0 !important;
     margin-left: 0 !important;
-
 }
 .signSet .el-col-2{
     margin: 0 0 0 0;
@@ -220,6 +222,18 @@ body::-webkit-scrollbar-thumb {
 }
 .signSetStyle .el-form-item__content{
     width: 80%;
+}
+.signSet .add .el-input{
+    width: 220px;
+}
+.signSet .add .el-dialog{
+    width: 40%;
+}
+.signSet .pay .el-input{
+    width: 220px;
+}
+.signSet .pay .el-dialog{
+    width: 40%;
 }
 /*班级管理样式*/
 .classSet .el-form-item{
