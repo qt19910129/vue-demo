@@ -122,6 +122,9 @@ th {
     color: #000;
     font-weight: bold;
 }
+body .el-table th.gutter{
+    display: table-cell!important;
+}
 /*左侧滚动条样式*/
 body::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
@@ -337,4 +340,17 @@ body::-webkit-scrollbar-thumb {
 }
 .foods .el-form-item__label{
     width: 110px;
+}
+/*编辑班级样式*/
+.editClass .el-input{
+    width: 220px;
+}
+.editClass .el-tag{
+    margin: 0 10px 10px 0;
+}
+.editClass .addSubject .el-input{
+    width: 100%;
+}
+.editClass .addSubject .el-select{
+    width: 100%;
 }

@@ -109,7 +109,7 @@
         methods:{
             goBack() {  //返回首页
                 this.$router.push({
-                    path: '/content/pageIndex',
+                    path: `/content/pageIndex`,
                 })
             },
         }

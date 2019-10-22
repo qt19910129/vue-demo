@@ -6,7 +6,7 @@ import ElementUI from 'element-ui';
 import './static/css/theme/index.css';
 import "./static/css/main.css";
 
-
+import 'babel-polyfill'
 
 
 

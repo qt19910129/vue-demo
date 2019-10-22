@@ -27,7 +27,7 @@
         <div class="classSetMain">
             <!--新增-->
             <div class="classAddBox">
-                <el-button type="primary" @click="">新增</el-button>
+                <el-button type="primary" @click="goEditClass(1)">新增</el-button>
             </div>
             <!--数据表格-->
             <el-table :data="classSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
@@ -44,7 +44,7 @@
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view" @click="goSeeClass()">查看</el-button>
-                        <el-button type="text" icon="el-icon-edit">编辑</el-button>
+                        <el-button type="text" icon="el-icon-edit" @click="goEditClass(2)">编辑</el-button>
                         <el-button type="text" icon="el-icon-tickets">结课</el-button>
                     </template>
                 </el-table-column>
@@ -101,6 +101,11 @@
             goSeeClass() {   //跳转查看班级
                 this.$router.push({
                     path: `/content/details/seeClass`,
+                })
+            },
+            goEditClass(edit) {  //跳转编辑班级
+                this.$router.push({
+                    path: `/content/details/editClass/${edit}`,
                 })
             }
         }
