@@ -45,7 +45,7 @@
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view" @click="goSeeClass()">查看</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="goEditClass(2)">编辑</el-button>
-                        <el-button type="text" icon="el-icon-tickets">结课</el-button>
+                        <el-button type="text" icon="el-icon-tickets" @click="classOver(scope.row)">结课</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -76,6 +76,8 @@
                         teacherName:'王老师',
                         studentNum:'45',
                         classState:1,
+                        allkeshi:20,
+                        keshi:10
                     },
                     {
                         num:2,
@@ -83,6 +85,8 @@
                         teacherName:'李老师',
                         studentNum:'45',
                         classState:2,
+                        allkeshi:20,
+                        keshi:20
                     }
                 ]
             }
@@ -107,6 +111,33 @@
                 this.$router.push({
                     path: `/content/details/editClass/${edit}`,
                 })
+            },
+            classOver(data) {  //结课弹窗
+                console.log(data);
+                if(data.allkeshi == data.keshi) {
+                    //已结课
+                    this.$confirm('此操作将为该学员结课, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '结课成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消结课'
+                        });
+                    });
+                } else {
+                    //还未结课
+                    this.$message({
+                        message: '该学员还有未上完课时，不可以结课',
+                        type: 'warning'
+                    });
+                }
             }
         }
     }

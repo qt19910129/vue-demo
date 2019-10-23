@@ -61,7 +61,7 @@
                 </el-table-column>
                 <el-table-column prop="edit" label="操作" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-view">查看</el-button>
+                        <el-button type="text" icon="el-icon-view" @click="goSeeSubject()">查看</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -110,6 +110,11 @@
             goBack() {  //返回首页
                 this.$router.push({
                     path: `/content/pageIndex`,
+                })
+            },
+            goSeeSubject() {   //跳转查看科目
+                this.$router.push({
+                    path: `/content/details/seeSubject`,
                 })
             },
         }
