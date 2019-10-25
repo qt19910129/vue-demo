@@ -1,7 +1,12 @@
 <template>
     <div class="addTimeTable">
         <!--返回首页-->
-        <el-page-header @back="goBack" content="批量排课" title="返回首页"></el-page-header>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>排课管理</el-breadcrumb-item>
+            <el-breadcrumb-item>批量排课</el-breadcrumb-item>
+        </el-breadcrumb>
+
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" style="margin-top: 20px;">
             <el-form-item label="选择班级" prop="changeClass">
                 <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级">
@@ -142,11 +147,6 @@
             },
             resetForm(formName) {  //取消
                 this.$refs[formName].resetFields();
-            },
-            goBack() {  //返回首页
-                this.$router.push({
-                    path: '/content/pageIndex',
-                })
             },
         }
     }

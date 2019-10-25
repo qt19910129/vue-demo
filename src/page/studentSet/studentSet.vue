@@ -34,14 +34,30 @@
                     <span type="text" v-if="scope.row.studentState == 2">停课中</span>
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" prop="studentState" label="操作" width="" align="center">
+            <el-table-column fixed="right" prop="studentState" label="操作" width="200" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" icon="el-icon-view">查看</el-button>
-                    <el-button type="text" v-if="scope.row.studentState == 1" icon="el-icon-notebook-2">停课</el-button>
-                    <el-button type="text" v-if="scope.row.studentState == 2" icon="el-icon-notebook-2">开课</el-button>
+                    <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
+                    <el-button type="text" v-if="scope.row.studentState == 1" icon="el-icon-notebook-2" @click="classEnd()">停课</el-button>
+                    <el-button type="text" v-if="scope.row.studentState == 2" icon="el-icon-notebook-2" @click="classBegin()">开课</el-button>
+                    <el-button type="text" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <!--续费弹窗-->
+        <el-dialog title="续费" :visible.sync="dialogFormVisible">
+            <el-form :model="moneyForm" :rules="moneyRules" ref="moneyForm">
+                <el-form-item label="续费课时" :label-width="formLabelWidth" prop="renewNum">
+                    <el-input v-model="moneyForm.renewNum" autocomplete="off" placeholder="请输入续费课时"></el-input>
+                </el-form-item>
+                <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="moneyForm.renewDay" style="width: 80%;"></el-date-picker>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="resetMoneyForm('moneyForm')">取 消</el-button>
+                <el-button type="primary" @click="submitMoneyForm('moneyForm')">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -71,6 +87,7 @@
                         phoneNum:'15811223456',
                         classRoom:'智障一班',
                         studentState:1,
+                        studentId:11,
                     },
                     {
                         num:2,
@@ -80,8 +97,23 @@
                         phoneNum:'15811223456',
                         classRoom:'智障二班',
                         studentState:2,
+                        studentId:12,
                     }
-                ]
+                ],
+                dialogFormVisible:false, //续费弹窗
+                moneyForm: {
+                    renewNum: '',
+                    renewDay: '',
+                },
+                formLabelWidth: '120px',
+                moneyRules: {
+                    renewNum: [
+                        { required: true, message: '请输入续费课时数', trigger: 'blur' },
+                    ],
+                    renewDay: [
+                        { required: true, message: '请选择续费日期', trigger: 'blur' }
+                    ],
+                },
             }
         },
         methods: {
@@ -95,6 +127,69 @@
                     }
                 });
             },
+            goDetail(studentId) {  //跳转差看学生详情页
+                this.$router.push({
+                    path: `/content/details/students/${studentId}`,
+                })
+            },
+            submitMoneyForm(formName) {  //续费确定
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$message({
+                            type: 'success',
+                            message: '修改成功'
+                        });
+                        this.$refs[formName].resetFields();
+                        this.dialogFormVisible = false;
+                    } else {
+                        console.log('error submit!!');
+                        this.dialogFormVisible = true;
+                        return false;
+                    }
+                });
+            },
+            resetMoneyForm(formName) {  //续费取消
+                this.dialogFormVisible = false;
+                this.$refs[formName].resetFields();
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });
+            },
+            classBegin() {  //开课
+                this.$confirm('此操作将为该学员开课, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '开课成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消开课'
+                    });
+                });
+            },
+            classEnd() {  //停课
+                this.$confirm('此操作将为该学员停课, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '停课成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消停课'
+                    });
+                });
+            }
         }
     }
 </script>

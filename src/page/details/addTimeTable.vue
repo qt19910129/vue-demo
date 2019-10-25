@@ -1,8 +1,13 @@
 <template>
     <div class="addTimeTable">
         <!--返回首页-->
-        <el-page-header @back="goBack" content="添加排课" title="返回首页" v-if="edit==1"></el-page-header>
-        <el-page-header @back="goBack" content="编辑排课" title="返回首页" v-if="edit==2"></el-page-header>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>排课管理</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="edit == 1">添加排课</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="edit == 2">编辑排课</el-breadcrumb-item>
+        </el-breadcrumb>
+
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" style="margin-top: 20px;">
             <el-form-item label="排课日期" prop="classTime">
                 <el-date-picker type="date" placeholder="请选择排课日期" v-model="ruleForm.classTime"></el-date-picker>
@@ -134,11 +139,6 @@
             },
             resetForm(formName) {  //取消
                 this.$refs[formName].resetFields();
-            },
-            goBack() {  //返回首页
-                this.$router.push({
-                    path: '/content/pageIndex',
-                })
             },
         }
     }

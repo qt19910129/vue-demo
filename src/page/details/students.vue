@@ -1,7 +1,12 @@
 <template>
     <div class="students">
         <!--返回首页-->
-        <el-page-header @back="goBack" content="学生详情" title="返回首页"></el-page-header>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>学生管理</el-breadcrumb-item>
+            <el-breadcrumb-item>学生详情</el-breadcrumb-item>
+        </el-breadcrumb>
+
         <div class="tit">学生信息</div>
         <div class="studentsMain">
             <el-row>
@@ -158,11 +163,6 @@
             myChart.setOption(this.option);
         },
         methods: {
-            goBack() {  //返回首页
-                this.$router.push({
-                    path: '/content/pageIndex',
-                })
-            },
             openEditName() {
                 this.$prompt('请输入宝宝(学生)姓名', '提示', {
                     confirmButtonText: '确定',
@@ -227,7 +227,6 @@
         }
     }
 </script>
-
 <style scoped lang="less">
     .students{
         .studentsMain{

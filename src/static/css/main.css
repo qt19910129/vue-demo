@@ -299,6 +299,80 @@ body::-webkit-scrollbar-thumb {
     float: left;
     margin: 0 20px 20px 0;
 }
+.courseSet .courseAlert .el-form-item__content{
+    width: 100%;
+}
+.courseSet .courseAlert .el-input{
+    width: 80%;
+}
+.courseSet .courseAlert .el-select{
+    width: 80%;
+}
+.courseSet .courseAlert .el-select .el-input{
+    width: 100%;
+}
+.courseSet .courseAlert .el-textarea{
+    width: 80%;
+}
+.subjectSet .subjectAlert .el-form-item__content{
+    width: 100%;
+}
+.subjectSet .subjectAlert .el-input{
+    width: 80%;
+}
+.subjectSet .subjectAlert .el-select{
+    width: 80%;
+}
+.subjectSet .subjectAlert .el-select .el-input{
+    width: 100%;
+}
+.subjectSet .subjectAlert .el-textarea{
+    width: 80%;
+}
+.levelSet .levelAlert .el-form-item__content{
+    width: 100%;
+}
+.levelSet .levelAlert .el-input{
+    width: 80%;
+}
+.levelSet .levelAlert .el-select{
+    width: 80%;
+}
+.levelSet .levelAlert .el-select .el-input{
+    width: 100%;
+}
+.levelSet .levelAlert .el-textarea{
+    width: 80%;
+}
+
+.classRoomSet .roomAlert .el-form-item__content{
+    width: 100%;
+}
+.classRoomSet .roomAlert .el-input{
+    width: 80%;
+}
+.classRoomSet .roomAlert .el-select{
+    width: 80%;
+}
+.classRoomSet .roomAlert .el-select .el-input{
+    width: 100%;
+}
+.classRoomSet .roomAlert .el-textarea{
+    width: 80%;
+}
+
+.teacherSet .teacherAlert .el-form-item__content{
+    width: 100%;
+}
+.teacherSet .teacherAlert .el-input{
+    width: 189px;
+}
+.teacherSet .teacherAlert .el-select{
+    width: 189px;
+}
+.teacherSet .teacherAlert .el-select .el-input{
+    width: 189px;
+}
 /*学校介绍 样式*/
 .schoolIntroduce .el-input__inner{
     width: 25%;
@@ -353,4 +427,11 @@ body::-webkit-scrollbar-thumb {
 }
 .editClass .addSubject .el-select{
     width: 100%;
+}
+/*添加课时样式*/
+.seeSubject .el-input{
+    width: 220px;
+}
+.seeSubject .el-dialog{
+    margin-top: 50px !important;
 }

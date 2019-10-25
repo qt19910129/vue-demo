@@ -1,7 +1,7 @@
 <template>
     <div class="leftBar">
         <el-menu router
-                 :default-active="$route.path"
+                 :default-active="activeIndex"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
@@ -118,7 +118,12 @@
     export default {
         data() {
             return{
-
+                studentId:'',  //学生id
+                timeTableId:'',  //排课编辑修改id
+                foodsId:'',  //每日食谱id
+                classId:'',  //班级管理id
+                teacherId1:'',  //老师id
+                teacherId2:'',  //老师id
             }
 
         },
@@ -132,6 +137,45 @@
         },
         mounted() {
 
+        },
+        computed: {
+            activeIndex() {  //路由设置高亮
+                this.studentId = this.$route.params.studentId;  //获取学生id
+                this.timeTableId = this.$route.params.edit;  //获取排课编辑修改id
+                this.foodsId = this.$route.params.edit;  //获取每日食谱id
+                this.classId = this.$route.params.edit;  //获取班级管理id
+                this.teacherId1 = this.$route.params.teacherId;  //获取老师id
+                this.teacherId2 = this.$route.params.classId;  //获取老师id
+                if(this.$route.path === '/content/pageIndex') {
+                    return '/content/pageIndex';
+                } else if(this.$route.path === '/content/timeTableSet' || this.$route.path === '/content/details/addTimeTable/'+this.timeTableId || this.$route.path === '/content/details/moreTimeTable') {
+                    return '/content/timeTableSet';
+                } else if(this.$route.path === '/content/dayFood' || this.$route.path === '/content/details/foods/'+this.foodsId) {
+                    return '/content/dayFood';
+                } else if(this.$route.path === '/content/signSet') {
+                    return '/content/signSet';
+                } else if(this.$route.path === '/content/classSet' || this.$route.path === '/content/details/editClass/'+this.classId || this.$route.path === '/content/details/seeClass' || this.$route.path === '/content/details/seeSubject') {
+                    return '/content/classSet';
+                } else if(this.$route.path === '/content/studentSet' || this.$route.path === '/content/details/students/'+this.studentId) {
+                    return '/content/studentSet';
+                } else if(this.$route.path === '/content/teacherSet' || this.$route.path === '/content/details/teachers/'+this.teacherId1 || this.$route.path === '/content/details/teacherClassTable/'+this.teacherId2) {
+                    return '/content/teacherSet';
+                } else if(this.$route.path === '/content/courseSet') {
+                    return '/content/courseSet';
+                } else if(this.$route.path === '/content/subjectSet') {
+                    return '/content/subjectSet';
+                } else if(this.$route.path === '/content/levelSet') {
+                    return '/content/levelSet';
+                } else if(this.$route.path === '/content/classRoomSet') {
+                    return '/content/classRoomSet';
+                } else if(this.$route.path === '/content/schoolIntroduce') {
+                    return '/content/schoolIntroduce';
+                } else if(this.$route.path === '/content/schoolNotice') {
+                    return '/content/schoolNotice';
+                } else if(this.$route.path === '/content/posterExtend') {
+                    return '/content/posterExtend';
+                }
+            }
         }
     }
 </script>

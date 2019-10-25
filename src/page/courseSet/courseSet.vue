@@ -36,7 +36,7 @@
         <div class="courseSetMain">
             <!--新增-->
             <div class="courseAddBox">
-                <el-button type="primary" @click="">新增</el-button>
+                <el-button type="primary" @click="courseVisible = true">新增</el-button>
             </div>
             <!--数据表格-->
             <el-table :data="courseSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
@@ -52,11 +52,38 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit">编辑</el-button>
+                        <el-button type="text" icon="el-icon-edit" @click="courseVisible = true">编辑</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
+        <!--新增，编辑弹窗-->
+        <el-dialog title="新增课程" :visible.sync="courseVisible" class="courseAlert">
+            <el-form :model="courseForm" :rules="courseRules" ref="courseForm">
+                <el-form-item label="选择科目" prop="subject">
+                    <el-select v-model="courseForm.subject" placeholder="请选择科目">
+                        <el-option label="科目1" value="1"></el-option>
+                        <el-option label="科目2" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="选择级别" prop="level">
+                    <el-select v-model="courseForm.level" placeholder="请选择级别">
+                        <el-option label="级别1" value="1"></el-option>
+                        <el-option label="级别2" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="课程名称" prop="name">
+                    <el-input v-model="courseForm.name" placeholder="请输入课程名称"></el-input>
+                </el-form-item>
+                <el-form-item label="课程说明" prop="explain">
+                    <el-input  v-model="courseForm.explain" type="textarea" :autosize="{ minRows: 4, maxRows: 8}" placeholder="请输入课程说明"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer" align="center">
+                <el-button @click="editForm('courseForm')" class="btns">取 消</el-button>
+                <el-button type="primary" @click="submitEditForm('courseForm')" class="btns">保 存</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -88,7 +115,28 @@
                         subjectName:'智障培训',
                         subjectExplain:'快速成为智障',
                     }
-                ]
+                ],
+                courseVisible:false,  //新增编辑课程弹窗
+                courseForm: {
+                    subject:'',
+                    level:'',
+                    name:'',
+                    explain:''
+                },
+                courseRules: {
+                    subject: [
+                        { required: true, message: '请选择科目', trigger: 'change' },
+                    ],
+                    level: [
+                        { required: true, message: '请选择级别', trigger: 'change' },
+                    ],
+                    name: [
+                        { required: true, message: '请选择课程名称', trigger: 'change' },
+                    ],
+                    explain: [
+                        { required: true, message: '请输入课程说明', trigger: 'blur' },
+                    ],
+                }
             }
         },
         methods: {
@@ -98,6 +146,30 @@
                         alert('submit!');
                     } else {
                         console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            editForm(formName) {   //添加课时弹窗取消
+                this.courseVisible = false;
+                this.$refs[formName].resetFields();
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });
+            },
+            submitEditForm(formName) {   //签约保存
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$message({
+                            type: 'success',
+                            message: '保存成功'
+                        });
+                        this.$refs[formName].resetFields();
+                        this.courseVisible = false;
+                    } else {
+                        console.log('error submit!!');
+                        this.courseVisible = true;
                         return false;
                     }
                 });

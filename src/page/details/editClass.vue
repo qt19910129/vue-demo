@@ -1,8 +1,12 @@
 <template>
     <div class="editClass">
         <!--返回首页-->
-        <el-page-header @back="goBack" content="添加班级详情" title="返回首页" v-if="edit == 1"></el-page-header>
-        <el-page-header @back="goBack" content="编辑班级详情" title="返回首页" v-if="edit == 2"></el-page-header>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>班级管理</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="edit == 1">添加班级详情</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="edit == 2">编辑班级详情</el-breadcrumb-item>
+        </el-breadcrumb>
 
         <el-form :inline="false" :model="ruleForm" ref="ruleForm" :rules="rules" class="demo-form-inline">
             <el-form-item prop="className" label="班级名称">
@@ -552,11 +556,6 @@
                     type: 'info',
                     message: '取消输入'
                 });
-            },
-            goBack() {  //返回首页
-                this.$router.push({
-                    path: `/content/pageIndex`,
-                })
             },
             deleteRow(index, rows, name) {  //删除table一行
                 for(var i = 0; i < this.tagsForm.dynamicTags.length; i++) {

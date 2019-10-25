@@ -23,6 +23,8 @@ const Foods = () => import("@/page/details/foods.vue");  //编辑，添加每日
 const SeeClass = () => import("@/page/details/seeClass.vue");  //查看班级
 const EditClass = () => import("@/page/details/editClass.vue");  //编辑班级
 const SeeSubject = () => import("@/page/details/seeSubject.vue");  //班级科目表详情
+const Teachers = () => import("@/page/details/teachers.vue");  //查看教师详情
+const TeacherClassTable = () => import("@/page/details/teacherClassTable.vue");  //查看教师课表详情
 export default [
     { path: "/content/pageIndex", name: "首页", component: PageIndex },
     { path: "/content/dayFood", name: "每日食谱", component: DayFood },
@@ -45,4 +47,6 @@ export default [
     { path: "/content/details/seeClass", name: "查看班级", component: SeeClass },
     { path: "/content/details/editClass/:edit", name: "编辑班级", component: EditClass },
     { path: "/content/details/seeSubject", name: "班级科目表详情", component: SeeSubject },
+    { path: "/content/details/teachers/:teacherId", name: "教师详情", component: Teachers },
+    { path: "/content/details/teacherClassTable/:classId", name: "教师课表详情", component: TeacherClassTable },
 ]

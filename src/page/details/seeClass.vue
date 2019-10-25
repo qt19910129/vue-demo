@@ -1,7 +1,12 @@
 <template>
     <div class="seeClass">
         <!--返回首页-->
-        <el-page-header @back="goBack" content="班级详情" title="返回首页"></el-page-header>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>班级管理</el-breadcrumb-item>
+            <el-breadcrumb-item>班级详情</el-breadcrumb-item>
+        </el-breadcrumb>
+
         <div class="main">
             <el-row>
                 <el-col :span="24"><span class="classTit">班级名称 :</span> <span class="className">三年底二班</span></el-col>
@@ -107,11 +112,6 @@
             }
         },
         methods:{
-            goBack() {  //返回首页
-                this.$router.push({
-                    path: `/content/pageIndex`,
-                })
-            },
             goSeeSubject() {   //跳转查看科目
                 this.$router.push({
                     path: `/content/details/seeSubject`,
