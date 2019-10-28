@@ -8,7 +8,7 @@
                 background-color="#202D3D"
                 text-color="#ccc"
                 active-text-color="#1890ff"
-                 :default-openeds="['8']"
+                 :default-openeds="openeds"
         >
             <router-link to="/content/pageIndex">
                 <el-menu-item index="/content/pageIndex">
@@ -83,26 +83,65 @@
                 </router-link>
             </el-submenu>
 
-            <router-link to="/content/classRoomSet">
-                <el-menu-item index="/content/classRoomSet">
-                    <i class="el-icon-discount"></i>
-                    <span slot="title">教室管理</span>
-                </el-menu-item>
-            </router-link>
+            <el-submenu index="9">
+                <template slot="title">
+                    <i class="el-icon-s-order"></i>
+                    <span>信息管理</span>
+                </template>
+                <router-link to="/content/schoolNotice">
+                    <el-menu-item-group>
+                        <el-menu-item index="/content/schoolNotice">校区公告</el-menu-item>
+                    </el-menu-item-group>
+                </router-link>
+                <router-link to="/content/classFeedback">
+                    <el-menu-item-group>
+                        <el-menu-item index="/content/classFeedback">课后反馈</el-menu-item>
+                    </el-menu-item-group>
+                </router-link>
+            </el-submenu>
 
-            <router-link to="/content/schoolIntroduce">
-                <el-menu-item index="/content/schoolIntroduce">
-                    <i class="el-icon-school"></i>
-                    <span slot="title">学校介绍</span>
-                </el-menu-item>
-            </router-link>
+            <el-submenu index="10">
+                <template slot="title">
+                    <i class="el-icon-office-building"></i>
+                    <span>校区管理</span>
+                </template>
+                <router-link to="/content/classRoomSet">
+                    <el-menu-item-group>
+                        <el-menu-item index="/content/classRoomSet">教室管理</el-menu-item>
+                    </el-menu-item-group>
+                </router-link>
+                <router-link to="/content/schoolIntroduce">
+                    <el-menu-item-group>
+                        <el-menu-item index="/content/schoolIntroduce">学校介绍</el-menu-item>
+                    </el-menu-item-group>
+                </router-link>
+                <router-link to="/content/goodsSet">
+                    <el-menu-item-group>
+                        <el-menu-item index="/content/goodsSet">物品管理</el-menu-item>
+                    </el-menu-item-group>
+                </router-link>
+            </el-submenu>
 
-            <router-link to="/content/schoolNotice">
-                <el-menu-item index="/content/schoolNotice">
-                    <i class="el-icon-chat-line-square"></i>
-                    <span slot="title">校区公告</span>
-                </el-menu-item>
-            </router-link>
+            <!--<router-link to="/content/classRoomSet">-->
+                <!--<el-menu-item index="/content/classRoomSet">-->
+                    <!--<i class="el-icon-discount"></i>-->
+                    <!--<span slot="title">教室管理</span>-->
+                <!--</el-menu-item>-->
+            <!--</router-link>-->
+
+            <!--<router-link to="/content/schoolIntroduce">-->
+                <!--<el-menu-item index="/content/schoolIntroduce">-->
+                    <!--<i class="el-icon-school"></i>-->
+                    <!--<span slot="title">学校介绍</span>-->
+                <!--</el-menu-item>-->
+            <!--</router-link>-->
+
+            <!--<router-link to="/content/schoolNotice">-->
+                <!--<el-menu-item index="/content/schoolNotice">-->
+                    <!--<i class="el-icon-chat-line-square"></i>-->
+                    <!--<span slot="title">校区公告</span>-->
+                <!--</el-menu-item>-->
+            <!--</router-link>-->
 
             <router-link to="/content/posterExtend">
                 <el-menu-item index="/content/posterExtend">
@@ -124,6 +163,8 @@
                 classId:'',  //班级管理id
                 teacherId1:'',  //老师id
                 teacherId2:'',  //老师id
+                openeds:[],
+                // openeds:['8','9','10']
             }
 
         },
@@ -174,6 +215,10 @@
                     return '/content/schoolNotice';
                 } else if(this.$route.path === '/content/posterExtend') {
                     return '/content/posterExtend';
+                } else if(this.$route.path === '/content/classFeedback') {
+                    return '/content/classFeedback';
+                } else if(this.$route.path === '/content/goodsSet') {
+                    return '/content/goodsSet';
                 }
             }
         }

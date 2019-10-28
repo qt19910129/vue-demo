@@ -14,6 +14,8 @@ const PosterExtend = () => import("@/page/posterExtend/posterExtend.vue");  //�
 const CourseSet = () => import("@/page/courseSet/courseSet.vue");  //课程管理
 const SubjectSet = () => import("@/page/subjectSet/subjectSet.vue");  //科目设置
 const LevelSet = () => import("@/page/levelSet/levelSet.vue");  //级别设置
+const ClassFeedback = () => import("@/page/classFeedback/classFeedback.vue");  //课后反馈
+const GoodsSet = () => import("@/page/goodsSet/goodsSet.vue");  //物品管理
 
 //详情页
 const Students = () => import("@/page/details/students.vue");  //查看学生
@@ -49,4 +51,6 @@ export default [
     { path: "/content/details/seeSubject", name: "班级科目表详情", component: SeeSubject },
     { path: "/content/details/teachers/:teacherId", name: "教师详情", component: Teachers },
     { path: "/content/details/teacherClassTable/:classId", name: "教师课表详情", component: TeacherClassTable },
+    { path: "/content/classFeedback", name: "课后反馈", component: ClassFeedback },
+    { path: "/content/goodsSet", name: "物品管理", component: GoodsSet },
 ]

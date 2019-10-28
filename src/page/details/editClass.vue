@@ -193,14 +193,14 @@
                 ruleForm: {
                     className: '',
                     addTeacherData: [
-                        // {
-                        //     num:1,
-                        //     name:'王老师',
-                        //     phone:'15633225566',
-                        //     dep:'语文组',
-                        //     headMaster:'',
-                        //     edit:''
-                        // }
+                        {
+                            num:1,
+                            name:'王老师',
+                            phone:'15633225566',
+                            dep:'语文组',
+                            headMaster:'',
+                            edit:''
+                        }
                     ],
                     addStuData:[
                         {
@@ -336,6 +336,9 @@
         },
         mounted() {
             this.edit = this.$route.params.edit;  //获取新增或者编辑 1新增 2编辑
+            // if(this.edit == 2) {
+            //     this.tagsForm.dynamicTags == this.addTeacherData;
+            // }
         },
         methods:{
             submitAddForm(formName) {   //新增
