@@ -441,6 +441,7 @@ body::-webkit-scrollbar-thumb {
 .seeSubject .el-dialog{
     margin-top: 50px !important;
 }
+/*富文本编辑器样式*/
 .ql-snow .ql-picker-label::before {
     display: inline-block;
     line-height: 22px;
@@ -452,4 +453,48 @@ body::-webkit-scrollbar-thumb {
     position: absolute;
     width: 20px;
     top: 0px;
+}
+/*课后反馈样式*/
+.classFeedback .el-form-item{
+    width: 100%;
+}
+.classFeedback .el-form-item__content{
+    width: 80%;
+}
+.classFeedback .el-select{
+    width: 100%;
+}
+/*物品管理样式*/
+.goodsSet .el-form-item{
+    width: 100%;
+}
+.goodsSet .el-form-item__content{
+    width: 80%;
+}
+.goodsSet .el-select{
+    width: 100%;
+}
+.hide .el-upload--picture-card {
+    display: none;
+}
+.showImg .el-dialog{
+    width: 32%;
+}
+.addGoodsProp .el-form-item__content{
+    width: 100%;
+}
+.addGoodsProp .el-select{
+    width: 100%;
+}
+.addGoodsProp .el-form--inline .el-form-item{
+    width: 45%;
+}
+.addGoodsProp .exchange .el-form-item__content{
+    width: auto;
+}
+.collarForm .el-form-item{
+    width: 60%;
+}
+.collarForm .el-form-item .el-select{
+    width: 100%;
 }

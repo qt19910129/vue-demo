@@ -164,6 +164,7 @@
                 teacherId1:'',  //老师id
                 teacherId2:'',  //老师id
                 openeds:[],
+                goodsId:'',  //查看物品id
                 // openeds:['8','9','10']
             }
 
@@ -187,6 +188,7 @@
                 this.classId = this.$route.params.edit;  //获取班级管理id
                 this.teacherId1 = this.$route.params.teacherId;  //获取老师id
                 this.teacherId2 = this.$route.params.classId;  //获取老师id
+                this.goodsId = this.$route.params.goodsId;  //获取查看物品id
                 if(this.$route.path === '/content/pageIndex') {
                     return '/content/pageIndex';
                 } else if(this.$route.path === '/content/timeTableSet' || this.$route.path === '/content/details/addTimeTable/'+this.timeTableId || this.$route.path === '/content/details/moreTimeTable') {
@@ -217,7 +219,7 @@
                     return '/content/posterExtend';
                 } else if(this.$route.path === '/content/classFeedback') {
                     return '/content/classFeedback';
-                } else if(this.$route.path === '/content/goodsSet') {
+                } else if(this.$route.path === '/content/goodsSet' || this.$route.path === '/content/goodsSet/seeGoods/'+this.goodsId) {
                     return '/content/goodsSet';
                 }
             }

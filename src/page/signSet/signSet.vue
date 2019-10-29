@@ -117,7 +117,7 @@
                     <el-date-picker v-model="payForm.payDate" type="date" placeholder="选择缴费日期"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="课时数" prop="payNum" :label-width="formLabelWidth">
-                    <el-input v-model="payForm.payNum" autocomplete="off" placeholder="请输入课时数"></el-input>
+                    <el-input v-model.number="payForm.payNum" autocomplete="off" placeholder="请输入课时数"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
