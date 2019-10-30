@@ -3,7 +3,7 @@
         <!--返回首页-->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>物品管理</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:history.go(-1)">物品管理</a></el-breadcrumb-item>
             <el-breadcrumb-item>物品详情</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="main">
@@ -74,8 +74,15 @@
                         point:'0',
                         time:'2019-06-06'
                     }
-                ]
+                ],
+                canActivate (transition) {
+                    console.log(transition,"======上一个页面的url信息=======");
+                    transition.next();
+                },
             }
+        },
+        computed: {
+
         },
     }
 </script>

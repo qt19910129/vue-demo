@@ -15,7 +15,6 @@
             </div>
             <!--中间内容 END-->
         </div>
-
     </div>
 </template>
 

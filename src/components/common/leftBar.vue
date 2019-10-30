@@ -163,9 +163,9 @@
                 classId:'',  //班级管理id
                 teacherId1:'',  //老师id
                 teacherId2:'',  //老师id
-                openeds:[],
+                // openeds:[],
                 goodsId:'',  //查看物品id
-                // openeds:['8','9','10']
+                openeds:['8','9','10']
             }
 
         },

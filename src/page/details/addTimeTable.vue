@@ -3,7 +3,7 @@
         <!--返回首页-->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>排课管理</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:history.go(-1)">排课管理</a></el-breadcrumb-item>
             <el-breadcrumb-item v-if="edit == 1">添加排课</el-breadcrumb-item>
             <el-breadcrumb-item v-if="edit == 2">编辑排课</el-breadcrumb-item>
         </el-breadcrumb>

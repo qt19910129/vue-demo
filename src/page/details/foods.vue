@@ -3,7 +3,7 @@
         <!--返回首页-->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>每日食谱</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:history.go(-1)">每日食谱</a></el-breadcrumb-item>
             <el-breadcrumb-item v-if="edit == 1">添加食谱</el-breadcrumb-item>
             <el-breadcrumb-item v-if="edit == 2">编辑食谱</el-breadcrumb-item>
         </el-breadcrumb>

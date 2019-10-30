@@ -3,8 +3,8 @@
         <!--返回首页-->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/content/pageIndex' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>班级管理</el-breadcrumb-item>
-            <el-breadcrumb-item>班级详情</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/content/classSet' }">班级管理</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="javascript:history.go(-1)">班级详情</a></el-breadcrumb-item>
             <el-breadcrumb-item>班级科目表详情</el-breadcrumb-item>
         </el-breadcrumb>
 
