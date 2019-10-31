@@ -1,8 +1,10 @@
 <template>
     <div class="header">
         <div class="logo">
-            <div class="left"></div>
-            <div class="right">托马斯教育管理平台</div>
+            <div class="left">
+                <img src="../../static/img/pageIndex/logo.png" class="logoImg">
+            </div>
+            <div class="right">校区教务管理系统</div>
         </div>
         <div class="user">
             <el-dropdown>
@@ -134,7 +136,7 @@
     .header{
         height: 50px;
         background: #fff;
-        padding: 10px 40px;
+        padding: 10px 40px 10px 20px;
         line-height: 50px;
         display: flex;
         display: -webkit-flex;
@@ -144,6 +146,7 @@
         left: 0;
         right: 0;
         z-index: 10;
+        box-shadow: 0px 20px 20px -20px #ccc;
         .logo{
             width: 450px;
             height: 100%;
@@ -161,6 +164,10 @@
                 color: #fff;
                 font-size: 24px;
                 text-align: center;
+            }
+            .logoImg{
+                width: 80%;
+                margin-left: 10%;
             }
         }
         .user{

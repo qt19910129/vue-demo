@@ -163,9 +163,9 @@
                 classId:'',  //班级管理id
                 teacherId1:'',  //老师id
                 teacherId2:'',  //老师id
-                // openeds:[],
+                openeds:[],
                 goodsId:'',  //查看物品id
-                openeds:['8','9','10']
+                // openeds:['8','9','10']
             }
 
         },
@@ -233,6 +233,7 @@
         position: fixed;
         height: 100%;
         overflow-y: scroll;
+        background: #202D3D;
     }
     .el-menu-item.is-active {
         background: #1a2431 !important;

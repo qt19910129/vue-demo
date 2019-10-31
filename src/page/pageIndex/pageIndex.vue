@@ -370,9 +370,8 @@
             -webkit-animation:rotaY 2s 1;
             border-radius: 10px;
             img{
-                width: 130px;
-                height: 140px;
-                margin: 70px 0 10px 0;
+                width: 80px;
+                margin: 80px 0 50px 0;
             }
             div{
                 margin-top: 40px;
@@ -383,16 +382,20 @@
             }
         }
         .columnFour-1{
-            background: linear-gradient(94deg, #D61CB4, #ED46D1);
+            /*background: linear-gradient(94deg, #D61CB4, #ED46D1);*/
+            background: url("../../static/img/pageIndex/bg1.png") no-repeat 100% 100%;
         }
         .columnFour-2{
-            background: linear-gradient(94deg, #F2CB3E, #F2D871);
+            /*background: linear-gradient(94deg, #F2CB3E, #F2D871);*/
+            background: url("../../static/img/pageIndex/bg2.png") no-repeat 100% 100%;
         }
         .columnFour-3{
-            background: linear-gradient(94deg, #1298D6, #3EB7F0);
+            /*background: linear-gradient(94deg, #1298D6, #3EB7F0);*/
+            background: url("../../static/img/pageIndex/bg3.png") no-repeat 100% 100%;
         }
         .columnFour-4{
-            background: linear-gradient(94deg, #ED9064, #FAA77E);
+            /*background: linear-gradient(94deg, #ED9064, #FAA77E);*/
+            background: url("../../static/img/pageIndex/bg4.png") no-repeat 100% 100%;
         }
         .columnTwo{
             margin-top: 20px;
@@ -415,10 +418,15 @@
             }
         }
         .columnTwo-1{
-            background: linear-gradient(94deg, #8150F0, #9B6FF7);
+            /*background: linear-gradient(94deg, #8150F0, #9B6FF7);*/
+            background: url("../../static/img/pageIndex/bg5.png") no-repeat 90% 40%;
+            background-size: 160%;
+
         }
         .columnTwo-2{
-            background: linear-gradient(94deg, #F21F55, #FA5A81);
+            /*background: linear-gradient(94deg, #F21F55, #FA5A81);*/
+            background: url("../../static/img/pageIndex/bg6.png") no-repeat 90% 40%;
+            background-size: 160%;
         }
         @-webkit-keyframes rotaY{
             from{-webkit-transform:rotateY(0deg) }
