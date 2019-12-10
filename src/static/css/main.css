@@ -498,3 +498,21 @@ body::-webkit-scrollbar-thumb {
 .collarForm .el-form-item .el-select{
     width: 100%;
 }
+.login input{
+    width: 440px;
+    height: 50px;
+}
+.login form{
+    width: 100%;
+}
+.user input{
+    background: url("../img/common/loginHead.png") no-repeat 400px center;
+    background-size: 15px;
+}
+.login .el-input{
+    width: 92%;
+}
+.password input{
+    background: url("../img/common/loginLock.png") no-repeat 400px center;
+    background-size: 15px;
+}

@@ -19,10 +19,10 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="开始时间" prop="startTime">
-                <el-time-picker placeholder="请选择开始时间" v-model="ruleForm.startTime"></el-time-picker>
+                <el-time-picker placeholder="请选择开始时间" v-model="ruleForm.startTime" format="HH:mm"></el-time-picker>
             </el-form-item>
             <el-form-item label="结束时间" prop="endTime">
-                <el-time-picker placeholder="请选择结束时间" v-model="ruleForm.endTime"></el-time-picker>
+                <el-time-picker placeholder="请选择结束时间" v-model="ruleForm.endTime" format="HH:mm"></el-time-picker>
             </el-form-item>
             <el-form-item label="选择讲师" prop="changeTeacher1">
                 <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师">

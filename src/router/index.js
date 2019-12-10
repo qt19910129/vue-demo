@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import navRouter from './nav'  //左侧导航路由页面配置
 const Content = () => import("@/components/common/content.vue");  //首页
-
+const Login = () => import("@/components/common/login.vue");  //登录页
 Vue.use(Router);
 
 //防止路由报错 START
@@ -23,6 +23,11 @@ export default new Router({
             path: '/content/pageIndex',
             component: Content,
             children: navRouter
+        },
+        {
+            name: 'login',
+            path: '/login',
+            component: Login,
         }
     ]
 });

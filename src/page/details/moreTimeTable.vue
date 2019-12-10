@@ -14,9 +14,8 @@
                     <el-option label="b班级" value="b"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="开始月份" prop="changeMonth">
-                <el-date-picker v-model="ruleForm.changeMonth" type="month" placeholder="请选择开始月份">
-                </el-date-picker>
+            <el-form-item label="开始日期" prop="changeMonth">
+                <el-date-picker type="date" placeholder="请选择排课日期" v-model="ruleForm.changeMonth"></el-date-picker>
             </el-form-item>
             <el-form-item label="周期规律" prop="type">
                 <el-checkbox-group v-model="ruleForm.type">
