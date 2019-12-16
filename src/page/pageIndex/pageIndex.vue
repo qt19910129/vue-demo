@@ -371,6 +371,7 @@
             border-radius: 10px;
             img{
                 width: 80px;
+                height: 80px;
                 margin: 80px 0 50px 0;
             }
             div{

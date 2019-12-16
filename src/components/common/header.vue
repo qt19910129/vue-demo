@@ -16,6 +16,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item icon="el-icon-s-tools" @click.native="passwordVisible = true">修改密码</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-back" @click.native="loginOut()">退出登录</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-user-solid" @click.native="loginIn()">登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -111,7 +112,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-            loginOut() {
+            loginOut() {  //退出登录
                 this.$confirm('此操作将退出登录, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -127,7 +128,12 @@
                         message: '已取消退出登录'
                     });
                 });
-            }
+            },
+            loginIn() {  //登录
+                this.$router.push({
+                    path: `/login`,
+                })
+            },
         }
     }
 </script>

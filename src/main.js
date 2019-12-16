@@ -23,7 +23,11 @@ import '../static/UE/ueditor.parse.min.js'
 import Echarts from 'echarts'
 Vue.prototype.$echarts=Echarts;
 
+// import axios from 'axios';
+// Vue.prototype.$axios = axios;
 
+import global_ from './global/global'//引用文件
+Vue.prototype.GLOBAL = global_//挂载到Vue实例上面
 
 Vue.use(ElementUI);
 
@@ -38,6 +42,7 @@ import routerInterceptor from './router/routerInterceptor'  //路由守卫
 routerInterceptor();
 //路由结束
 import App from './App'
+
 
 /* eslint-disable no-new */
 new Vue({
