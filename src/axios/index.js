@@ -1,39 +1,30 @@
-import axios from "axios";
-const instance = axios.create();
-// axios.defaults.withCredentials = true;
-//请求拦截器
-instance.interceptors.request.use(
-    config => {
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
-//响应拦截器
-instance.interceptors.response.use(
-    response => {
-        return Promise.resolve(response.data);
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
-export default {
-    egPost: (data, params, domain) => {
-        return instance.post(domain + "/user/info", data, {
-            headers: {
-                cs: 12345
-            },
-            params
-        });
-    },
-    egGet: (data, params, domain) => {
-        return instance.get(domain + "/user/info", data, {
-            headers: {
-                cs: 12345
-            },
-            params
-        });
-    }
-};
+
+import request from "./request";
+let domainUrl = "http://192.168.0.191:8080";
+/**
+ * 获取排课管理列表
+ */
+export function getTimeTableSetList(query) {
+    return request.post(domainUrl + "/school/curriculumArrangement/list", query
+        , {
+            headers:{
+                token:9999
+            }
+        }
+    );
+}
+/**
+ * 跳转至排课新增页面 默认展示
+ */
+export function getTimeTableSetList_add(query) {
+    return request.post(domainUrl + "/school/curriculumArrangement/curriculumArrangement_add", query
+        , {
+            headers:{
+                token:9999
+            }
+        }
+    );
+}
+// export function aaa() {
+//     return request.post("http://47.104.251.161:8007/m/area/getAllArea");
+// }

@@ -9,13 +9,13 @@
         </el-breadcrumb>
 
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" style="margin-top: 20px;">
-            <el-form-item label="排课日期" prop="classTime">
-                <el-date-picker type="date" placeholder="请选择排课日期" v-model="ruleForm.classTime"></el-date-picker>
+            <el-form-item label="排课日期" style="padding-left: 10px;">
+                <div class="tableBox">{{addDate}}</div>
+                <!--<el-date-picker type="date" placeholder="请选择排课日期" v-model="ruleForm.classTime"></el-date-picker>-->
             </el-form-item>
             <el-form-item label="选择班级" prop="changeClass">
                 <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级">
-                    <el-option label="a班级" value="a"></el-option>
-                    <el-option label="b班级" value="b"></el-option>
+                    <el-option v-for="list in addClass" :label="list.name" :value="list.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="开始时间" prop="startTime">
@@ -26,39 +26,35 @@
             </el-form-item>
             <el-form-item label="选择讲师" prop="changeTeacher1">
                 <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师">
-                    <el-option label="a老师" value="c"></el-option>
-                    <el-option label="b老师" value="d"></el-option>
+                    <el-option v-for="list in addTeacher" :label="list.name" :value="list.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择助教" prop="changeTeacher2">
                 <el-select v-model="ruleForm.changeTeacher2" placeholder="请选选择助教">
-                    <el-option label="a老师" value="c"></el-option>
-                    <el-option label="b老师" value="d"></el-option>
+                    <el-option v-for="list in addTeacher" :label="list.name" :value="list.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择教室" prop="changeClassRoom">
                 <el-select v-model="ruleForm.changeClassRoom" placeholder="请选选择教室">
-                    <el-option label="a教室" value="c"></el-option>
-                    <el-option label="b教室" value="d"></el-option>
+                    <el-option v-for="list in addClassRoom" :label="list.crName" :value="list.crId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择科目" prop="changeSubject">
-                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目">
-                    <el-option label="a科目" value="c"></el-option>
-                    <el-option label="b科目" value="d"></el-option>
+                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject">
+                    <el-option v-for="list in addSubject" :label="list.subject" :value="list.subject"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="科目级别" prop="changeLevel">
-                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择级别">
-                    <el-option label="a级别" value="c"></el-option>
-                    <el-option label="b级别" value="d"></el-option>
-                </el-select>
+                <div class="tableBox">{{addLevel}}</div>
+                <!--<el-select v-model="ruleForm.changeLevel" placeholder="请选选择级别">-->
+                    <!--<el-option v-for="list in addSubject" :label="list.rank" :value="list.rank"></el-option>-->
+                <!--</el-select>-->
             </el-form-item>
             <el-form-item label="选择课程" prop="changeLesson">
-                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程">
-                    <el-option label="a课程" value="c"></el-option>
-                    <el-option label="b课程" value="d"></el-option>
-                </el-select>
+                <div class="tableBox">{{addLesson}}</div>
+                <!--<el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程">-->
+                    <!--<el-option v-for="list in addSubject" :label="list.currName" :value="list.currId"></el-option>-->
+                <!--</el-select>-->
             </el-form-item>
             <el-form-item>
                 <!--新增-->
@@ -72,11 +68,20 @@
 </template>
 
 <script>
+    import {
+        getTimeTableSetList_add
+    } from "../../axios/index";
     export default {
         data() {
             return {
+                addDate:'',  //排课时间
+                addClass:[],  //选择班级数据
+                addTeacher:[],// 选择讲师，助教
+                addClassRoom:[], //选择教室
+                addSubject:[], //选择科目
+                addLevel:'', //添加科目级别
+                addLesson:'', //添加选择课程
                 ruleForm: {
-                    classTime: '',
                     changeClass:'',
                     startTime:'',
                     endTime:'',
@@ -88,9 +93,6 @@
                     changeLesson:''
                 },
                 rules:{
-                    classTime: [
-                        { type: 'date', required: true, message: '请选择排课日期', trigger: 'change' }
-                    ],
                     changeClass: [
                         { required: true, message: '请选择班级', trigger: 'change' }
                     ],
@@ -125,6 +127,18 @@
         mounted() {
             window.scrollTo(0,0); //每次路由进入 页面滚动到顶部
             this.edit = this.$route.params.edit;  //获取新增或者编辑 1新增 2编辑
+            let dates = this.$route.query.dates;
+            let data = {
+                'arrange_date':dates
+            };
+            getTimeTableSetList_add(data).then(res => {
+                console.log(res.data);
+                this.addDate = res.data.arrangeDate;
+                this.addClass = res.data.keClassResults;
+                this.addTeacher = res.data.keTeacherResults;
+                this.addClassRoom = res.data.classroomResults;
+                this.addSubject = res.data.curriculumResults;
+            }).catch((e) => {});
         },
         methods: {
             submitForm(formName) {  //提交保存按钮
@@ -140,10 +154,33 @@
             resetForm(formName) {  //取消
                 this.$refs[formName].resetFields();
             },
+            pickChangeSubject(vId){
+                let obj = {};
+                obj = this.addSubject.find((item)=>{//这里的userList就是上面遍历的数据源
+                    if(item.subject == vId) {
+                        console.log(item);
+                        this.addLevel = item.rank;
+                        this.addLesson = item.currName;
+                    }
+                    return item.subject === vId;//筛选出匹配数据
+                });
+            }
         }
     }
 </script>
 
 <style scoped lang="less">
-
+    .addTimeTable{
+        .tableBox{
+            border-radius: 4px;
+            border: 1px solid #DCDFE6;
+            float: left;
+            padding: 0 15px;
+            font-size: 14px;
+            color: #606266;
+            width: 40%;
+            box-sizing: border-box;
+            height: 40px;
+        }
+    }
 </style>
