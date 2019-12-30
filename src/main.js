@@ -42,6 +42,7 @@ import routerInterceptor from './router/routerInterceptor'  //路由守卫
 routerInterceptor();
 //路由结束
 import App from './App'
+import axios from "axios/index";
 
 
 /* eslint-disable no-new */

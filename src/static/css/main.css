@@ -516,3 +516,21 @@ body::-webkit-scrollbar-thumb {
     background: url("../img/common/loginLock.png") no-repeat 400px center;
     background-size: 15px;
 }
+.addTimeTable .el-checkbox{
+    margin-top: 4px;
+}
+
+/*分页器 样式*/
+.el-pagination{
+    margin: 20px 0 0 0;
+    background: #F6FAFF;
+}
+.el-pagination .number{
+    border-radius: 50% !important;
+}
+.el-pagination .btn-prev{
+    border-radius: 50% !important;
+}
+.el-pagination .btn-next{
+    border-radius: 50% !important;
+}

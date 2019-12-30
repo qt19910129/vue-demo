@@ -8,8 +8,8 @@
                 <p :class="data.isSelected ? 'is-selected' : ''">
                     {{ data.day.split('-').slice(1).join('-') }}
                 </p>
-                <div v-for="a in timeTableList" v-if="data.day == a.arrangeDate && timeTableList.child != [] && data.type == 'current-month'"  @click="goAddTimeTable(2)">
-                    <div v-for="b in a.child">
+                <div v-for="a in timeTableList" v-if="data.day == a.arrangeDate && timeTableList.child != [] && data.type == 'current-month'">
+                    <div v-for="b in a.child" @click="goAddTimeTable(2,b.caId)">
                         <el-dropdown>
                             <el-button type="primary">
                                 {{b.className}}
@@ -47,7 +47,7 @@
 <script>
     import {
         getTimeTableSetList
-    } from "../../axios/index";
+    } from "../../axios/timeTableSet";
     export default {
         data() {
             return {
@@ -86,7 +86,11 @@
         },
         methods:{
             goAddTimeTable(edit,today) {   //跳转新增修改排课详情，1为新增 2为修改
-                this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { dates: today }});
+                if(edit == 1) {
+                    this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { dates: today }});
+                } else {
+                    this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { caId: today }});
+                }
             },
             goMoreTimeTable() {   //跳转批量排课
                 this.$router.push({
@@ -102,6 +106,9 @@
                 }
                 this.year = date.getFullYear();
                 this.mounth = date.getMonth() + 1;
+                if(this.mounth < 10) {
+                    this.mounth = '0' + this.mounth;
+                }
                 this.dates = date.getDate();
                 let arrange_date = this.year + '-' + this.mounth;
                 let data = {
@@ -109,23 +116,23 @@
                 };
                 //获取排课日期数据列表
                 getTimeTableSetList(data).then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.timeTableList = res.data.cList;
                 }).catch((e) => {});
-            }
+            },
         },
         mounted:function(){
-            console.log(this.GLOBAL.domainUrl);
+            // console.log(this.GLOBAL.domainUrl);
         },
         created() {
             this.getremarksList();
         },
         watch: {
             value: function(val, oldVal) {
-                let time = new Date(val)
-                let time2 = new Date(oldVal)
+                let time = new Date(val);
+                let time2 = new Date(oldVal);
                 if (time2.getMonth() != time.getMonth()) {
-                    this.getremarksList(val)
+                    this.getremarksList(val);
                 }
             }
         }

@@ -3,10 +3,10 @@
     <div class="dayFood">
         <div class="switch">
             <span>提供每日食谱 : </span>
-            <el-switch v-model="value2" active-text="开启" inactive-text="关闭"></el-switch>
+            <el-switch v-model="showHide" active-text="开启" inactive-text="关闭" @change="foodSwitch()"></el-switch>
         </div>
         <!--开启食谱 显示日历表格-->
-        <el-calendar v-if="this.value2 == true">
+        <el-calendar v-model="value">
             <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
             <template
                     slot="dateCell"
@@ -14,58 +14,119 @@
                 <p :class="data.isSelected ? 'is-selected' : ''">
                     {{ data.day.split('-').slice(1).join('-') }}
                 </p>
-                <div v-for="a in aa" v-if="data.day == a.day && aa.child != [] && data.type == 'current-month'">
+                <div v-for="a in dayFoodList" v-if="data.day == a.mDate && dayFoodList.child != [] && data.type == 'current-month'">
                     <div v-for="b in a.child">
-                        <span class="foodStyle" @click="goFoods(2)">{{b.food}}</span>
+                        <span class="foodStyle" @click="goFoods(2,a.mDate,b.mId)">{{b.mName}}</span>
                     </div>
                 </div>
                 <!--{{data}}-->
-                <span class="addFood" v-if="data.type == 'current-month'" @click="goFoods(1)">+</span>
+                <span class="addFood" v-if="data.type == 'current-month'" @click="goFoods(1,data.day)">+</span>
             </template>
         </el-calendar>
-        <!--关闭食谱 显示空展位图-->
-        <div v-else class="foodClose">
-            <span class="emptyData">我是个占位图</span>
-        </div>
     </div>
 </template>
 
 <script>
+    import {
+        getDayFoodList,
+        foodShowHide
+    } from "../../axios/dayFoos";
     export default {
         data() {
             return {
-                value1: true,
-                value2: false,
-                aa:[
-                    {
-                        day:'2019-10-11',
-                        num:1,
-                        name:'hha',
-                        child:[
-                            {
-                                food:'炒白菜',
-                            },
-                            {
-                                food:'炒土豆',
-                            },
-                            {
-                                food:'炒菠菜',
-                            },
-                            {
-                                food:'白菜汤'
-                            }
-                        ]
-                    }
-                ]
+                showHide: false,
+                dayFoodList:[],
+                value: new Date(),
+                year:'',
+                mounth:'',
+                dates:'',
             }
+        },
+        mounted() {
+
         },
         methods:{
-            goFoods(edit) {   //跳转新增修改食谱，1为新增 2为修改
-                this.$router.push({
-                    path: `/content/details/foods/${edit}`,
-                })
-            }
+            getremarksList(val) {  //数据列表
+                let date;
+                if (val) {
+                    date = new Date(val)
+                } else {
+                    date = new Date()
+                }
+                this.year = date.getFullYear();
+                this.mounth = date.getMonth() + 1;
+                if(this.mounth < 10) {
+                    this.mounth = '0' + this.mounth;
+                }
+                this.dates = date.getDate();
+                let m_date = this.year + '-' + this.mounth;
+                let data = {
+                    'm_date':m_date
+                };
+                //获取排课日期数据列表
+                getDayFoodList(data).then(res => {
+                    // console.log(res.data);
+                    this.dayFoodList = res.data.mList;
+                    if(res.data.show == 1) {  //隐藏
+                        this.showHide = false;
+                    } else if(res.data.show == 0) {
+                        this.showHide = true;
+                    }
+                    console.log(this.dayFoodList);
+                }).catch((e) => {});
+            },
+            goFoods(edit,today,mId) {   //跳转新增修改食谱，1为新增 2为修改
+                if(edit == 1) {
+                    this.$router.push({
+                        path: `/content/details/foods/${edit}`, query: { dates: today },
+                    });
+                } else if(edit == 2) {
+                    this.$router.push({
+                        path: `/content/details/foods/${edit}`, query: { dates: today,mId: mId },
+                    });
+                }
+            },
+            foodSwitch() {  //控制显示隐藏
+                foodShowHide().then(res => {
+                    if(res.code == 0) {
+                        if(res.data == 1) {
+                            this.success1();
+                        } else if(res.data == 0) {
+                            this.success2();
+                        }
+                    } else {
+                        this.error();
+                    }
+                }).catch((e) => {});
+            },
+            error() {  //创建失败
+                this.$message.error('网络异常，请稍后再试');
+            },
+            success1() {  //隐藏成功
+                this.$message({
+                    message: '已关闭食谱',
+                    type: 'success'
+                });
+            },
+            success2() {  //显示成功
+                this.$message({
+                    message: '已开启食谱',
+                    type: 'success'
+                });
+            },
         },
+        created() {
+            this.getremarksList();
+        },
+        watch: {
+            value: function(val, oldVal) {
+                let time = new Date(val);
+                let time2 = new Date(oldVal);
+                if (time2.getMonth() != time.getMonth()) {
+                    this.getremarksList(val);
+                }
+            }
+        }
     }
 </script>
 
@@ -112,14 +173,6 @@
             font-size: 12px;
             line-height: 12px;
             cursor: pointer;
-        }
-        .foodClose{
-            min-height: 550px;
-            display: flex;
-            display: -webkit-flex;
-            align-items: center;
-            justify-content: space-around;
-            border-top: 1px solid #ddd;
         }
     }
 </style>

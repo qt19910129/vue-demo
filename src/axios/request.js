@@ -1,6 +1,37 @@
 import axios from "axios";
-import { Message } from "element-ui";
+import { Message, Loading } from "element-ui";
+import qs from 'qs'
 
+//loading设置 START
+let loading;
+function startLoading() {    //使用Element loading-start 方法
+    loading = Loading.service({
+        lock: true,
+        text: '加载中……',
+        background: 'rgba(0, 0, 0, 0.5)'
+    })
+}
+function endLoading() {    //使用Element loading-close 方法
+    loading.close()
+}
+let needLoadingRequestCount = 0;
+export function showFullScreenLoading() {
+    if (needLoadingRequestCount === 0) {
+        startLoading();
+    }
+    needLoadingRequestCount++;
+}
+export function tryHideFullScreenLoading() {
+    if (needLoadingRequestCount <= 0) return
+    needLoadingRequestCount--;
+    if (needLoadingRequestCount === 0) {
+        endLoading();
+    }
+}
+//loading END
+
+
+axios.defaults.withCredentials = false;
 // create an axios instance
 const service = axios.create({
   headers: { "Content-Type": "application/json" },
@@ -11,6 +42,10 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+      // config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+      // if (config.method === 'post') {
+      //     config.data = qs.stringify(config.data)
+      // }
     let reqData = config.data;
     for (let key in reqData) {
       if (reqData[key] === "") {
@@ -18,6 +53,7 @@ service.interceptors.request.use(
       }
     }
     config.data = reqData;
+    showFullScreenLoading()
     return config;
   },
   error => {
@@ -34,6 +70,7 @@ service.interceptors.response.use(
             window.location.href = "http://localhost:8888/#/login";
             return;
         } else {
+            tryHideFullScreenLoading();
             return Promise.resolve(response.data);
         }
     },
