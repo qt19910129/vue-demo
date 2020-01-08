@@ -58,7 +58,7 @@
                         align="right"
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page="currentPage"
+                        :current-page.sync="currentPage"
                         :page-sizes="[10, 20, 50, 100]"
                         :page-size="10"
                         layout="total, sizes, prev, pager, next, jumper"
@@ -171,24 +171,31 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let data = {
-                            'currName':this.ruleForm.courseName,
-                            'rank':this.ruleForm.level,
-                            'subject':this.ruleForm.subject,
-                            'page':this.page,
-                            'rows':this.rows
-                        };
-                        getCourseList(data).then(res => {
-                            if(res.code == 0) {
-                                this.courseSetData = res.data.jQGirdPage.rows;
-                                this.records = res.data.jQGirdPage.records;
-                                if(res.data.jQGirdPage.records <= 10) {  //小于10条时 隐藏分页
-                                    this.pageValue = true;
+                        if(this.ruleForm.courseName == '' && this.ruleForm.level == '' && this.ruleForm.subject == '') {
+                            this.$message({
+                                message: '请输入您要搜索的内容',
+                                type: 'warning'
+                            });
+                        } else {
+                            let data = {
+                                'currName':this.ruleForm.courseName,
+                                'rank':this.ruleForm.level,
+                                'subject':this.ruleForm.subject,
+                                'page':this.page,
+                                'rows':this.rows
+                            };
+                            getCourseList(data).then(res => {
+                                if(res.code == 0) {
+                                    this.courseSetData = res.data.jQGirdPage.rows;
+                                    this.records = res.data.jQGirdPage.records;
+                                    if(res.data.jQGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                                        this.pageValue = true;
+                                    }
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
                                 }
-                            } else {
-                                this.$message.error('网络异常，请稍后再试');
-                            }
-                        }).catch((e) => {});
+                            }).catch((e) => {});
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -263,6 +270,8 @@
             handleSizeChange(val) {
                 // console.log(`每页 ${val} 条`);
                 this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
                 let data = {
                     'page':this.page,
                     'rows':this.rows

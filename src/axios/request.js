@@ -36,7 +36,7 @@ axios.defaults.withCredentials = false;
 const service = axios.create({
   headers: { "Content-Type": "application/json" },
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: false, // send cookies when cross-domain requests
   timeout: 50000 // request timeout
 });
 

@@ -21,7 +21,7 @@
                     align="right"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :current-page="currentPage"
+                    :current-page.sync="currentPage"
                     :page-sizes="[10, 20, 50, 100]"
                     :page-size="10"
                     layout="total, sizes, prev, pager, next, jumper"
@@ -76,6 +76,8 @@
             handleSizeChange(val) {
                 // console.log(`每页 ${val} 条`);
                 this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
                 let data = {
                     'page':this.page,
                     'rows':this.rows,
