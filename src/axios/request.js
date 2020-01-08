@@ -53,8 +53,9 @@ service.interceptors.request.use(
       }
     }
     config.data = reqData;
-    showFullScreenLoading()
-    return config;
+    showFullScreenLoading();
+      // console.log(config);
+      return config;
   },
   error => {
     // do something with request error
@@ -69,12 +70,18 @@ service.interceptors.response.use(
         if(res.code == 4) {  //接口验证，返回值为4时，跳转登陆页
             window.location.href = "http://localhost:8888/#/login";
             return;
+        } else if(res.code == 1) {
+            Message.error('网络异常，请稍后再试');
         } else {
             tryHideFullScreenLoading();
             return Promise.resolve(response.data);
         }
     },
     error => {
+        setTimeout(function () {
+            tryHideFullScreenLoading();
+            Message.error('网络异常，请稍后再试');
+        },5000);
         return Promise.reject(error);
     }
   // /**

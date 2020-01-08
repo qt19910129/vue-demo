@@ -534,3 +534,6 @@ body::-webkit-scrollbar-thumb {
 .el-pagination .btn-next{
     border-radius: 50% !important;
 }
+.teachers .el-pagination{
+    background: #fff;
+}

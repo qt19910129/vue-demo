@@ -47,7 +47,7 @@
             <el-table :data="signSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;min-height: 440px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column type="index" label="序号" width="60px" align="center"></el-table-column>
                 <el-table-column prop="kidName" label="孩子姓名" width="120" align="center"></el-table-column>
-                <el-table-column prop="birthday" label="出生日期" width="120" align="center"></el-table-column>
+                <el-table-column prop="birthday" label="出生日期" width="120" align="center" :formatter="dateFormat"></el-table-column>
                 <el-table-column prop="sex" label="性别" width="60" align="center">
                     <template slot-scope="scope">
                         <span v-if="scope.row.gender == 1">男</span>
@@ -167,40 +167,20 @@
         deletePay,
         getAllArea
     } from "../../axios/signSet";
+    import moment from 'moment';
     export default {
         data() {
+            var checkphone = (rule, value, callback) => {
+                // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+                if (value == "") {
+                    callback(new Error("请输入联系电话"));
+                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("请输入正确的11位手机号码!"));
+                } else {
+                    callback();
+                }
+            };
             return {
-                options: [{
-                    value: 'zhinan',
-                    label: '指南',
-                    children: [{
-                        value: 'shejiyuanze',
-                        label: '设计原则',
-                        children: [{
-                            value: 'yizhi',
-                            label: '一致'
-                        }, {
-                            value: 'fankui',
-                            label: '反馈'
-                        }, {
-                            value: 'xiaolv',
-                            label: '效率'
-                        }, {
-                            value: 'kekong',
-                            label: '可控'
-                        }]
-                    }, {
-                        value: 'daohang',
-                        label: '导航',
-                        children: [{
-                            value: 'cexiangdaohang',
-                            label: '侧向导航'
-                        }, {
-                            value: 'dingbudaohang',
-                            label: '顶部导航'
-                        }]
-                    }]
-                }],
                 ruleForm: {
                     phoneNum: '',
                     stuName: '',
@@ -209,51 +189,25 @@
                 },
                 rules: {
                     phoneNum: [
-                        // { required: true, message: '请输入用户手机号', trigger: 'blur' },
                         { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
                     ],
-                    stuName: [
-                        // { required: true, message: '请输入孩子姓名', trigger: 'blur' }
-                    ],
-                    date1: [
-                        // { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-                    ],
-                    date2: [
-                        // { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-                    ],
+                    stuName: [],
+                    date1: [],
+                    date2: [],
                 },
                 addRules:{
                     stuName: [
                         { required: true, message: '请输入学生姓名', trigger: 'blur' }
                     ],
-                    stuDate: [
-                        // { type: 'date', required: true, message: '请选择出生日期', trigger: 'change' }
-                    ],
+                    stuDate: [],
                     phone: [
-                        { required: true, message: '请输入联系电话', trigger: 'blur' },
-                        { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
+                        { required: true, validator: checkphone, trigger: 'blur' },
                     ],
-                    address: [
-                        // { required: true, message: '请选择所在区域', trigger: 'blur' }
-                    ],
-                    home: [
-                        // { required: true, message: '请输入家庭住址', trigger: 'blur' }
-                    ],
-                    sex: [
-                        // { required: true, message: '请选择性别', trigger: 'blur' }
-                    ],
+                    address: [],
+                    home: [],
+                    sex: [],
                 },
-                signSetData:[
-                    // {
-                    //     num:1,
-                    //     studentName:'哇啦啦',
-                    //     birthday:'2011-12-21',
-                    //     sex:'女',
-                    //     phoneNum:'14311324422',
-                    //     address:'中关村南大街',
-                    //     signDate:'2019-02-04 22:32:02'
-                    // }
-                ],
+                signSetData:[],  //数据
                 addSignVisible:false, //新增弹窗
                 addForm:{  //新增数据
                     stuName:'',
@@ -348,8 +302,6 @@
                                 'kidName':this.ruleForm.stuName,
                                 'createTimeStart':this.ruleForm.date1,
                                 'createTimeEnd':this.ruleForm.date2,
-                                'page':this.page,
-                                'rows':this.rows
                             };
                             getSignSetList(data).then(res => {
                                 // console.log(res.data);
@@ -382,14 +334,18 @@
                             'address':this.addForm.home,
                             'gender':this.addForm.sex,
                         };
-                        // console.log(data);
+                        console.log(data);
                         addRegister(data).then(res => {  //点击保存
                             if(res.code == 0) {
                                 this.$message({
                                     type: 'success',
                                     message: '新增成功'
                                 });
-                                window.location.reload();
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
+                            } else if(res.code == 1) {
+                                this.$message.error('手机号格式不对，请重新输入');
                             } else {
                                 this.$message.error('网络异常，请稍后再试');
                             }
@@ -612,7 +568,24 @@
                     }
                     this.citys = res.data;
                 }).catch((e) => {});
-            }
+            },
+            //检查手机号
+            isCellPhone(val) {
+                if (!/^1[3456789]\d{9}$/.test(val)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            dateFormat(row, column, cellValue, index){  //表格日期格式化
+                var date = row[column.property];
+                if(date == undefined){return ''};
+                return moment(date).format("YYYY-MM-DD");
+            },
+            // handleClose(done) {  //关闭新增弹窗
+            //     this.$refs['addForm'].resetFields();
+            //     done();
+            // }
         }
     }
 </script>
