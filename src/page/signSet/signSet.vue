@@ -429,7 +429,9 @@
                                     type: 'success',
                                     message: '保存成功'
                                 });
-                                window.location.reload()
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
                             } else {
                                 this.$message.error('网络异常，请稍后再试');
                             }
@@ -459,7 +461,9 @@
                                 type: 'success',
                                 message: '删除成功!'
                             });
-                            window.location.reload()
+                            setTimeout(function () {
+                                window.location.reload();
+                            },1000);
                         } else {
                             this.$message.error('网络异常，请稍后再试');
                         }

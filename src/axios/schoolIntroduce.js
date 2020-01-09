@@ -13,3 +13,15 @@ export function getSchoolIntroduce(query) {
         }
     );
 }
+/**
+ * 保存，修改学校简介
+ */
+export function saveSchoolIntroduce(query) {
+    return request.post(global.domainUrl + "/school/schoolIntroduce/saveSchoolIntroduce", query
+        , {
+            headers:{
+                token:global.token
+            }
+        }
+    );
+}

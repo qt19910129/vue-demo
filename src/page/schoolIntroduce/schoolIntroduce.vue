@@ -4,22 +4,25 @@
             <el-form-item label="学校主图" prop="name">
                 <el-upload
                         class="upload-demo"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action="http://192.168.0.183:8080/school/fileUpload/upload"
+                        :headers="{token:9999}"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :file-list="fileList"
+                        :limit="1"
                         list-type="picture"
                         :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
+                        :before-upload="beforeAvatarUpload"
+                        :on-change="imgChange">
                     <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB</div>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，大小不超过2MB，且只能上传一张主图</div>
                 </el-upload>
             </el-form-item>
             <el-form-item label="联系人" prop="name">
                 <el-input v-model="ruleForm.name" placeholder="请输入联系人"></el-input>
             </el-form-item>
             <el-form-item label="手机号码" prop="phoneNum">
-                <el-input v-model="ruleForm.phoneNum" placeholder="请输入手机号码"></el-input>
+                <el-input v-model="ruleForm.phoneNum" placeholder="请输入手机号码" :maxlength="11"></el-input>
             </el-form-item>
             <el-form-item label="详细地址" prop="address">
                 <el-input v-model="ruleForm.address" placeholder="请输入详细地址"></el-input>
@@ -86,7 +89,8 @@
 
 <script>
     import {
-        getSchoolIntroduce
+        getSchoolIntroduce,
+        saveSchoolIntroduce,
     } from "../../axios/schoolIntroduce";
     import {
         Quill,
@@ -111,6 +115,16 @@
     export default {
         name: 'FuncFormsEdit',
         data() {
+            var checkphone = (rule, value, callback) => {
+                // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+                if (value == "") {
+                    callback(new Error("请输入联系电话"));
+                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("请输入正确的11位手机号码!"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     name: '',
@@ -123,8 +137,7 @@
                         { required: true, message: '请输入联系人', trigger: 'blur' },
                     ],
                     phoneNum: [
-                        { required: true, message: '请输入手机号码', trigger: 'blur' },
-                        { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
+                        { required: true, validator: checkphone, trigger: 'blur' },
                     ],
                     address: [
                         { required: true, message: '请输入详细地址', trigger: 'blur' },
@@ -133,7 +146,7 @@
                         { required: true, message: '请输详细介绍', trigger: 'blur' },
                     ],
                 },
-                fileList: [],
+                fileList: [{ url: '' }],
 
                 dat: {
                     content: ''
@@ -148,7 +161,8 @@
                             container: '#toolbar'
                         }
                     }
-                }
+                },
+                siId:-1  //简介id
             }
         },
         mounted() {
@@ -165,8 +179,16 @@
             handlePreview(file) {
                 console.log(file);
             },
-            handleAvatarSuccess(res, file) {
-                this.imageUrl.push(file.url);
+            handleAvatarSuccess(res, file) {  //上传完成事件
+                if(res.code == 0) {
+                    this.$message({
+                        type: 'success',
+                        message: '图片上传成功'
+                    });
+                    this.imageUrl = res.data;
+                } else {
+                    this.$message.error('网络异常，请稍后再试');
+                }
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -180,8 +202,10 @@
                     this.$message.error('上传图片大小不能超过 2MB!');
                     return false;
                 }
-                // return (isJPG || isPng) && isLt2M;
-
+                return (isJPG || isPng) && isLt2M;
+            },
+            imgChange(file,fileList) {
+                // console.log(fileList,22222);
             },
             submitForm(formName) {
                 if(this.imageUrl.length < 1) {
@@ -189,8 +213,29 @@
                 } else {
                     this.$refs[formName].validate((valid) => {
                         if (valid) {
-                            console.log(this.imageUrl);
-                            console.log(this.ruleForm);
+                            // console.log(this.imageUrl);
+                            // console.log(this.ruleForm);
+                            let data = {
+                                'cover':this.imageUrl,
+                                'phone':this.ruleForm.phoneNum,
+                                'address':this.ruleForm.address,
+                                'contact':this.ruleForm.name,
+                                'content':this.ruleForm.content,
+                                'siId':this.siId
+                            };
+                            saveSchoolIntroduce(data).then(res => {
+                                if(res.code == 0) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '保存成功'
+                                    });
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    },1000);
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
+                                }
+                            }).catch((e) => {});
                         } else {
                             console.log('error submit!!');
                             return false;
@@ -213,12 +258,26 @@
             getData() {  //获取数据
                 getSchoolIntroduce('').then(res => {
                     if(res.code == 0) {
-
+                        this.imageUrl = res.data.cover;
+                        this.ruleForm.phoneNum = res.data.phone;
+                        this.ruleForm.address = res.data.address;
+                        this.ruleForm.name = res.data.contact;
+                        this.ruleForm.content = res.data.content;
+                        this.fileList[0].url = res.data.cover;
+                        this.siId = res.data.siId;
                     } else {
                         this.$message.error('网络异常，请稍后再试');
                     }
                 }).catch((e) => {});
-            }
+            },
+            //检查手机号
+            isCellPhone(val) {
+                if (!/^1[3456789]\d{9}$/.test(val)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
         },
         components: {
             quillEditor

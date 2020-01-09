@@ -62,6 +62,9 @@
 </template>
 
 <script>
+    import {
+        getStudentSetList,
+    } from "../../axios/studentSet";
     export default {
         data() {
             return {
@@ -114,9 +117,34 @@
                         { required: true, message: '请选择续费日期', trigger: 'blur' }
                     ],
                 },
+                currentPage:1,  //分页默认选中哪页
+                records:0,  //总页数
+                rows:10,  //默认每页条数
+                page:1,  //默认打开第一页
+                pageValue:false,  //当只有一页时 分页隐藏
             }
         },
+        mounted() {
+            this.getList();  //列表数据
+        },
         methods: {
+            getList() {  //获取数据列表
+                let data = {
+                    'rows':this.rows,
+                    'page':this.page,
+                };
+                getStudentSetList(data).then(res => {
+                    if(res.code == 0) {
+                        // this.records = res.data.jqGirdPage.records;
+                        // this.noticeData = res.data.jqGirdPage.rows;
+                        // if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                        //     this.pageValue = true;
+                        // }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
