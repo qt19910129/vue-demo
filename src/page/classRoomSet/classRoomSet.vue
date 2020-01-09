@@ -2,24 +2,41 @@
     <div class="classRoomSet">
         <!--新增-->
         <div class="classRoomAddBox">
-            <el-button type="primary" @click="roomVisible = true">新增</el-button>
+            <el-button type="primary" @click="addRoom()">新增</el-button>
         </div>
         <!--数据表格-->
-        <el-table :data="classRoomSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-            <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
-            <el-table-column prop="classRoomName" label="教室名称" align="center"></el-table-column>
-            <el-table-column prop="equipment" label="教室设备" align="center"></el-table-column>
-            <el-table-column prop="peoples" label="容纳人数" align="center">
+        <el-table :data="classRoomSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table-column type="index" label="序号" align="center"></el-table-column>
+            <el-table-column prop="crName" label="教室名称" align="center"></el-table-column>
+            <el-table-column prop="crEquipment" label="教室设备" align="center"></el-table-column>
+            <el-table-column prop="accommodate" label="容纳人数" align="center">
                 <template slot-scope="scope">
-                    <span>{{scope.row.peoples}}</span>人
+                    <span>{{scope.row.accommodate}}</span>人
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="" align="center">
-                <el-button type="text" icon="el-icon-edit" @click="roomVisible = true">编辑</el-button>
+                <template slot-scope="scope">
+                    <el-button type="text" icon="el-icon-edit" @click="editRoom(scope.row.crId)">编辑</el-button>
+                </template>
             </el-table-column>
         </el-table>
+        <template>
+            <el-pagination
+                    align="right"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-sizes="[10, 20, 50, 100]"
+                    :page-size="10"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="records"
+                    background
+                    :hide-on-single-page="pageValue"
+                    class="pages">
+            </el-pagination>
+        </template>
         <!--新增，编辑弹窗-->
-        <el-dialog title="新增教室" :visible.sync="roomVisible" class="roomAlert">
+        <el-dialog :title="editTitle" :visible.sync="roomVisible" class="roomAlert" :before-close="handleClose">
             <el-form :model="roomForm" :rules="roomRules" ref="roomForm">
                 <el-form-item label="教室名称" prop="name">
                     <el-input v-model="roomForm.name" placeholder="请输入教室名称"></el-input>
@@ -28,7 +45,7 @@
                     <el-input v-model="roomForm.equipment" placeholder="请输入教室设备"></el-input>
                 </el-form-item>
                 <el-form-item label="容纳人数" prop="peopleNum">
-                    <el-input v-model="roomForm.peopleNum" placeholder="请输入容纳人数"></el-input>
+                    <el-input v-model.number="roomForm.peopleNum" placeholder="请输入容纳人数"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer" align="center">
@@ -40,23 +57,16 @@
 </template>
 
 <script>
+    import {
+        getClassRoomList,
+        addClassRoom,
+        editClassRoom,
+        saveEdit
+    } from "../../axios/classRoomSet";
     export default {
         data() {
             return {
-                classRoomSetData:[
-                    {
-                        num:1,
-                        classRoomName:'A教室',
-                        equipment:'电视机',
-                        peoples:'22',
-                    },
-                    {
-                        num:2,
-                        classRoomName:'B教室',
-                        equipment:'电视机',
-                        peoples:'123',
-                    }
-                ],
+                classRoomSetData:[],  //数据
                 roomVisible:false,  //新增编辑弹窗
                 roomForm: {
                     name:'',
@@ -72,9 +82,20 @@
                     ],
                     peopleNum: [
                         { required: true, message: '请输入容纳人数', trigger: 'blur' },
+                        { type: 'number', message: '容纳人数必须为数字值'}
                     ],
-                }
+                },
+                currentPage:1,  //分页默认选中哪页
+                records:0,  //总页数
+                rows:10,  //默认每页条数
+                page:1,  //默认打开第一页
+                pageValue:false,  //当只有一页时 分页隐藏
+                editTitle:'',   //弹出框title
+                crId:'',   //保存编辑时的id
             }
+        },
+        mounted() {
+            this.getList();  //列表数据
         },
         methods: {
             editForm(formName) {   //添加科目弹窗取消
@@ -88,18 +109,109 @@
             submitEditForm(formName) {   //签约保存
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$message({
-                            type: 'success',
-                            message: '保存成功'
-                        });
-                        this.$refs[formName].resetFields();
-                        this.roomVisible = false;
+                        if(this.editTitle == '新增教室') {
+                            let data = {
+                                'crName':this.roomForm.name,
+                                'crEquipment':this.roomForm.equipment,
+                                'accommodate':this.roomForm.peopleNum,
+                            };
+                            addClassRoom(data).then(res => {
+                                if(res.code == 0) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '保存成功'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                    this.roomVisible = false;
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    },1000);
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
+                                }
+                            }).catch((e) => {});
+                        } else if(this.editTitle == '编辑教室') {
+                            let data = {
+                                'crName':this.roomForm.name,
+                                'crEquipment':this.roomForm.equipment,
+                                'accommodate':this.roomForm.peopleNum,
+                                'crId':this.crId
+                            };
+                            saveEdit(data).then(res => {
+                                if(res.code == 0) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '保存成功'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                    this.roomVisible = false;
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    },1000);
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
+                                }
+                            }).catch((e) => {});
+                        }
                     } else {
                         console.log('error submit!!');
                         this.roomVisible = true;
                         return false;
                     }
                 });
+            },
+            getList() {  //获取列表
+                let data = {
+                    'rows':this.rows,
+                    'page':this.page,
+                };
+                getClassRoomList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.jqGirdPage.records;
+                        this.classRoomSetData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            addRoom() {  //新增按钮
+                this.roomVisible = true;
+                this.editTitle = '新增教室';
+            },
+            editRoom(crId) {  //编辑回显
+                this.roomVisible = true;
+                this.editTitle = '编辑教室';
+                this.crId = crId;
+                let data = {
+                    'crId':crId
+                };
+                editClassRoom(data).then(res => {
+                    if(res.code == 0) {
+                        this.roomForm.name = res.data.crName;
+                        this.roomForm.equipment = res.data.crEquipment;
+                        this.roomForm.peopleNum = res.data.accommodate * 1;
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            handleClose(done) {
+                this.$refs['roomForm'].resetFields();
+                this.roomVisible = false;
+            },
+            handleSizeChange(val) {
+                // console.log(`每页 ${val} 条`);
+                this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
+                this.getList();
+            },
+            handleCurrentChange(val) {
+                this.page = `${val}`;
+                this.getList();
             },
         }
     }

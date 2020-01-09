@@ -1,9 +1,11 @@
 import request from "./request";
 import global from "../global/global";
+
+
 /**
- * 获取科目设置 数据列表
+ * 获取级别设置 数据列表
  */
-export function getSubjectList(query) {
+export function getLevelList(query) {
     return request.post(global.domainUrl + "/school/dictionary/list", query
         , {
             headers:{
@@ -13,9 +15,9 @@ export function getSubjectList(query) {
     );
 }
 /**
- * 新增科目设置
+ * 新建 级别
  */
-export function addSubject(query) {
+export function saveLevel(query) {
     return request.post(global.domainUrl + "/school/dictionary/save", query
         , {
             headers:{
@@ -25,9 +27,9 @@ export function addSubject(query) {
     );
 }
 /**
- * 编辑科目 回显
+ * 修改 级别 回显
  */
-export function editShow(query) {
+export function showLevel(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit_page", query
         , {
             headers:{
@@ -37,9 +39,9 @@ export function editShow(query) {
     );
 }
 /**
- * 编辑科目 保存
+ * 修改 级别 保存
  */
-export function editSave(query) {
+export function saveEdit(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit", query
         , {
             headers:{

@@ -86,6 +86,9 @@
 
 <script>
     import {
+        getSchoolIntroduce
+    } from "../../axios/schoolIntroduce";
+    import {
         Quill,
         quillEditor
     } from 'vue-quill-editor'
@@ -148,6 +151,9 @@
                 }
             }
         },
+        mounted() {
+            this.getData();  //数据
+        },
         methods: {
             handleRemove(file, fileList) {
                 for(var i = 0; i < this.imageUrl.length; i++) {
@@ -178,13 +184,13 @@
 
             },
             submitForm(formName) {
-
                 if(this.imageUrl.length < 1) {
                     this.imgEmpty();
                 } else {
                     this.$refs[formName].validate((valid) => {
                         if (valid) {
-                            alert('submit!');
+                            console.log(this.imageUrl);
+                            console.log(this.ruleForm);
                         } else {
                             console.log('error submit!!');
                             return false;
@@ -204,6 +210,15 @@
                     type: 'warning'
                 });
             },
+            getData() {  //获取数据
+                getSchoolIntroduce('').then(res => {
+                    if(res.code == 0) {
+
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            }
         },
         components: {
             quillEditor

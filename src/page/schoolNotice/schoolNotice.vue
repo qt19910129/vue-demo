@@ -22,25 +22,45 @@
                 <el-button type="primary" @click="noticeVisible = true">发布</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="noticeData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
-                <el-table-column prop="noticeName" label="公告标题" width="160" align="center"></el-table-column>
-                <el-table-column prop="noticeTime" label="发布时间" width="" align="center"></el-table-column>
-                <el-table-column prop="noticePeople" label="指定群体" width="" align="center"></el-table-column>
+            <el-table :data="noticeData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column prop="title" label="公告标题" width="160" align="center"></el-table-column>
+                <el-table-column prop="createTime" label="发布时间" width="" align="center" :formatter="dateFormat"></el-table-column>
+                <el-table-column prop="personTypeStr" label="指定群体" width="" align="center"></el-table-column>
+                <el-table-column prop="content" label="公告详情" width="" align="center">
+                    <template slot-scope="scope">
+                        <span v-html="scope.row.content"></span>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" label="操作" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-delete">删除</el-button>
+                        <el-button type="text" icon="el-icon-delete" @click="deleteNotice(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
+            <template>
+                <el-pagination
+                        align="right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="10"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="records"
+                        background
+                        :hide-on-single-page="pageValue"
+                        class="pages">
+                </el-pagination>
+            </template>
         </div>
         <!--新增弹窗-->
-        <el-dialog title="新增公告" :visible.sync="noticeVisible">
+        <el-dialog title="新增公告" :visible.sync="noticeVisible" :before-close="handleClose">
             <el-form :model="addNoticeForm" :rules="addNoticeRules" ref="addNoticeForm" label-width="100px">
                 <el-form-item label="指定群体" prop="group">
                     <el-checkbox-group v-model="addNoticeForm.group">
-                        <el-checkbox label="老师端" name="type"></el-checkbox>
-                        <el-checkbox label="学生端" name="type"></el-checkbox>
+                        <el-checkbox label="老师端" name="type" value="1"></el-checkbox>
+                        <el-checkbox label="学生端" name="type" value="2"></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="公告标题" prop="title">
@@ -117,6 +137,12 @@
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.bubble.css'
     import '../../assets/font.css'
+    import {
+        getSchoolNoticeList,
+        saveSchoolNotice,
+        deleteSchoolNotice
+    } from "../../axios/schoolNotice";
+    import moment from 'moment';
     // 自定义字体大小
     let Size = Quill.import('attributors/style/size')
     Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px']
@@ -135,18 +161,9 @@
                     noticeName: '',
                 },
                 rules: {
-                    noticeName: [
-                        { required: true, message: '请输入公告标题', trigger: 'blur' },
-                    ],
+                    noticeName: [],
                 },
-                noticeData:[
-                    {
-                        num:1,
-                        noticeName:'一直变智障吧',
-                        noticeTime:'2019-03-06',
-                        noticePeople:'小学生',
-                    },
-                ],
+                noticeData:[],  //数据
                 noticeVisible: false,  //新增弹窗
                 addNoticeForm: {
                     group:[],
@@ -172,14 +189,44 @@
                             container: '#toolbar'
                         }
                     }
-                }
+                },
+                currentPage:1,  //分页默认选中哪页
+                records:0,  //总页数
+                rows:10,  //默认每页条数
+                page:1,  //默认打开第一页
+                pageValue:false,  //当只有一页时 分页隐藏
             }
+        },
+        mounted() {
+            this.getList();  //列表数据
         },
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        if(this.ruleForm.noticeName == '') {
+                            this.$message({
+                                message: '请输入您要搜索的内容',
+                                type: 'warning'
+                            });
+                        } else {
+                            let data = {
+                                'title':this.ruleForm.noticeName,
+                                'rows':1,
+                                'page':1,
+                            };
+                            getSchoolNoticeList(data).then(res => {
+                                if(res.code == 0) {
+                                    this.records = res.data.jqGirdPage.records;
+                                    this.noticeData = res.data.jqGirdPage.rows;
+                                    if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                                        this.pageValue = true;
+                                    }
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
+                                }
+                            }).catch((e) => {});
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -197,12 +244,34 @@
             submitNoticeForm(formName) {   //签约保存
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$message({
-                            type: 'success',
-                            message: '保存成功'
-                        });
-                        this.$refs[formName].resetFields();
-                        this.noticeVisible = false;
+                        var personType;
+                        if(this.addNoticeForm.group.length == 1 && this.addNoticeForm.group[0] == '老师端') {
+                            personType = 1;
+                        } else if(this.addNoticeForm.group.length == 1 && this.addNoticeForm.group[0] == '学生端') {
+                            personType = 2;
+                        } else if(this.addNoticeForm.group.length == 2) {
+                            personType = 3;
+                        }
+                        let data = {
+                            'title':this.addNoticeForm.title,
+                            'content':this.addNoticeForm.content,
+                            'personType':personType
+                        };
+                        saveSchoolNotice(data).then(res => {
+                            if(res.code == 0) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '发布成功'
+                                });
+                                this.$refs[formName].resetFields();
+                                this.noticeVisible = false;
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
+                            } else {
+                                this.$message.error('网络异常，请稍后再试');
+                            }
+                        }).catch((e) => {});
                     } else {
                         console.log('error submit!!');
                         this.noticeVisible = true;
@@ -210,6 +279,73 @@
                     }
                 });
             },
+            getList() {   //列表数据
+                let data = {
+                    'rows':this.rows,
+                    'page':this.page,
+                };
+                getSchoolNoticeList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.jqGirdPage.records;
+                        this.noticeData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            handleSizeChange(val) {
+                // console.log(`每页 ${val} 条`);
+                this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
+                this.getList();
+            },
+            handleCurrentChange(val) {
+                this.page = `${val}`;
+                this.getList();
+            },
+            dateFormat(row, column, cellValue, index){  //表格日期格式化
+                var date = row[column.property];
+                if(date == undefined){return ''};
+                return moment(date).format("YYYY-MM-DD");
+            },
+            handleClose(done) {
+                this.$refs['addNoticeForm'].resetFields();
+                this.noticeVisible = false;
+            },
+            deleteNotice(id) {  //删除一行校区公告
+                this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let data = {
+                        'id':id,
+                    };
+                    deleteSchoolNotice(data).then(res => {
+                        if(res.code == 0) {
+                            // rows.splice(index, 1);
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            },1000);
+                        } else {
+                            this.$message.error('网络异常，请稍后再试');
+                        }
+                    }).catch((e) => {});
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            }
         },
         components: {
             quillEditor

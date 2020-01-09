@@ -1,15 +1,14 @@
 import request from "./request";
-let domainUrl = "http://192.168.0.191:8080";
-let token = 9999;
+import global from "../global/global";
 
 /**
  * 获取报名管理 数据列表
  */
 export function getSignSetList(query) {
-    return request.post(domainUrl + "/school/register/list", query
+    return request.post(global.domainUrl + "/school/register/list", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -18,10 +17,10 @@ export function getSignSetList(query) {
  * 新增用户
  */
 export function addRegister(query) {
-    return request.post(domainUrl + "/school/register/add", query
+    return request.post(global.domainUrl + "/school/register/add", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -30,10 +29,10 @@ export function addRegister(query) {
  * 点击沟通记录记录
  */
 export function getRemark(query) {
-    return request.post(domainUrl + "/school/register/edit_page", query
+    return request.post(global.domainUrl + "/school/register/edit_page", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -42,10 +41,10 @@ export function getRemark(query) {
  * 沟通记录保存
  */
 export function addRemark(query) {
-    return request.post(domainUrl + "/school/register/save", query
+    return request.post(global.domainUrl + "/school/register/save", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -54,10 +53,10 @@ export function addRemark(query) {
  * 保存缴费信息
  */
 export function addPay(query) {
-    return request.post(domainUrl + "/school/register/toUpdateRenewTimeForId", query
+    return request.post(global.domainUrl + "/school/register/toUpdateRenewTimeForId", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -66,10 +65,10 @@ export function addPay(query) {
  * 删除缴费信息  未签约
  */
 export function deletePay(query) {
-    return request.post(domainUrl + "/school/register/delete", query
+    return request.post(global.domainUrl + "/school/register/delete", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );
@@ -78,10 +77,10 @@ export function deletePay(query) {
  * 省市区
  */
 export function getAllArea(query) {
-    return request.post(domainUrl + "/school/area/getAllArea", query
+    return request.post(global.domainUrl + "/school/area/getAllArea", query
         , {
             headers:{
-                token:token
+                token:global.token
             }
         }
     );

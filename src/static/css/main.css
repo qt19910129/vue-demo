@@ -537,3 +537,17 @@ body::-webkit-scrollbar-thumb {
 .teachers .el-pagination{
     background: #fff;
 }
+.schoolNotice table img{
+    margin-left: 5px;
+    max-width: 60px;
+    max-height: 60px;
+}
+.schoolNotice table p,.schoolNotice table h1,.schoolNotice table h2{
+    font-size: 14px;
+}
+.ql-picker-item{
+    line-height: 15px;
+}
+.schoolNotice .el-dialog{
+    margin-top: 9vh !important;
+}
