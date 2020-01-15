@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item prop="phoneNum">
-                        <el-input v-model="ruleForm.phoneNum" placeholder="请输入联系电话"></el-input>
+                        <el-input v-model="ruleForm.phoneNum" placeholder="请输入联系电话" :maxlength="11"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -21,36 +21,51 @@
             </el-row>
         </el-form>
         <!--数据表格-->
-        <el-table :data="studentSetData" height="650" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;margin-top: 20px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-            <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
-            <el-table-column prop="studentName" label="学生姓名" width="160" align="center"></el-table-column>
-            <el-table-column prop="birthday" label="出生日期" width="" align="center"></el-table-column>
+        <el-table :data="studentSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;margin-top: 20px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table-column type="index" label="序号" align="center"></el-table-column>
+            <el-table-column prop="studentName" label="学生姓名" align="center"></el-table-column>
+            <el-table-column prop="birthDay" label="出生日期" width="" align="center" :formatter="dateFormat"></el-table-column>
             <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
-            <el-table-column prop="phoneNum" label="联系电话" width="" align="center"></el-table-column>
-            <el-table-column prop="classRoom" label="所在班级" width="" align="center"></el-table-column>
-            <el-table-column prop="studentState" label="学生状态" width="" align="center">
-                <template slot-scope="scope">
-                    <span type="text" v-if="scope.row.studentState == 1" class="greenText">上课中</span>
-                    <span type="text" v-if="scope.row.studentState == 2">停课中</span>
-                </template>
+            <el-table-column prop="phone" label="联系电话" width="" align="center"></el-table-column>
+            <el-table-column prop="className" label="所在班级" width="" align="center"></el-table-column>
+            <el-table-column prop="statusStr" label="学生状态" width="" align="center">
+                <!--<template slot-scope="scope">-->
+                    <!--<span type="text" v-if="scope.row.studentState == 1" class="greenText">上课中</span>-->
+                    <!--<span type="text" v-if="scope.row.studentState == 2">停课中</span>-->
+                <!--</template>-->
             </el-table-column>
-            <el-table-column fixed="right" prop="studentState" label="操作" width="200" align="center">
+            <el-table-column fixed="right" prop="studentState" label="操作" width="180" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.studentId)">查看</el-button>
-                    <el-button type="text" v-if="scope.row.studentState == 1" icon="el-icon-notebook-2" @click="classEnd()">停课</el-button>
-                    <el-button type="text" v-if="scope.row.studentState == 2" icon="el-icon-notebook-2" @click="classBegin()">开课</el-button>
-                    <el-button type="text" icon="el-icon-money" @click="dialogFormVisible = true">续费</el-button>
+                    <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.id)">查看</el-button>
+                    <el-button type="text" v-if="scope.row.status == 1" icon="el-icon-notebook-2" @click="classEnd()">停课</el-button>
+                    <el-button type="text" v-if="scope.row.status == 2" icon="el-icon-notebook-2" @click="classBegin()">开课</el-button>
+                    <el-button type="text" icon="el-icon-money" @click="renew(scope.row.id)">续费</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <template>
+            <el-pagination
+                    align="right"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-sizes="[10, 20, 50, 100]"
+                    :page-size="10"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="records"
+                    background
+                    :hide-on-single-page="pageValue"
+                    class="pages">
+            </el-pagination>
+        </template>
         <!--续费弹窗-->
-        <el-dialog title="续费" :visible.sync="dialogFormVisible">
+        <el-dialog title="续费" :visible.sync="dialogFormVisible" :before-close="handleClose">
             <el-form :model="moneyForm" :rules="moneyRules" ref="moneyForm">
                 <el-form-item label="续费课时" :label-width="formLabelWidth" prop="renewNum">
-                    <el-input v-model="moneyForm.renewNum" autocomplete="off" placeholder="请输入续费课时"></el-input>
+                    <el-input v-model.number="moneyForm.renewNum" autocomplete="off" placeholder="请输入续费课时"></el-input>
                 </el-form-item>
                 <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="moneyForm.renewDay" style="width: 80%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="moneyForm.renewDay" value-format="yyyy-MM-dd" style="width: 80%;"></el-date-picker>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -64,45 +79,31 @@
 <script>
     import {
         getStudentSetList,
+        studentRenew,
     } from "../../axios/studentSet";
+    import moment from 'moment';
     export default {
         data() {
+            var checkphone = (rule, value, callback) => {
+                // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+                if (value == "") {
+                    callback(new Error("请输入联系电话"));
+                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("请输入正确的11位手机号码!"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     name: '',
                     phoneNum: '',
                 },
                 rules: {
-                    name: [
-                        { required: true, message: '请输入家长或孩子姓名', trigger: 'blur' },
-                    ],
-                    phoneNum: [
-                        { required: true, message: '请输入联系电话', trigger: 'blur' },
-                        { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
-                    ],
+                    name: [],
+                    phoneNum: [],
                 },
-                studentSetData:[
-                    {
-                        num:1,
-                        studentName:'王强强',
-                        birthday:'2011-12-21',
-                        parentName:'王王王',
-                        phoneNum:'15811223456',
-                        classRoom:'智障一班',
-                        studentState:1,
-                        studentId:11,
-                    },
-                    {
-                        num:2,
-                        studentName:'张强强',
-                        birthday:'2011-12-21',
-                        parentName:'张张',
-                        phoneNum:'15811223456',
-                        classRoom:'智障二班',
-                        studentState:2,
-                        studentId:12,
-                    }
-                ],
+                studentSetData:[],  //数据
                 dialogFormVisible:false, //续费弹窗
                 moneyForm: {
                     renewNum: '',
@@ -112,6 +113,7 @@
                 moneyRules: {
                     renewNum: [
                         { required: true, message: '请输入续费课时数', trigger: 'blur' },
+                        { type: 'number', message: '请输入正确的续费课时数'}
                     ],
                     renewDay: [
                         { required: true, message: '请选择续费日期', trigger: 'blur' }
@@ -122,6 +124,7 @@
                 rows:10,  //默认每页条数
                 page:1,  //默认打开第一页
                 pageValue:false,  //当只有一页时 分页隐藏
+                ids:-1,  //续费学生id
             }
         },
         mounted() {
@@ -135,11 +138,11 @@
                 };
                 getStudentSetList(data).then(res => {
                     if(res.code == 0) {
-                        // this.records = res.data.jqGirdPage.records;
-                        // this.noticeData = res.data.jqGirdPage.rows;
-                        // if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
-                        //     this.pageValue = true;
-                        // }
+                        this.records = res.data.jqGirdPage.records;
+                        this.studentSetData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
                     } else {
                         this.$message.error('网络异常，请稍后再试');
                     }
@@ -148,7 +151,30 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        if(this.ruleForm.name == '' && this.ruleForm.phoneNum == '') {
+                            this.$message({
+                                message: '请输入您要搜索的内容',
+                                type: 'warning'
+                            });
+                        } else {
+                            let data = {
+                                'name':this.ruleForm.name,
+                                'phone':this.ruleForm.phoneNum,
+                                'page':1,
+                                'rows':10
+                            };
+                            getStudentSetList(data).then(res => {
+                                if(res.code == 0) {
+                                    this.records = res.data.jqGirdPage.records;
+                                    this.studentSetData = res.data.jqGirdPage.rows;
+                                    if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                                        this.pageValue = true;
+                                    }
+                                } else {
+                                    this.$message.error('网络异常，请稍后再试');
+                                }
+                            }).catch((e) => {});
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -163,12 +189,26 @@
             submitMoneyForm(formName) {  //续费确定
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$message({
-                            type: 'success',
-                            message: '修改成功'
-                        });
-                        this.$refs[formName].resetFields();
-                        this.dialogFormVisible = false;
+                        let data = {
+                            'ids':this.ids,
+                            'renewTime':this.moneyForm.renewDay,
+                            'buyClassCount':this.moneyForm.renewNum
+                        };
+                        studentRenew(data).then(res => {
+                            if(res.code == 0) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '保存成功'
+                                });
+                                this.$refs[formName].resetFields();
+                                this.dialogFormVisible = false;
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
+                            } else {
+                                this.$message.error('网络异常，请稍后再试');
+                            }
+                        }).catch((e) => {});
                     } else {
                         console.log('error submit!!');
                         this.dialogFormVisible = true;
@@ -217,7 +257,39 @@
                         message: '已取消停课'
                     });
                 });
-            }
+            },
+            handleSizeChange(val) {
+                // console.log(`每页 ${val} 条`);
+                this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
+                this.getList();
+            },
+            handleCurrentChange(val) {
+                this.page = `${val}`;
+                this.getList();
+            },
+            //检查手机号
+            isCellPhone(val) {
+                if (!/^1[3456789]\d{9}$/.test(val)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            dateFormat(row, column, cellValue, index){  //表格日期格式化
+                var date = row[column.property];
+                if(date == undefined){return ''};
+                return moment(date).format("YYYY-MM-DD");
+            },
+            renew(ids) {
+                this.dialogFormVisible = true;
+                this.ids = ids;
+            },
+            handleClose(done) {
+                this.$refs['moneyForm'].resetFields();
+                this.dialogFormVisible = false;
+            },
         }
     }
 </script>

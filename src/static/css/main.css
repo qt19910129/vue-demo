@@ -551,3 +551,6 @@ body::-webkit-scrollbar-thumb {
 .schoolNotice .el-dialog{
     margin-top: 9vh !important;
 }
+.studentSet .el-input{
+    width: 80%;
+}

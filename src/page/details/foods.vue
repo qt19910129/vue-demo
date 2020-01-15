@@ -99,27 +99,34 @@
                         }
                         let foodStr = foodArr.join(",");
                         let data;
-                        if(this.edit == 1) {  //新增
-                            data = {
-                                'mDate':this.dates,
-                                'mName':foodStr
-                            };
-                        } else if(this.edit == 2) {  //编辑
-                            data = {
-                                'mId':this.mId,
-                                'mName':foodStr
-                            };
-                        }
-                        foodSava(data).then(res => {
-                            if(res.code == 0) {
-                                this.success();
-                                setTimeout(function () {
-                                    history.back(-1);
-                                },1000);
-                            } else {
-                                this.error();
+                        if(foodStr == '') {
+                            this.$message({
+                                message: '请至少添加一份菜谱',
+                                type: 'warning'
+                            });
+                        } else {
+                            if(this.edit == 1) {  //新增
+                                data = {
+                                    'mDate':this.dates,
+                                    'mName':foodStr
+                                };
+                            } else if(this.edit == 2) {  //编辑
+                                data = {
+                                    'mId':this.mId,
+                                    'mName':foodStr
+                                };
                             }
-                        }).catch((e) => {});
+                            foodSava(data).then(res => {
+                                if(res.code == 0) {
+                                    this.success();
+                                    setTimeout(function () {
+                                        history.back(-1);
+                                    },1000);
+                                } else {
+                                    this.error();
+                                }
+                            }).catch((e) => {});
+                        }
                     } else {
                         return false;
                     }

@@ -11,63 +11,71 @@
         <div class="studentsMain">
             <el-row>
                 <el-col :span="6" class="tableName">所在校区</el-col>
-                <el-col :span="6">托马斯学习馆</el-col>
+                <el-col :span="6">{{studentInfo.classSchoolName}}</el-col>
                 <el-col :span="6" class="tableName">所在班级</el-col>
-                <el-col :span="6">黄埔一期</el-col>
+                <el-col :span="6">{{studentInfo.className}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">班级老师</el-col>
-                <el-col :span="6">李老师</el-col>
+                <el-col :span="6">{{studentInfo.chargeinTeacherName}}</el-col>
                 <el-col :span="6" class="tableName">老师电话</el-col>
-                <el-col :span="6">15622335544</el-col>
+                <el-col :span="6">{{studentInfo.teacherMobile}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">缴费日期</el-col>
-                <el-col :span="6">2018-02-03</el-col>
+                <el-col :span="6" v-if="studentInfo.renewTime">{{studentInfo.renewTime.substring(0,10)}}</el-col>
                 <el-col :span="6" class="tableName">购课信息</el-col>
-                <el-col :span="6">初级班</el-col>
+                <el-col :span="6">{{studentInfo.buyClassCount}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">宝宝(学生)姓名</el-col>
                 <el-col :span="6">
-                    娃哈哈
+                    {{studentInfo.kidName}}
                     <el-button type="text" icon="el-icon-setting" @click="openEditName">修改</el-button>
                 </el-col>
                 <el-col :span="6" class="tableName">英文名</el-col>
                 <el-col :span="6">
-                    jack
+                    {{studentInfo.englishName}}
                     <el-button type="text" icon="el-icon-setting" @click="openEnglishName">修改</el-button>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">出生日期</el-col>
-                <el-col :span="6">2003-02-06</el-col>
+                <el-col :span="6">{{studentInfo.birthday}}</el-col>
                 <el-col :span="6" class="tableName">宝宝性别</el-col>
-                <el-col :span="6">女</el-col>
+                <el-col :span="6">
+                    <span v-if="studentInfo.birthday == 1">男</span>
+                    <span v-if="studentInfo.birthday == 2">女</span>
+                </el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">家长姓名</el-col>
-                <el-col :span="6">屁屁</el-col>
+                <el-col :span="6">{{studentInfo.parentName}}</el-col>
                 <el-col :span="6" class="tableName">家长身份</el-col>
-                <el-col :span="6">妈妈</el-col>
+                <el-col :span="6">{{studentInfo.parentIdentity}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">家长电话</el-col>
-                <el-col :span="6">156899665456</el-col>
+                <el-col :span="6">{{studentInfo.mobile}}</el-col>
                 <el-col :span="6" class="tableName">所在区域</el-col>
-                <el-col :span="6">北京市</el-col>
+                <el-col :span="6">{{studentInfo.region}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">家庭住址</el-col>
-                <el-col :span="18">北京市丰台区</el-col>
+                <el-col :span="18">{{studentInfo.address}}</el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">用户积分</el-col>
-                <el-col :span="6">50</el-col>
+                <el-col :span="6">{{studentInfo.bonusPoint}}</el-col>
                 <el-col :span="6" class="tableName">学习奖励</el-col>
                 <el-col :span="6">
-                    {{starNum}}星
-                    <el-button type="text" icon="el-icon-star-off" @click="openChangeStar()">兑换</el-button>
+                    <span v-if="studentInfo.learningAwards == null" class="color999">
+                        暂无
+                    </span>
+                    <span v-else>
+                        {{studentInfo.learningAwards}}星
+                        <el-button type="text" icon="el-icon-star-off" @click="openChangeStar()">兑换</el-button>
+                    </span>
                 </el-col>
             </el-row>
         </div>
@@ -75,28 +83,49 @@
         <!--数据表格-->
         <el-table :data="studentClassData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="subject" label="科目" align="center"></el-table-column>
-            <el-table-column prop="num" label="课时" align="center"></el-table-column>
-            <el-table-column prop="readyNum" label="课耗" align="center"></el-table-column>
-            <el-table-column prop="leaveNum" label="剩余课时" align="center"></el-table-column>
+            <el-table-column prop="zk" label="课时" align="center"></el-table-column>
+            <el-table-column prop="kh" label="课耗" align="center"></el-table-column>
+            <el-table-column prop="sy" label="剩余课时" align="center"></el-table-column>
         </el-table>
+        <template>
+            <el-pagination
+                    align="right"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-sizes="[10, 20, 50, 100]"
+                    :page-size="10"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="records"
+                    background
+                    :hide-on-single-page="pageValue"
+                    class="pages">
+            </el-pagination>
+        </template>
         <!--学习分析-->
-        <div class="tit">学习分析</div>
-        <div id="studentEcharts"></div>
+        <!--<div class="tit">学习分析</div>-->
+        <!--<div id="studentEcharts"></div>-->
     </div>
 </template>
 
 <script>
+    import {
+        getStudent,
+        editStudentName,
+        getClassList,
+    } from "../../axios/studentSet";
     export default {
         data() {
             return {
+                studentInfo:{},  //学生信息
                 studentId: -1, //学生id
                 studentClassData:[
-                    {
-                        subject:'数学',
-                        num:20,
-                        readyNum:10,
-                        leaveNum:10,
-                    },
+                    // {
+                    //     subject:'数学',
+                    //     num:20,
+                    //     readyNum:10,
+                    //     leaveNum:10,
+                    // },
                 ],
                 starNum:50,  //星星数量（模拟）
                 option:{
@@ -153,27 +182,87 @@
                         }
                     ]
                 },
+                currentPage:1,  //分页默认选中哪页
+                records:0,  //总页数
+                rows:10,  //默认每页条数
+                page:1,  //默认打开第一页
+                pageValue:false,  //当只有一页时 分页隐藏
             }
         },
         mounted() {
             window.scrollTo(0,0); //每次路由进入 页面滚动到顶部
-            this.studentId = this.$route.params.studentId;  //获取学生id
+            this.getInfo();  //数据
+            this.getClass();  //上课信息
             //基于准备好的dom 初始化echarts实例
-            var myChart = this.$echarts.init(document.getElementById('studentEcharts'),'dark');
-            myChart.setOption(this.option);
+            // var myChart = this.$echarts.init(document.getElementById('studentEcharts'),'dark');
+            // myChart.setOption(this.option);
         },
         methods: {
+            getInfo() {
+                let data = {
+                    'id':this.$route.params.studentId,
+                };
+                getStudent(data).then(res => {
+                    if(res.code == 0) {
+                        this.studentInfo = res.data;
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            getClass() {
+                let data = {
+                    'id':this.$route.params.studentId,
+                    'rows':this.rows,
+                    'page':this.page,
+                };
+                getClassList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.total;
+                        this.studentClassData = res.data.list;
+                        if(res.data.total <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            handleSizeChange(val) {
+                // console.log(`每页 ${val} 条`);
+                this.rows = `${val}`;
+                this.currentPage = 1;
+                this.page = 1;
+                this.getClass();
+            },
+            handleCurrentChange(val) {
+                this.page = `${val}`;
+                this.getClass();
+            },
             openEditName() {
                 this.$prompt('请输入宝宝(学生)姓名', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
+                    inputValue:this.studentInfo.kidName,
                     inputPattern: /\S/,
                     inputErrorMessage: '请输入宝宝(学生)姓名'
                 }).then(({ value }) => {
-                    this.$message({
-                        type: 'success',
-                        message: '修改成功'
-                    });
+                    this.studentInfo.kidName = value;
+                    let data = {
+                        'id':this.$route.params.studentId,
+                        'name':value,
+                        'nameType':1
+                    };
+                    editStudentName(data).then(res => {
+                        if(res.code == 0) {
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功'
+                            });
+                        } else {
+                            this.$message.error('网络异常，请稍后再试');
+                        }
+                    }).catch((e) => {});
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -185,13 +274,26 @@
                 this.$prompt('请输入英文名', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
+                    inputValue:this.studentInfo.englishName,
                     inputPattern: /\S/,
                     inputErrorMessage: '请输入英文名'
                 }).then(({ value }) => {
-                    this.$message({
-                        type: 'success',
-                        message: '修改成功'
-                    });
+                    this.studentInfo.englishName = value;
+                    let data = {
+                        'id':this.$route.params.studentId,
+                        'name':value,
+                        'nameType':2
+                    };
+                    editStudentName(data).then(res => {
+                        if(res.code == 0) {
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功'
+                            });
+                        } else {
+                            this.$message.error('网络异常，请稍后再试');
+                        }
+                    }).catch((e) => {});
                 }).catch(() => {
                     this.$message({
                         type: 'info',

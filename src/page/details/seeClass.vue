@@ -9,113 +9,113 @@
 
         <div class="main">
             <el-row>
-                <el-col :span="24"><span class="classTit">班级名称 :</span> <span class="className">三年底二班</span></el-col>
+                <el-col :span="24"><span class="classTit">班级名称 :</span> <span class="className">{{className}}</span></el-col>
             </el-row>
             <div class="tit">班级老师</div>
             <!--班级老师数据-->
             <el-table :data="classTeacherData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column prop="num" label="序号" width="60px" align="center"></el-table-column>
-                <el-table-column prop="name" label="老师姓名" width="" align="center"></el-table-column>
-                <el-table-column prop="phoneNum" label="老师手机号" width="" align="center"></el-table-column>
-                <el-table-column prop="dep" label="所在部门" width="" align="center"></el-table-column>
+                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column prop="personName" label="老师姓名" width="" align="center"></el-table-column>
+                <el-table-column prop="mobile" label="老师手机号" width="" align="center"></el-table-column>
+                <el-table-column prop="deptName" label="所在部门" width="" align="center"></el-table-column>
             </el-table>
             <div class="tit">班级学生</div>
             <!--班级学生数据-->
             <el-table :data="classStuData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column prop="num" label="序号" width="60px" align="center"></el-table-column>
-                <el-table-column prop="name" label="学生姓名" width="" align="center"></el-table-column>
-                <el-table-column prop="birthday" label="出生年月" width="" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" width="" align="center"></el-table-column>
+                <el-table-column type="index" label="序号" width="60px" align="center"></el-table-column>
+                <el-table-column prop="personName" label="学生姓名" width="" align="center"></el-table-column>
+                <el-table-column prop="birthday" label="出生年月" width="" align="center" :formatter="dateFormat"></el-table-column>
+                <el-table-column prop="gender" label="性别" width="" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.gender == 1">男</span>
+                        <span v-else-if="scope.row.gender == 2">女</span>
+                        <span v-else="scope.row.gender == 3">其他</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
-                <el-table-column prop="parentPhone" label="家长电话" width="" align="center"></el-table-column>
-                <el-table-column prop="all" label="总课时" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.all}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="ready" label="课耗" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.ready}}</span>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="mobile" label="家长电话" width="" align="center"></el-table-column>
             </el-table>
-            <div class="tit">班级科目<el-button type="text" icon="el-icon-download" class="fr">导出</el-button></div>
+            <div class="tit">班级科目<el-button type="text" icon="el-icon-download" class="fr" @click="load()">导出</el-button></div>
             <!--班级科目数据-->
             <el-table :data="classSubjectData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column prop="num" label="序号" width="60px" align="center"></el-table-column>
-                <el-table-column prop="name" label="科目名称" width="" align="center"></el-table-column>
-                <el-table-column prop="classNum" label="课次" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.classNum}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="studentNum" label="学生数" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.studentNum}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="all" label="总课时" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.all}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="ready" label="课耗" width="" align="center">
-                    <template slot-scope="scope">
-                        <span class="blueText">{{scope.row.ready}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="edit" label="操作" width="" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-view" @click="goSeeSubject()">查看</el-button>
-                    </template>
-                </el-table-column>
+                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column prop="subjectName" label="科目名称" width="" align="center"></el-table-column>
+                <el-table-column prop="subjectNum" label="课次" width="" align="center"></el-table-column>
+                <el-table-column prop="studentCount" label="学生数" width="" align="center"></el-table-column>
+                <el-table-column prop="allSubjectNum" label="总课时" width="" align="center"></el-table-column>
+                <el-table-column prop="subjectConsumer" label="课耗" width="" align="center"></el-table-column>
+                <!--<el-table-column prop="edit" label="操作" width="" align="center">-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<el-button type="text" icon="el-icon-view" @click="goSeeSubject()">查看</el-button>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
             </el-table>
         </div>
     </div>
 </template>
 
 <script>
+    import {
+        editClass,
+        loadSubject
+    } from "../../axios/classSet";
+    import moment from 'moment';
     export default {
         data() {
             return {
                 classTeacherData:[  //班级老师数据
-                    {
-                        num:1,
-                        name:'王老师',
-                        phoneNum:'18566554455',
-                        dep:'垃圾部'
-                    }
+
                 ],
                 classStuData:[  //班级学生数据
-                    {
-                        num:1,
-                        name:'社会王',
-                        birthday:'1336-02-06',
-                        sex:'男',
-                        dep:'数学组',
-                        parentName:'阿王',
-                        parentPhone:'15633554455',
-                        all:'100',
-                        ready:'20'
-                    }
+
                 ],
                 classSubjectData:[
-                    {
-                        num:1,
-                        name:'智障',
-                        classNum:'20',
-                        studentNum:'50',
-                        all:'100',
-                        ready:'10',
-                    }
-                ]
+
+                ],
+                className:'',
             }
         },
+        mounted() {
+            this.getList();  //数据
+        },
         methods:{
+            getList() {
+                let data = {
+                    'classId':this.$route.query.classId,
+                };
+                editClass(data).then(res => {
+                    if(res.code == 0) {
+                        this.classTeacherData = res.data.classTeacher;
+                        this.classStuData = res.data.classStudent;
+                        this.classSubjectData = res.data.keSubjectResults;
+                        this.className = res.data.name;
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
             goSeeSubject() {   //跳转查看科目
                 this.$router.push({
                     path: `/content/details/seeSubject`,
                 })
+            },
+            load() {  //导出科目
+                let data = {
+                    'classId':this.$route.query.classId,
+                };
+                loadSubject(data).then(res => {
+                    console.log(res);
+                    if(res.code == 0) {
+
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            dateFormat(row, column, cellValue, index){  //表格日期格式化
+                var date = row[column.property];
+                if(date == undefined){return ''};
+                return moment(date).format("YYYY-MM-DD");
             },
         }
     }
@@ -128,13 +128,13 @@
             padding: 20px;
             background: #fff;
             .classTit{
-                font-size: 18px;
+                font-size: 16px;
             }
             .className{
                 font-size: 14px;
             }
             .tit{
-                font-size: 18px;
+                font-size: 16px;
                 margin: 20px 0;
             }
         }
