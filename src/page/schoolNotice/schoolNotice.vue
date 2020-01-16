@@ -23,7 +23,7 @@
             </div>
             <!--数据表格-->
             <el-table :data="noticeData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="title" label="公告标题" width="160" align="center"></el-table-column>
                 <el-table-column prop="createTime" label="发布时间" width="" align="center" :formatter="dateFormat"></el-table-column>
                 <el-table-column prop="personTypeStr" label="指定群体" width="" align="center"></el-table-column>

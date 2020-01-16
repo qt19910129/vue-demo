@@ -23,7 +23,7 @@
                 <el-button type="text" icon="el-icon-download" class="fr">导出</el-button>
             </div>
             <el-table :data="detailData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" width="60px" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="classTime" label="上课时间" width="200" align="center"></el-table-column>
                 <el-table-column prop="teacher1" label="讲师" width="" align="center"></el-table-column>
                 <el-table-column prop="teacher2" label="助教" width="" align="center"></el-table-column>

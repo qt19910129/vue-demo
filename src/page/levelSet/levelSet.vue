@@ -6,7 +6,7 @@
         </div>
         <!--数据表格-->
         <el-table :data="levelSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-            <el-table-column type="index" label="序号" align="center"></el-table-column>
+            <el-table-column type="index" label="ID" align="center"></el-table-column>
             <el-table-column prop="name" label="课程级别" align="center"></el-table-column>
             <el-table-column prop="describe" label="级别说明" align="center"></el-table-column>
             <el-table-column fixed="right" label="操作" width="" align="center" prop="isAll">

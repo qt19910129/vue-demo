@@ -40,7 +40,7 @@
             </div>
             <!--数据表格-->
             <el-table :data="teacherSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;min-height: 440px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column type="index" label="序号" width="" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" width="" align="center"></el-table-column>
                 <el-table-column prop="name" label="教师名称" width="" align="center"></el-table-column>
                 <el-table-column prop="mobile" label="联系电话" width="" align="center" width="200"></el-table-column>
                 <el-table-column prop="deptName" label="所在部门" width="" align="center" width="230"></el-table-column>
@@ -58,7 +58,7 @@
                         <span type="text" v-if="scope.row.status == 2">离职</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="125" align="center">
+                <el-table-column fixed="right" label="操作" width="220px" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view" @click="goTeachers(scope.row.id)">查看</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="openEdit(scope.row.id,1)">编辑</el-button>

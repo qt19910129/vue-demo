@@ -14,7 +14,7 @@
             <div class="tit">班级老师</div>
             <!--班级老师数据-->
             <el-table :data="classTeacherData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="personName" label="老师姓名" width="" align="center"></el-table-column>
                 <el-table-column prop="mobile" label="老师手机号" width="" align="center"></el-table-column>
                 <el-table-column prop="deptName" label="所在部门" width="" align="center"></el-table-column>
@@ -22,7 +22,7 @@
             <div class="tit">班级学生</div>
             <!--班级学生数据-->
             <el-table :data="classStuData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" width="60px" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" width="60px" align="center"></el-table-column>
                 <el-table-column prop="personName" label="学生姓名" width="" align="center"></el-table-column>
                 <el-table-column prop="birthday" label="出生年月" width="" align="center" :formatter="dateFormat"></el-table-column>
                 <el-table-column prop="gender" label="性别" width="" align="center">
@@ -38,7 +38,7 @@
             <div class="tit">班级科目<el-button type="text" icon="el-icon-download" class="fr" @click="load()">导出</el-button></div>
             <!--班级科目数据-->
             <el-table :data="classSubjectData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="subjectName" label="科目名称" width="" align="center"></el-table-column>
                 <el-table-column prop="subjectNum" label="课次" width="" align="center"></el-table-column>
                 <el-table-column prop="studentCount" label="学生数" width="" align="center"></el-table-column>
@@ -103,14 +103,17 @@
                 let data = {
                     'classId':this.$route.query.classId,
                 };
-                loadSubject(data).then(res => {
-                    console.log(res);
-                    if(res.code == 0) {
+                // window.open("http://47.104.251.161:8080/school/schoolClass/exportSbjectExcel?classId="+ this.$route.query.classId);
 
-                    } else {
-                        this.$message.error('网络异常，请稍后再试');
-                    }
-                }).catch((e) => {});
+                window.location.href = 'http://47.104.251.161:8080/school/schoolClass/exportSbjectExcel?classId='  + this.$route.query.classId;
+                // loadSubject(data).then(res => {
+                //     console.log(res);
+                //     if(res.code == 0) {
+                //
+                //     } else {
+                //         this.$message.error('网络异常，请稍后再试');
+                //     }
+                // }).catch((e) => {});
             },
             dateFormat(row, column, cellValue, index){  //表格日期格式化
                 var date = row[column.property];

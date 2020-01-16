@@ -35,7 +35,7 @@
             </div>
             <!--表格-->
             <el-table :data="goodsData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" width="" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" width="" align="center"></el-table-column>
                 <el-table-column prop="name" label="物品名称" align="center"></el-table-column>
                 <el-table-column prop="state" label="物品分类" align="center"></el-table-column>
                 <el-table-column prop="goodsNum" label="物品总数" align="center"></el-table-column>

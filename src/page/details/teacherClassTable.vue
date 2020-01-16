@@ -9,7 +9,7 @@
         </el-breadcrumb>
 
         <el-table :data="teacherClassTableData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;margin-top: 20px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-            <el-table-column type="index" label="序号" width="60" align="center"></el-table-column>
+            <el-table-column type="index" label="ID" align="center"></el-table-column>
             <el-table-column prop="arrangeBegintime" label="上课时间" width="200" align="center"></el-table-column>
             <el-table-column prop="crName" label="上课教室" width="" align="center"></el-table-column>
             <el-table-column prop="studentCount" label="学生人数" width="" align="center"></el-table-column>

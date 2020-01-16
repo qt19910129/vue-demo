@@ -19,7 +19,7 @@
                 <el-button type="text" icon="el-icon-document-add" @click="clickAddTeacher()">添加老师</el-button>
                 <!--添加老师数据-->
                 <el-table :data="tagsForm.dynamicTags" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                    <el-table-column type="index" label="序号" align="center"></el-table-column>
+                    <el-table-column type="index" label="ID" align="center"></el-table-column>
                     <el-table-column prop="name" label="老师姓名" width="" align="center"></el-table-column>
                     <el-table-column prop="mobile" label="老师手机号" width="" align="center"></el-table-column>
                     <el-table-column prop="deptName" label="所在部门" width="" align="center"></el-table-column>
@@ -39,7 +39,7 @@
                 <el-button type="text" icon="el-icon-document-add" @click="addStuVisible = true">添加学生</el-button>
                 <!--添加学生数据-->
                 <el-table :data="tagsStuForm.dynamicTags" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                    <el-table-column type="index" label="序号" align="center"></el-table-column>
+                    <el-table-column type="index" label="ID" align="center"></el-table-column>
                     <el-table-column prop="studentName" label="学生姓名" width="" align="center"></el-table-column>
                     <el-table-column prop="birthDay" label="出生年月" width="100" align="center" :formatter="dateFormat"></el-table-column>
                     <el-table-column prop="gender" label="性别" width="" align="center"></el-table-column>
@@ -57,7 +57,7 @@
                 <!--<el-button type="text" icon="el-icon-document-add" @click="addSubjctVisible = true">添加科目</el-button>-->
                 <!--添加学生数据-->
                 <el-table :data="ruleForm.addSubjectData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                    <el-table-column label="序号" align="center" type="index"></el-table-column>
+                    <el-table-column label="ID" align="center" type="index"></el-table-column>
                     <el-table-column prop="subjectName" label="科目名称" width="" align="center"></el-table-column>
                     <el-table-column prop="subjectNum" label="课次" width="" align="center"></el-table-column>
                     <el-table-column prop="studentCount" label="学生数" width="" align="center"></el-table-column>
@@ -100,7 +100,7 @@
             </div>
             <!--添加老师信息-->
             <el-table :data="teacherTable" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="name" label="老师姓名" width="" align="center"></el-table-column>
                 <el-table-column prop="mobile" label="联系电话" align="center"></el-table-column>
                 <el-table-column prop="deptName" label="所在部门" width="" align="center"></el-table-column>
@@ -167,7 +167,7 @@
             </div>
             <!--添加学生信息-->
             <el-table :data="stuTable" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="studentName" label="学生姓名" width="" align="center"></el-table-column>
                 <el-table-column prop="birthDay" label="出生年月" width="100" align="center" :formatter="dateFormat"></el-table-column>
                 <el-table-column prop="gender" label="性别" align="center"></el-table-column>

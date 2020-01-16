@@ -26,7 +26,7 @@
         <el-table :data="feedBackData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}"
                   @selection-change="handleSelectionChange">
             <el-table-column type="selection" align="center"></el-table-column>
-            <el-table-column type="index" label="序号" align="center"></el-table-column>
+            <el-table-column type="index" label="ID" align="center"></el-table-column>
             <el-table-column prop="content" label="评论内容" align="center"></el-table-column>
             <el-table-column prop="studentName" label="学员姓名" align="center"></el-table-column>
             <el-table-column prop="teacherName" label="主讲老师" align="center"></el-table-column>

@@ -44,7 +44,7 @@
             </div>
             <div class="tit"><span>授课班级</span></div>
             <el-table :data="teachersData" border style="width: 100%;border: 1px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                <el-table-column type="index" label="序号" width="" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" width="" align="center"></el-table-column>
                 <el-table-column prop="className" label="班级名称" width="" align="center"></el-table-column>
                 <el-table-column prop="subject" label="授课科目" width="" align="center"></el-table-column>
                 <el-table-column prop="zks" label="总课时" width="" align="center"></el-table-column>

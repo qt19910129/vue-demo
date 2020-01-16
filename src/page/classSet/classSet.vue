@@ -30,7 +30,7 @@
             </div>
             <!--数据表格-->
             <el-table :data="classSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column type="index" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="name" label="班级名称" align="center"></el-table-column>
                 <el-table-column prop="leadingTeacherName" label="班主任" width="" align="center"></el-table-column>
                 <el-table-column prop="studentCount" label="学生人数" width="" align="center"></el-table-column>

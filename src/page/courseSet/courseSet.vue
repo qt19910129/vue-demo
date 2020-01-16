@@ -37,7 +37,7 @@
             </div>
             <!--数据表格-->
             <el-table :data="courseSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column type="index" label="序号" width="60px" align="center"></el-table-column>
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="subject" label="科目" align="center"></el-table-column>
                 <el-table-column prop="rank" label="课程级别" align="center"></el-table-column>
                 <el-table-column prop="currName" label="课程名称" width="" align="center"></el-table-column>

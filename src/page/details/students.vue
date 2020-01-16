@@ -79,7 +79,7 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="tit">上课信息<el-button type="text" icon="el-icon-download" class="fr">导出</el-button></div>
+        <div class="tit">上课信息<el-button type="text" icon="el-icon-download" class="fr" @click="load()">导出</el-button></div>
         <!--数据表格-->
         <el-table :data="studentClassData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="subject" label="科目" align="center"></el-table-column>
@@ -325,6 +325,11 @@
                         message: '取消输入'
                     });
                 });
+            },
+            load() {  //导出
+                window.location.href = 'http://47.104.251.161:8080/school/student/export?id=' + this.$route.params.studentId;
+
+
             }
         }
     }

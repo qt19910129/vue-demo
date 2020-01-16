@@ -554,3 +554,19 @@ body::-webkit-scrollbar-thumb {
 .studentSet .el-input{
     width: 80%;
 }
+.el-pagination .el-select .el-input{
+    width: 100px;
+}
+.el-pagination .el-pagination__jump .el-input{
+    width: 50px;
+}
+.editClass .el-pagination{
+    background: #fff;
+}
+.el-table td, .el-table th{
+    padding: 3px 0 !important;
+    height: 40px;
+}
+thead th{
+    padding: 10px 0 !important;
+}

@@ -56,7 +56,7 @@
         <div class="renewStudent">
             <div class="renewTitle">续费学员</div>
             <el-table :data="renewTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
-                <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
+                <el-table-column prop="num" label="ID" align="center"></el-table-column>
                 <el-table-column prop="studentName" label="学生姓名" width="160" align="center"></el-table-column>
                 <el-table-column prop="renewDate" label="续费截止日期" width="" align="center"></el-table-column>
                 <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
@@ -93,7 +93,7 @@
         <div class="signMessage">
             <div class="signTitle">今日签到信息</div>
             <el-table :data="signTableData" height="380" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
-                <el-table-column prop="num" label="序号" width="100px" align="center"></el-table-column>
+                <el-table-column prop="num" label="ID" align="center"></el-table-column>
                 <el-table-column prop="className" label="班级名称" width="160" align="center"></el-table-column>
                 <el-table-column prop="teacherName" label="主讲" width="" align="center"></el-table-column>
                 <el-table-column prop="assistantName" label="助教" width="" align="center"></el-table-column>
@@ -116,7 +116,7 @@
             <!--未签到表格-->
             <el-dialog title="二年级三班签到表" :visible.sync="dialogTableVisible">
                 <el-table :data="gridData" border style="font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}">
-                    <el-table-column property="num" label="序号" width="150" align="center"></el-table-column>
+                    <el-table-column property="num" label="ID" align="center"></el-table-column>
                     <el-table-column property="name" label="学生姓名" width="200" align="center"></el-table-column>
                     <el-table-column property="edit" label="操作" align="center">
                         <template slot-scope="scope">
