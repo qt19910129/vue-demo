@@ -89,7 +89,7 @@
                                 });
                                 let that = this;
                                 setTimeout(function () {
-                                    window.open('http://localhost:8888/#/content/pageIndex');
+                                    window.open(that.GLOBAL.domain+'/#/content/pageIndex');
                                     // window.close();
                                     that.closeWindow();
                                 },1000);

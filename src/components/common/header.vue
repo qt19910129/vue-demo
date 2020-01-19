@@ -122,7 +122,7 @@
                                 });
                                 localStorage.removeItem("token");
                                 setTimeout(function () {
-                                    window.location.href = "http://localhost:8888/#/login";
+                                    window.location.href = this.GLOBAL.domain + "/#/login";
                                 },1000);
                             } else if(res.code == 20004) {
                                 this.$message.error('抱歉，您输入的旧密码错误，请重新输入');
@@ -153,7 +153,7 @@
                                 message: '您已退出登录!'
                             });
                             setTimeout(function () {
-                                window.location.href = "http://localhost:8888/#/login";
+                                window.location.href = this.GLOBAL.domain + "/#/login";
                             },1000);
                         } else {
                             this.$message.error('网络异常，请稍后再试');

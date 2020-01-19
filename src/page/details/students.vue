@@ -343,7 +343,7 @@
                 });
             },
             load() {  //导出
-                window.location.href = 'http://47.104.251.161:8080/school/student/export?id=' + this.$route.params.studentId;
+                window.location.href = this.GLOBAL.domain + '/school/student/export?id=' + this.$route.params.studentId;
 
 
             }

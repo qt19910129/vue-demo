@@ -76,7 +76,7 @@ service.interceptors.response.use(
             } else {
                 tryHideFullScreenLoading();
                 Message.error('身份验证已过期，请重新登陆');
-                window.location.href = "http://localhost:8888/#/login";
+                window.location.href = this.GLOBAL.domain + "/#/login";
             }
             return;
         } else {
