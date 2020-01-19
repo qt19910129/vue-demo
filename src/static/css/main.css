@@ -570,3 +570,6 @@ body::-webkit-scrollbar-thumb {
 thead th{
     padding: 10px 0 !important;
 }
+.login .code input{
+    width: 100%;
+}

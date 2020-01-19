@@ -16,7 +16,9 @@ export default new Router({
     routes: [
         {
             path:'/',           //这个表示的是根目录，即一进入的页面
-            redirect:'content/pageIndex'    //设置页面一进来就显示的页面，即重定向到goods组件
+            redirect:'content/pageIndex',    //设置页面一进来就显示的页面，即重定向到goods组件
+            requireAuth: true,
+            title:'首页'
         },
         {
             name: 'content',

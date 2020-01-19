@@ -180,12 +180,10 @@
                 this.currentPage = 1;
                 this.page = 1;
                 this.getList();
-                console.log(1);
             },
             handleCurrentChange(val) {
                 this.page = `${val}`;
                 this.getList();
-                console.log(2);
             },
             addSub() {  //新增
                 this.editTitle = '新增科目';

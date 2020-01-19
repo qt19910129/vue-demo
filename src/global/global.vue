@@ -4,8 +4,8 @@
 
 <script>
     //全局参数设置
-    const serverSrc='http:// 192.168.0.192:8080';
-    const token='9999';
+    const serverSrc='http://192.168.0.191:8080';
+    const token=localStorage.getItem("token");
     const hasEnter=false;
     const userSite="中国钓鱼岛";
     const domainUrl = 'http://47.104.251.161:8080';

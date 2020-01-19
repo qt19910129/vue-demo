@@ -15,7 +15,8 @@
                             <el-input v-model="user.pass" type="password" placeholder="请输入密码" class="password"></el-input>
                         </el-form-item>
                         <el-form-item prop="code">
-                            <el-input v-model="user.code" placeholder="请输入验证码" class="code"></el-input>
+                            <el-input v-model="user.code" placeholder="请输入验证码" class="code" :maxlength="4"></el-input>
+                            <img :src="codeSrc" class="codeImg" @click="clickCodeImg()">
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" icon="el-icon-upload" @click="login" class="land">立即登录</el-button>
@@ -31,9 +32,14 @@
 </template>
 
 <script>
+    import {
+        userLogin
+    } from "../../axios/login";
     export default {
+        inject:['reload'],
         data () {
             return {
+
                 loginForm: {
                     name:'',
                     pass:'',
@@ -50,35 +56,55 @@
                     code: [
                         {required: true, message: '验证码不能为空', trigger: 'blur'}
                     ],
-                }
+                },
+                codeSrc:''
             }
         },
+        mounted() {
+            this.getCode();
+        },
         methods: {
+            getCode() {  //获取验证码图片
+                this.codeSrc = 'http://47.104.251.161:8080' + '/school/index/verificationCode?timer=' + new Date();
+            },
+            clickCodeImg() {
+                this.codeSrc = 'http://47.104.251.161:8080' + '/school/index/verificationCode?timer=' + new Date();
+            },
             login () {
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
-                        if (this.user.name === 'admin' && this.user.pass === '123' && this.user.code === '123') {
-                            this.$notify({
-                                type: 'success',
-                                message: '欢迎你,' + this.user.name + '!',
-                                duration: 3000
-                            });
-                            this.$router.replace('/')
-                        } else if(this.user.name != 'admin' || this.user.pass != '123') {
-                            this.$message({
-                                type: 'error',
-                                message: '用户名或密码错误',
-                                showClose: true
-                            })
-                        } else if(this.user.code != '123') {
-                            this.$message({
-                                type: 'error',
-                                message: '验证码填写错误',
-                                showClose: true
-                            })
-                        } else {
+                        let data = {
+                            'userName':this.user.name,
+                            'password':this.user.pass,
+                            'vCode':this.user.code
+                        };
+                        userLogin(data).then(res => {
+                            if(res.code == 0) {
+                                localStorage.clear();
+                                localStorage.setItem('token', res.data);
+                                this.$notify({
+                                    type: 'success',
+                                    message: '欢迎你,' + this.user.name + '!',
+                                    duration: 3000
+                                });
+                                let that = this;
+                                setTimeout(function () {
+                                    // that.$router.push('/content/pageIndex');
+                                    // that.$router.replace('/');
+                                    // window.location.href='http://localhost:8888/#/content/pageIndex';
+                                    // window.location.reload()
+                                    window.close();
+                                    window.open('http://localhost:8888/#/content/pageIndex');
 
-                        }
+                                },1000);
+                            } else if(res.code == 20001) {
+                                this.$message.error('验证码填写错误，请重新输入');
+                            } else if(res.code == 20002) {
+                                this.$message.error('用户名或密码填写错误，请重新输入');
+                            } else {
+                                this.$message.error('网络异常，请稍后再试');
+                            }
+                        }).catch((e) => {});
                     }
                     else {
                         return false
@@ -134,6 +160,15 @@
                 text-align: center;
                 color: orangered;
             }
+        }
+        .code{
+            width: 316px;
+        }
+        .codeImg{
+            width: 100px;
+            height: 50px;
+            display: inline-block;
+            margin: -4px 0 0 20px;
         }
     }
 </style>

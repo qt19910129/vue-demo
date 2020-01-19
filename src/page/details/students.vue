@@ -13,7 +13,9 @@
                 <el-col :span="6" class="tableName">所在校区</el-col>
                 <el-col :span="6">{{studentInfo.classSchoolName}}</el-col>
                 <el-col :span="6" class="tableName">所在班级</el-col>
-                <el-col :span="6">{{studentInfo.className}}</el-col>
+                <el-col :span="6" :title="studentInfo.className">
+                    {{studentInfo.className|ellipsis}}
+                </el-col>
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">班级老师</el-col>
@@ -24,6 +26,7 @@
             <el-row>
                 <el-col :span="6" class="tableName">缴费日期</el-col>
                 <el-col :span="6" v-if="studentInfo.renewTime">{{studentInfo.renewTime.substring(0,10)}}</el-col>
+                <el-col :span="6" v-else></el-col>
                 <el-col :span="6" class="tableName">购课信息</el-col>
                 <el-col :span="6">{{studentInfo.buyClassCount}}</el-col>
             </el-row>
@@ -113,6 +116,7 @@
         getStudent,
         editStudentName,
         getClassList,
+        changeStars
     } from "../../axios/studentSet";
     export default {
         data() {
@@ -127,7 +131,7 @@
                     //     leaveNum:10,
                     // },
                 ],
-                starNum:50,  //星星数量（模拟）
+                starNum:-1,  //星星数量（模拟）
                 option:{
                     backgroundColor: '#F6FAFF',
                     textStyle: {
@@ -205,6 +209,7 @@
                 getStudent(data).then(res => {
                     if(res.code == 0) {
                         this.studentInfo = res.data;
+                        this.starNum = res.data.learningAwards;
                     } else {
                         this.$message.error('网络异常，请稍后再试');
                     }
@@ -314,10 +319,21 @@
                             message: '兑换失败，您输入的星星数量大于已有的星星数量'
                         });
                     } else {
-                        this.$message({
-                            type: 'success',
-                            message: '兑换成功'
-                        });
+                        let data = {
+                            'id':this.$route.params.studentId,
+                            'learningAwards':value
+                        };
+                        changeStars(data).then(res => {
+                            if(res.code == 0) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '兑换成功'
+                                });
+                                this.studentInfo.learningAwards = this.studentInfo.learningAwards * 1 - value;
+                            } else {
+                                this.$message.error('网络异常，请稍后再试');
+                            }
+                        }).catch((e) => {});
                     }
                 }).catch(() => {
                     this.$message({
@@ -330,6 +346,18 @@
                 window.location.href = 'http://47.104.251.161:8080/school/student/export?id=' + this.$route.params.studentId;
 
 
+            }
+        },
+        filters: {
+            ellipsis (value) {
+                if(value) {
+                    let len=value.length;
+                    if (!value) return ''
+                    if (value.length > 20) {
+                        return value.substring(0,15) + '...'
+                    }
+                    return value
+                }
             }
         }
     }

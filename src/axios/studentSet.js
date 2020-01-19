@@ -62,3 +62,15 @@ export function getClassList(query) {
         }
     );
 }
+/**
+ * 兑换星星接口
+ */
+export function changeStars(query) {
+    return request.post(global.domainUrl + "/school/student/integralExchange", query
+        , {
+            headers:{
+                token:global.token
+            }
+        }
+    );
+}

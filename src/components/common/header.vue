@@ -16,12 +16,12 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item icon="el-icon-s-tools" @click.native="passwordVisible = true">修改密码</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-back" @click.native="loginOut()">退出登录</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-user-solid" @click.native="loginIn()">登录</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-user-solid" @click.native="loginIn()" v-if="haveToken == ''">登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
         <!--更改密码弹窗-->
-        <el-dialog title="修改密码" :visible.sync="passwordVisible" :modal-append-to-body="false">
+        <el-dialog title="修改密码" :visible.sync="passwordVisible" :modal-append-to-body="false" :before-close="handleClose">
             <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm">
                 <el-form-item label="原密码" prop="originalPass">
                     <el-input type="password" v-model="passwordForm.originalPass" autocomplete="off"></el-input>
@@ -42,13 +42,16 @@
 </template>
 
 <script>
+    import {
+        modifyPassWord,
+        loginOuts
+    } from "../../axios/header";
     export default {
+        inject:['reload'],
         data() {
             var validatePass1 = (rule, value, callback) => {
                 if(value === '') {
                     callback(new Error('请输入原密码'));
-                } else if(value != this.firstPass) {
-                    callback(new Error('原密码输入错误，请重新输入'));
                 } else {
                     callback();
                 }
@@ -81,7 +84,6 @@
                     pass:'',
                     checkPass:''
                 },
-                firstPass:'123456',
                 passwordRules: {
                     originalPass: [
                         { validator: validatePass1, trigger: 'blur' }
@@ -92,17 +94,42 @@
                     checkPass: [
                         { validator: validatePass2, trigger: 'blur' }
                     ],
-                }
+                },
+                haveToken:'',
             };
 
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.haveToken = localStorage.getItem("token");
+            });
         },
         methods: {
             submitForm(formName) {
                 console.log(this.passwordForm);
                 this.$refs[formName].validate((valid) => {
-
                     if (valid) {
-                        alert('submit!');
+                        let data = {
+                            'oldPassword':this.passwordForm.originalPass,
+                            'password':this.passwordForm.pass,
+                            'passwordConfirm':this.passwordForm.checkPass,
+                        };
+                        modifyPassWord(data).then(res => {
+                            if(res.code == 0) {
+                                this.$message({
+                                    type: 'success',
+                                    message: '密码修改成功，请重新登陆'
+                                });
+                                localStorage.removeItem("token");
+                                setTimeout(function () {
+                                    window.location.href = "http://localhost:8888/#/login";
+                                },1000);
+                            } else if(res.code == 20004) {
+                                this.$message.error('抱歉，您输入的旧密码错误，请重新输入');
+                            } else {
+                                this.$message.error('网络异常，请稍后再试');
+                            }
+                        }).catch((e) => {});
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -118,14 +145,24 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '您已退出登录!'
-                    });
+                    loginOuts('').then(res => {
+                        if(res.code == 0) {
+                            localStorage.clear();
+                            this.$message({
+                                type: 'success',
+                                message: '您已退出登录!'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "http://localhost:8888/#/login";
+                            },1000);
+                        } else {
+                            this.$message.error('网络异常，请稍后再试');
+                        }
+                    }).catch((e) => {});
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: '已取消退出登录'
+                        message: '已取消'
                     });
                 });
             },
@@ -133,6 +170,10 @@
                 this.$router.push({
                     path: `/login`,
                 })
+            },
+            handleClose(done) {
+                this.$refs['passwordForm'].resetFields();
+                this.passwordVisible = false;
             },
         }
     }

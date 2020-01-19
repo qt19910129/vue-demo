@@ -67,21 +67,26 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         const res = response.data;
-        if(res.code == 4) {  //接口验证，返回值为4时，跳转登陆页
-            window.location.href = "http://localhost:8888/#/login";
+        if(res.code == 1) {
+            // Message.error('网络异常，请稍后再试');
+        } else if(res.code == 4000) {
+            if(localStorage.getItem("token") == '' || localStorage.getItem("token") == null || localStorage.getItem("token") == undefined) {
+                tryHideFullScreenLoading();
+                // window.location.href = "http://localhost:8888/#/login";
+            } else {
+                tryHideFullScreenLoading();
+                Message.error('身份验证已过期，请重新登陆');
+                window.location.href = "http://localhost:8888/#/login";
+            }
             return;
-        } else if(res.code == 1) {
-            Message.error('网络异常，请稍后再试');
         } else {
             tryHideFullScreenLoading();
             return Promise.resolve(response.data);
         }
     },
     error => {
-        setTimeout(function () {
-            tryHideFullScreenLoading();
-            Message.error('网络异常，请稍后再试');
-        },5000);
+        tryHideFullScreenLoading();
+        Message.error('网络异常，请稍后再试');
         return Promise.reject(error);
     }
   // /**
