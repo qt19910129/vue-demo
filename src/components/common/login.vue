@@ -89,13 +89,9 @@
                                 });
                                 let that = this;
                                 setTimeout(function () {
-                                    // that.$router.push('/content/pageIndex');
-                                    // that.$router.replace('/');
-                                    // window.location.href='http://localhost:8888/#/content/pageIndex';
-                                    // window.location.reload()
-                                    window.close();
                                     window.open('http://localhost:8888/#/content/pageIndex');
-
+                                    // window.close();
+                                    that.closeWindow();
                                 },1000);
                             } else if(res.code == 20001) {
                                 this.$message.error('验证码填写错误，请重新输入');
@@ -110,6 +106,19 @@
                         return false
                     }
                 })
+            },
+            closeWindow() {
+                var browserName = navigator.appName;
+                if (browserName == "Netscape") {
+                    window.open('', '_self', '');
+                    window.close();
+                }
+                else {
+                    if (browserName == "Microsoft Internet Explorer") {
+                        window.open('', '_parent', '');
+                        window.close();
+                    }
+                }
             }
         },
     }
