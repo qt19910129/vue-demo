@@ -29,7 +29,7 @@
                 <el-button type="primary" @click="goEditClass(1)">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="classSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="classSetData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="name" label="班级名称" align="center"></el-table-column>
                 <el-table-column prop="leadingTeacherName" label="班主任" width="" align="center"></el-table-column>
@@ -44,7 +44,8 @@
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-view" @click="goSeeClass(scope.row.id)">查看</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="goEditClass(2,scope.row.id)">编辑</el-button>
-                        <el-button type="text" icon="el-icon-tickets" @click="classOver(scope.row.id)">结课</el-button>
+                        <el-button type="text" icon="el-icon-tickets" @click="classOver(scope.row.id)" v-if="scope.row.classStatusStr == '进行中'">结课</el-button>
+                        <el-button type="text" icon="el-icon-school" @click="classOn(scope.row.id)" v-if="scope.row.classStatusStr == '已结课'">开课</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -72,6 +73,7 @@
         getSchoolClassList,
         getClassState,
         classOver,
+        classOnIt
     } from "../../axios/classSet";
     export default {
         data() {
@@ -192,6 +194,35 @@
                     this.$message({
                         type: 'info',
                         message: '已取消结课'
+                    });
+                });
+            },
+            classOn(id) {
+                this.$confirm('此操作将为该学员开课, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let data = {
+                        'classId':id
+                    };
+                    classOnIt(data).then(res => {
+                        if(res.code == 0) {
+                            this.$message({
+                                type: 'success',
+                                message: '开课成功!'
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            },1000);
+                        } else {
+                            this.$message.error('网络异常，请稍后再试');
+                        }
+                    }).catch((e) => {});
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消开课'
                     });
                 });
             },

@@ -8,7 +8,7 @@ export function getSignSetList(query) {
     return request.post(global.domainUrl + "/school/register/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function addRegister(query) {
     return request.post(global.domainUrl + "/school/register/add", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function getRemark(query) {
     return request.post(global.domainUrl + "/school/register/edit_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function addRemark(query) {
     return request.post(global.domainUrl + "/school/register/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -56,7 +56,7 @@ export function addPay(query) {
     return request.post(global.domainUrl + "/school/register/toUpdateRenewTimeForId", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -68,7 +68,7 @@ export function deletePay(query) {
     return request.post(global.domainUrl + "/school/register/delete", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -80,7 +80,7 @@ export function getAllArea(query) {
     return request.post(global.domainUrl + "/school/area/getAllArea", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

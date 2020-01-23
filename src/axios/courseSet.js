@@ -8,7 +8,7 @@ export function getCourseList(query) {
     return request.post(global.domainUrl + "/school/curriculum/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function addCourse(query) {
     return request.post(global.domainUrl + "/school/curriculum/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function editCourse(query) {
     return request.post(global.domainUrl + "/school/curriculum/edit_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function editSave(query) {
     return request.post(global.domainUrl + "/school/curriculum/edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

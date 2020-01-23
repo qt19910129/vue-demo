@@ -9,7 +9,7 @@ export function getStudentSetList(query) {
     return request.post(global.domainUrl + "/school/student/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -21,7 +21,7 @@ export function studentRenew(query) {
     return request.post(global.domainUrl + "/school/student/editRenewTime", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -33,7 +33,7 @@ export function getStudent(query) {
     return request.post(global.domainUrl + "/school/student/getStudentInfo", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -45,7 +45,7 @@ export function editStudentName(query) {
     return request.post(global.domainUrl + "/school/student/updateStudentName", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -57,7 +57,7 @@ export function getClassList(query) {
     return request.post(global.domainUrl + "/school/student/getClassList", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -69,7 +69,7 @@ export function changeStars(query) {
     return request.post(global.domainUrl + "/school/student/integralExchange", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

@@ -121,8 +121,9 @@
                                     message: '密码修改成功，请重新登陆'
                                 });
                                 localStorage.removeItem("token");
+                                let that = this;
                                 setTimeout(function () {
-                                    window.location.href = this.GLOBAL.domain + "/#/login";
+                                    window.location.href = that.GLOBAL.domain + "/#/login";
                                 },1000);
                             } else if(res.code == 20004) {
                                 this.$message.error('抱歉，您输入的旧密码错误，请重新输入');
@@ -152,8 +153,11 @@
                                 type: 'success',
                                 message: '您已退出登录!'
                             });
+                            let that = this;
+                            console.log(that.GLOBAL.domain);
                             setTimeout(function () {
-                                window.location.href = this.GLOBAL.domain + "/#/login";
+                                console.log(that.GLOBAL.domain);
+                                window.location.href = that.GLOBAL.domain + "/#/login";
                             },1000);
                         } else {
                             this.$message.error('网络异常，请稍后再试');

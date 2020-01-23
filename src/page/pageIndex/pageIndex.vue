@@ -55,7 +55,7 @@
         <!--续费学员-->
         <div class="renewStudent">
             <div class="renewTitle">续费学员</div>
-            <el-table :data="renewTableData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
+            <el-table :data="renewTableData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
                 <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="studentName" label="学生姓名" align="center"></el-table-column>
                 <el-table-column prop="renewTime" label="续费截止日期" width="120" align="center" :formatter="dateFormat"></el-table-column>
@@ -107,7 +107,7 @@
         <!--今日签到信息-->
         <div class="signMessage">
             <div class="signTitle">今日签到信息</div>
-            <el-table :data="signTableData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="signTableData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="className" label="班级名称" width="" align="center"></el-table-column>
                 <el-table-column prop="teacherName" label="主讲" width="" align="center"></el-table-column>
@@ -391,20 +391,20 @@
             }
         }
         .columnFour-1{
-            /*background: linear-gradient(94deg, #D61CB4, #ED46D1);*/
-            background: url("../../static/img/pageIndex/bg1.png") no-repeat 100% 100%;
+            background: linear-gradient(to bottom, #FEBD12, #FF921D);
+            /*background: url("../../static/img/pageIndex/bg1.png") no-repeat 100% 100%;*/
         }
         .columnFour-2{
-            /*background: linear-gradient(94deg, #F2CB3E, #F2D871);*/
-            background: url("../../static/img/pageIndex/bg2.png") no-repeat 100% 100%;
+            background: linear-gradient(to bottom, #6ACAFF, #5E89FC);
+            /*background: url("../../static/img/pageIndex/bg2.png") no-repeat 100% 100%;*/
         }
         .columnFour-3{
-            /*background: linear-gradient(94deg, #1298D6, #3EB7F0);*/
-            background: url("../../static/img/pageIndex/bg3.png") no-repeat 100% 100%;
+            background: linear-gradient(to bottom, #FE8D47, #F45F58);
+            /*background: url("../../static/img/pageIndex/bg3.png") no-repeat 100% 100%;*/
         }
         .columnFour-4{
-            /*background: linear-gradient(94deg, #ED9064, #FAA77E);*/
-            background: url("../../static/img/pageIndex/bg4.png") no-repeat 100% 100%;
+            background: linear-gradient(to bottom, #8FB0FF, #9F86FF);
+            /*background: url("../../static/img/pageIndex/bg4.png") no-repeat 100% 100%;*/
         }
         .columnTwo{
             margin-top: 20px;
@@ -427,14 +427,14 @@
             }
         }
         .columnTwo-1{
-            /*background: linear-gradient(94deg, #8150F0, #9B6FF7);*/
-            background: url("../../static/img/pageIndex/bg5.png") no-repeat 90% 40%;
-            background-size: 160%;
+            background: linear-gradient(94deg, #B099FA, #6E85F2);
+            /*background: url("../../static/img/pageIndex/bg5.png"),linear-gradient(94deg, #B099FA, #6E85F2) no-repeat;*/
+            background-size: cover;
 
         }
         .columnTwo-2{
-            /*background: linear-gradient(94deg, #F21F55, #FA5A81);*/
-            background: url("../../static/img/pageIndex/bg6.png") no-repeat 90% 40%;
+            background: linear-gradient(94deg, #4C5DFD, #5DABF6);
+            /*background: url("../../static/img/pageIndex/bg6.png") no-repeat 90% 40%;*/
             background-size: 160%;
         }
         @-webkit-keyframes rotaY{

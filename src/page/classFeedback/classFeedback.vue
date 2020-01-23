@@ -23,7 +23,7 @@
             </el-row>
         </el-form>
         <!--数据表格-->
-        <el-table :data="feedBackData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}"
+        <el-table :data="feedBackData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}"
                   @selection-change="handleSelectionChange">
             <el-table-column type="selection" align="center"></el-table-column>
             <el-table-column type="index" label="ID" align="center"></el-table-column>

@@ -62,6 +62,15 @@
         },
         mounted() {
             this.getCode();
+            let that = this;
+            document.onkeydown = function (e) { // 回车提交表单
+                // 兼容FF和IE和Opera
+                var theEvent = window.event || e;
+                var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+                if (code == 13) {
+                    that.login();
+                }
+            }
         },
         methods: {
             getCode() {  //获取验证码图片
@@ -70,7 +79,7 @@
             clickCodeImg() {
                 this.codeSrc = 'http://47.104.251.161:8080' + '/school/index/verificationCode?timer=' + new Date();
             },
-            login () {
+            login() {
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         let data = {
@@ -89,9 +98,11 @@
                                 });
                                 let that = this;
                                 setTimeout(function () {
-                                    window.open(that.GLOBAL.domain+'/#/content/pageIndex');
-                                    // window.close();
-                                    that.closeWindow();
+                                    // window.open(that.GLOBAL.domain+'/#/content/pageIndex');
+                                    // that.closeWindow();
+                                    that.$router.push({
+                                        path: `/content/pageIndex`,
+                                    })
                                 },1000);
                             } else if(res.code == 20001) {
                                 this.$message.error('验证码填写错误，请重新输入');

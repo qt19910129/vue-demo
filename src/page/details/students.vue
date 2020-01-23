@@ -44,7 +44,7 @@
             </el-row>
             <el-row>
                 <el-col :span="6" class="tableName">出生日期</el-col>
-                <el-col :span="6">{{studentInfo.birthday}}</el-col>
+                <el-col :span="6">{{studentInfo.birthday | formatDate}}</el-col>
                 <el-col :span="6" class="tableName">宝宝性别</el-col>
                 <el-col :span="6">
                     <span v-if="studentInfo.birthday == 1">男</span>
@@ -84,7 +84,7 @@
         </div>
         <div class="tit">上课信息<el-button type="text" icon="el-icon-download" class="fr" @click="load()">导出</el-button></div>
         <!--数据表格-->
-        <el-table :data="studentClassData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+        <el-table :data="studentClassData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column prop="subject" label="科目" align="center"></el-table-column>
             <el-table-column prop="zk" label="课时" align="center"></el-table-column>
             <el-table-column prop="kh" label="课耗" align="center"></el-table-column>
@@ -118,6 +118,7 @@
         getClassList,
         changeStars
     } from "../../axios/studentSet";
+    import {formatDate} from "../../components/common/date"
     export default {
         data() {
             return {
@@ -358,6 +359,10 @@
                     }
                     return value
                 }
+            },
+            formatDate (time) {
+                let date = new Date(time);
+                return formatDate(date, 'yyyy-MM-dd')
             }
         }
     }

@@ -36,7 +36,7 @@
                 <el-button type="primary" @click="saveData()">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="courseSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="courseSetData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column type="index" label="ID" align="center"></el-table-column>
                 <el-table-column prop="subject" label="科目" align="center"></el-table-column>
                 <el-table-column prop="rank" label="课程级别" align="center"></el-table-column>

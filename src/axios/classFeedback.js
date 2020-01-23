@@ -8,7 +8,7 @@ export function getClassFeedbackList(query) {
     return request.post(global.domainUrl + "/school/feedbackAfterClass/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function getClassTeacher(query) {
     return request.post(global.domainUrl + "/school/teacher/selectTeachersBySchoolId", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function deleteOneFeedback(query) {
     return request.post(global.domainUrl + "/school/feedbackAfterClass/deleteFeedBackTeacherStudent", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function deleteMoreFeedback(query) {
     return request.post(global.domainUrl + "/school/feedbackAfterClass/batchDelFeedBackTeacherStudent", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

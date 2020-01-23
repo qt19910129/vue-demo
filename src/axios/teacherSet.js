@@ -8,7 +8,7 @@ export function getTeacherList(query) {
     return request.post(global.domainUrl + "/school/teacher/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function addTeacher(query) {
     return request.post(global.domainUrl + "/school/teacher/add", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function editTeacher(query) {
     return request.post(global.domainUrl + "/school/teacher/edit_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function saveEdit(query) {
     return request.post(global.domainUrl + "/school/teacher/edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -56,7 +56,7 @@ export function resetPassword(query) {
     return request.post(global.domainUrl + "/school/teacher/password_reset", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -68,7 +68,7 @@ export function getClassList(query) {
     return request.post(global.domainUrl + "/school/teacher/teachingClass", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -80,7 +80,7 @@ export function getTeacheringDetail(query) {
     return request.post(global.domainUrl + "/school/teacher/teachingClassDetail", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

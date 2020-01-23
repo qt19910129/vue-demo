@@ -8,7 +8,7 @@ export function getSchoolIntroduce(query) {
     return request.post(global.domainUrl + "/school/schoolIntroduce/selectSchoolIntroduce", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function saveSchoolIntroduce(query) {
     return request.post(global.domainUrl + "/school/schoolIntroduce/saveSchoolIntroduce", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

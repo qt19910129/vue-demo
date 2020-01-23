@@ -9,7 +9,7 @@ export function getLevelList(query) {
     return request.post(global.domainUrl + "/school/dictionary/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -21,7 +21,7 @@ export function saveLevel(query) {
     return request.post(global.domainUrl + "/school/dictionary/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -33,7 +33,7 @@ export function showLevel(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -45,7 +45,7 @@ export function saveEdit(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

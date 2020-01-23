@@ -26,7 +26,7 @@ export default {
     },
   name: 'App',
     mounted:function(){
-        console.log(this.GLOBAL.domainUrl);
+        console.log(this.GLOBAL.domain);
 
     }
 

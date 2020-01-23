@@ -8,7 +8,7 @@ export function allData(query) {
     return request.post(global.domainUrl + "/school/schoolIndex/indexData", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function renewData(query) {
     return request.post(global.domainUrl + "/school/student/payStudentList", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function signInData(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/queryAttendance", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function noSignData(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/queryAttendanceStudentList", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

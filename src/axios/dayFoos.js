@@ -8,7 +8,7 @@ export function getDayFoodList(query) {
     return request.post(global.domainUrl + "/school/menu/list_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function foodSava(query) {
     return request.post(global.domainUrl + "/school/menu/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function foodShowHide(query) {
     return request.post(global.domainUrl + "/school/menu/status", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function foodEditData(query) {
     return request.post(global.domainUrl + "/school/menu/menu_edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

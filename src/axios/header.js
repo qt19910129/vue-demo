@@ -8,7 +8,7 @@ export function modifyPassWord(query) {
     return request.post(global.domainUrl + "/school/index/changepwd", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function loginOuts(query) {
     return request.post(global.domainUrl + "/school/index/loginOut", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

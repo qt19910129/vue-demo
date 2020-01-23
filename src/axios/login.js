@@ -9,7 +9,7 @@ export function userLogin(query) {
     return request.post(global.domainUrl + "/school/index/login", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

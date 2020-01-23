@@ -50,7 +50,7 @@
             </div>
             <div class="tit">领用信息</div>
             <!--数据表格-->
-            <el-table :data="goodsDetailData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="goodsDetailData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column prop="user" label="领取用户" align="center"></el-table-column>
                 <el-table-column prop="state" label="领取类型" align="center"></el-table-column>
                 <el-table-column prop="num" label="领取数量" align="center"></el-table-column>

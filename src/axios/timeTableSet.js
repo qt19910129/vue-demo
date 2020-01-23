@@ -7,7 +7,7 @@ export function getTimeTableSetList(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -19,7 +19,7 @@ export function getTimeTableSetList_add(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/curriculumArrangement_add", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -31,7 +31,7 @@ export function getTimeTableSetList_save(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -43,7 +43,7 @@ export function getTimeTableSetList_edit(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/curriculumArrangement_edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -55,7 +55,7 @@ export function removeClass(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/delete",query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -67,7 +67,7 @@ export function curriculumArrangement_plAdd(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/curriculumArrangement_plAdd",query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -79,7 +79,7 @@ export function plSave(query) {
     return request.post(global.domainUrl + "/school/curriculumArrangement/plSave",query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

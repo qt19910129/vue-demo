@@ -39,7 +39,7 @@
                 <el-button type="primary" @click="isAdd">新增</el-button>
             </div>
             <!--数据表格-->
-            <el-table :data="teacherSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;min-height: 440px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+            <el-table :data="teacherSetData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;min-height: 440px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
                 <el-table-column type="index" label="ID" width="" align="center"></el-table-column>
                 <el-table-column prop="name" label="教师名称" width="" align="center"></el-table-column>
                 <el-table-column prop="mobile" label="联系电话" width="" align="center" width="200"></el-table-column>

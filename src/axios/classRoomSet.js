@@ -8,7 +8,7 @@ export function getClassRoomList(query) {
     return request.post(global.domainUrl + "/school/classRoom/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function addClassRoom(query) {
     return request.post(global.domainUrl + "/school/classRoom/saveClassRoom", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function editClassRoom(query) {
     return request.post(global.domainUrl + "/school/classRoom/selectClassRoomById", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -44,7 +44,7 @@ export function saveEdit(query) {
     return request.post(global.domainUrl + "/school/classRoom/updateClassRoom", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

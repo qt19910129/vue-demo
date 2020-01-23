@@ -7,7 +7,7 @@ export function getSubjectList(query) {
     return request.post(global.domainUrl + "/school/dictionary/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -19,7 +19,7 @@ export function addSubject(query) {
     return request.post(global.domainUrl + "/school/dictionary/save", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -31,7 +31,7 @@ export function editShow(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit_page", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -43,7 +43,7 @@ export function editSave(query) {
     return request.post(global.domainUrl + "/school/dictionary/edit", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

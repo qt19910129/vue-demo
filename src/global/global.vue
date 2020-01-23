@@ -9,7 +9,8 @@
     const hasEnter=false;
     const userSite="中国钓鱼岛";
     const domainUrl = 'http://47.104.251.161:8080';
-    const domain = 'http://test.school.yiyatalk.com';
+    // const domain = 'http://test.school.yiyatalk.com';
+    const domain = 'http://localhost:8888';
     //欣宇本地 http://192.168.0.191:8080
     //测试环境 http://47.104.251.161:8080
     export default {

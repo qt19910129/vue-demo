@@ -8,7 +8,7 @@ export function getSchoolNoticeList(query) {
     return request.post(global.domainUrl + "/school/schoolNotice/list", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -20,7 +20,7 @@ export function saveSchoolNotice(query) {
     return request.post(global.domainUrl + "/school/schoolNotice/saveSchoolNotice", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );
@@ -32,7 +32,7 @@ export function deleteSchoolNotice(query) {
     return request.post(global.domainUrl + "/school/schoolNotice/removeSchoolNotice", query
         , {
             headers:{
-                token:global.token
+                token:localStorage.getItem("token")
             }
         }
     );

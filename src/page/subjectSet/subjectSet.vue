@@ -5,7 +5,7 @@
             <el-button type="primary" @click="addSub()">新增</el-button>
         </div>
         <!--数据表格-->
-        <el-table :data="subjectSetData" border style="width: 100%;border: 2px solid #ccc;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
+        <el-table :data="subjectSetData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="signTable">
             <el-table-column type="index" label="ID" align="center"></el-table-column>
             <el-table-column prop="name" label="科目" align="center"></el-table-column>
             <el-table-column prop="describe" label="科目说明" align="center"></el-table-column>
