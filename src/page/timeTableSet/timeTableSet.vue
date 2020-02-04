@@ -9,10 +9,10 @@
                     {{ data.day.split('-').slice(1).join('-') }}
                 </p>
                 <div v-for="a in timeTableList" v-if="data.day == a.arrangeDate && timeTableList.child != [] && data.type == 'current-month'">
-                    <div v-for="b in a.child" @click="goAddTimeTable(2,b.caId)">
+                    <div v-for="b in a.child" @click="goAddTimeTable(2,b.caId,b.arrangeBegintime)">
                         <el-dropdown>
                             <el-button type="primary">
-                                {{b.className}}
+                                {{b.className | ellipsis}}
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <!--{{data}}-->
-                <span class="addClass" v-if="data.type == 'current-month'" @click="goAddTimeTable(1,data.day)">+</span>
+                <span class="addClass" v-if="data.type == 'current-month'" @click="goAddTimeTable(1,data.day,data.day)">+</span>
             </template>
         </el-calendar>
         <div class="moreAddClass">
@@ -51,33 +51,7 @@
     export default {
         data() {
             return {
-                timeTableList:[
-                    // {
-                    //     day:'2019-10-11',
-                    //     num:1,
-                    //     name:'hha',
-                    //     child:[
-                    //         {
-                    //             className:'数学',
-                    //             time:'2019-10-11 08:00 -- 2019-10-11-12:00',
-                    //             classRoom:'在线教育部A教室',
-                    //             subName:'智障培训',
-                    //             subject:'第一节课',
-                    //             teacher1:'王老师',
-                    //             teacher2:'李老师'
-                    //         },
-                    //         {
-                    //             className:'语文',
-                    //             time:'2019-10-11 08:00 -- 2019-10-11-12:00',
-                    //             classRoom:'在线教育部A教室',
-                    //             subName:'智障培训',
-                    //             subject:'第一节课',
-                    //             teacher1:'王老师1',
-                    //             teacher2:'李老师1'
-                    //         }
-                    //     ]
-                    // }
-                ],
+                timeTableList:[],
                 value: new Date(),
                 year:'',
                 mounth:'',
@@ -85,11 +59,26 @@
             }
         },
         methods:{
-            goAddTimeTable(edit,today) {   //跳转新增修改排课详情，1为新增 2为修改
-                if(edit == 1) {
-                    this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { dates: today }});
+            goAddTimeTable(edit,today,arrangeBegintime) {   //跳转新增修改排课详情，1为新增 2为修改
+                let nowTime = new Date().getTime();
+                let startTime;
+                if(arrangeBegintime.length > 10) {
+                    startTime = arrangeBegintime + ':00';
                 } else {
-                    this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { caId: today }});
+                    startTime = arrangeBegintime + ' 00:00';
+                }
+                startTime = new Date(startTime).getTime();
+                if(startTime >= nowTime) {
+                    if(edit == 1) {
+                        this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { dates: today }});
+                    } else {
+                        this.$router.push({ path: `/content/details/addTimeTable/${edit}`, query: { caId: today }});
+                    }
+                } else {
+                    this.$message({
+                        message: '当前时间大于您需要添加/修改的时间，不能执行此操作',
+                        type: 'warning'
+                    });
                 }
             },
             goMoreTimeTable() {   //跳转批量排课
@@ -126,6 +115,15 @@
         },
         created() {
             this.getremarksList();
+        },
+        filters: {
+            ellipsis (value) {
+                if (!value) return '';
+                if (value.length > 10) {
+                    return value.slice(0,10) + '...'
+                }
+                return value
+            }
         },
         watch: {
             value: function(val, oldVal) {

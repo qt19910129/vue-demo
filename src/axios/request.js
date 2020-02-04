@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Message, Loading } from "element-ui";
+import g from "../global/global";
 import qs from 'qs'
 
 //loading设置 START
@@ -68,7 +69,10 @@ service.interceptors.response.use(
     response => {
         const res = response.data;
         if(res.code == 1) {
-            // Message.error('网络异常，请稍后再试');
+            Message.error('网络异常，请稍后再试');
+            setTimeout(function () {
+                tryHideFullScreenLoading();
+            },2000);
         } else if(res.code == 4000) {
             if(localStorage.getItem("token") == '' || localStorage.getItem("token") == null || localStorage.getItem("token") == undefined) {
                 tryHideFullScreenLoading();
@@ -76,7 +80,11 @@ service.interceptors.response.use(
             } else {
                 tryHideFullScreenLoading();
                 Message.error('身份验证已过期，请重新登陆');
-                window.location.href = this.GLOBAL.domain + "/#/login";
+                localStorage.removeItem("token");
+                localStorage.removeItem("teacherName");
+                setTimeout(function () {
+                    window.location.href = g.domain + "/#/login";
+                },1000);
             }
             return;
         } else {

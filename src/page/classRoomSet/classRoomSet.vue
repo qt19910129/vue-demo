@@ -82,7 +82,16 @@
                     ],
                     peopleNum: [
                         { required: true, message: '请输入容纳人数', trigger: 'blur' },
-                        { type: 'number', message: '容纳人数必须为数字值'}
+                        { type: 'number', message: '容纳人数必须为数字值'},
+                        {
+                            validator(rule, value, callback) {
+                                if(value < 0) {
+                                    callback(new Error('容纳人数不能为负数'));
+                                } else {
+                                    callback();
+                                }
+                            }
+                        }
                     ],
                 },
                 currentPage:1,  //分页默认选中哪页

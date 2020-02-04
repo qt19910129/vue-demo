@@ -33,6 +33,7 @@
                 <el-col :span="4">
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 20px;">搜索</el-button>
+                        <el-button @click="dataReset()">重置</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -172,9 +173,7 @@
         data() {
             var checkphone = (rule, value, callback) => {
                 // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
-                if (value == "") {
-                    callback(new Error("请输入联系电话"));
-                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                if (!this.isCellPhone(value) && value.length > 0) {//引入methods中封装的检查手机格式的方法
                     callback(new Error("请输入正确的11位手机号码!"));
                 } else {
                     callback();
@@ -189,7 +188,7 @@
                 },
                 rules: {
                     phoneNum: [
-                        { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
+                        { required: true, validator: checkphone, trigger: 'blur' },
                     ],
                     stuName: [],
                     date1: [],
@@ -233,7 +232,16 @@
                     ],
                     payNum: [
                         { required: true, message: '请输入课时数', trigger: 'blur' },
-                        { type: 'number', message: '请输入正确的课时数'}
+                        { type: 'number', message: '请输入正确的课时数'},
+                        {
+                            validator(rule, value, callback) {
+                                if(value < 0) {
+                                    callback(new Error('课时数不能为负数'));
+                                } else {
+                                    callback();
+                                }
+                            }
+                        }
                     ],
                 },
                 currentPage:1,  //分页默认选中哪页
@@ -277,8 +285,24 @@
                     'page':this.page
                 };
                 getSignSetList(data).then(res => {
-                    // console.log(res.data);
-                    // console.log(res.data.jqGirdPage.rows);
+                    this.records = res.data.jqGirdPage.records;
+                    this.signSetData = res.data.jqGirdPage.rows;
+                    if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                        this.pageValue = true;
+                    }
+                }).catch((e) => {});
+            },
+            dataReset() {  //重置搜索
+                this.$refs['ruleForm'].resetFields();
+                this.ruleForm.date2 = '';
+                let data = {
+                    'rows':10,
+                    'page':1
+                };
+                this.rows = 10;
+                this.currentPage = 1;
+                this.page = 1;
+                getSignSetList(data).then(res => {
                     this.records = res.data.jqGirdPage.records;
                     this.signSetData = res.data.jqGirdPage.rows;
                     if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
@@ -297,6 +321,9 @@
                             });
                         } else {
                             // console.log(this.ruleForm.date1);
+                            this.rows = 10;
+                            this.currentPage = 1;
+                            this.page = 1;
                             let data = {
                                 'mobile':this.ruleForm.phoneNum,
                                 'kidName':this.ruleForm.stuName,

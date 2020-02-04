@@ -4,7 +4,7 @@
             <el-form-item label="学校主图" prop="name">
                 <el-upload
                         class="upload-demo"
-                        action="http://192.168.0.183:8080/school/fileUpload/upload"
+                        action="http://47.104.251.161:8080/school/fileUpload/upload"
                         :headers="{token:9999}"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
@@ -15,7 +15,7 @@
                         :before-upload="beforeAvatarUpload"
                         :on-change="imgChange">
                     <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，大小不超过2MB，且只能上传一张主图</div>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，大小不超过2MB，且只能上传<span style="color: red;">一张主图</span>，如要重新上传，请先删除原图</div>
                 </el-upload>
             </el-form-item>
             <el-form-item label="联系人" prop="name">
@@ -146,8 +146,7 @@
                         { required: true, message: '请输详细介绍', trigger: 'blur' },
                     ],
                 },
-                fileList: [{ url: '' }],
-
+                fileList: [],
                 dat: {
                     content: ''
                 },
@@ -162,7 +161,7 @@
                         }
                     }
                 },
-                siId:-1  //简介id
+                siId:''  //简介id
             }
         },
         mounted() {
@@ -205,7 +204,8 @@
                 return (isJPG || isPng) && isLt2M;
             },
             imgChange(file,fileList) {
-                // console.log(fileList,22222);
+                // console.log(file);
+                // this.fileList.push(file);
             },
             submitForm(formName) {
                 if(this.imageUrl.length < 1) {
@@ -258,13 +258,20 @@
             getData() {  //获取数据
                 getSchoolIntroduce('').then(res => {
                     if(res.code == 0) {
+                        if(res.code != null || res.data.cover != null) {
+                            let schoolCover = {
+                                'name':'img',
+                                'url':res.data.cover
+                            };
+                            this.fileList.push(schoolCover);
+                        }
                         this.imageUrl = res.data.cover;
                         this.ruleForm.phoneNum = res.data.phone;
                         this.ruleForm.address = res.data.address;
                         this.ruleForm.name = res.data.contact;
                         this.ruleForm.content = res.data.content;
-                        this.fileList[0].url = res.data.cover;
-                        this.siId = res.data.siId;
+                        // this.fileList[0].url = res.data.cover;
+                        this.siId = res.data.siId * 1;
                     } else {
                         this.$message.error('网络异常，请稍后再试');
                     }

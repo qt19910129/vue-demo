@@ -9,7 +9,7 @@
         <div class="user">
             <el-dropdown>
                 <div class="el-dropdown-link">
-                    <span style="position: relative;top: 1px;">用户名</span>
+                    <span style="position: relative;top: 1px;">{{teacherName}}</span>
                     <img src="../../static/img/common/triangle-icon.png" class="triangle-icon">
                     <img src="../../static/img/common/user-icon.png">
                 </div>
@@ -96,6 +96,7 @@
                     ],
                 },
                 haveToken:'',
+                teacherName:'用户名'
             };
 
         },
@@ -103,10 +104,12 @@
             this.$nextTick(() => {
                 this.haveToken = localStorage.getItem("token");
             });
+            if(localStorage.getItem("teacherName")) {
+                this.teacherName = localStorage.getItem("teacherName");
+            }
         },
         methods: {
             submitForm(formName) {
-                console.log(this.passwordForm);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let data = {
@@ -121,6 +124,7 @@
                                     message: '密码修改成功，请重新登陆'
                                 });
                                 localStorage.removeItem("token");
+                                localStorage.removeItem("teacherName");
                                 let that = this;
                                 setTimeout(function () {
                                     window.location.href = that.GLOBAL.domain + "/#/login";
@@ -139,6 +143,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+                this.passwordVisible = false;
             },
             loginOut() {  //退出登录
                 this.$confirm('此操作将退出登录, 是否继续?', '提示', {
@@ -148,15 +153,14 @@
                 }).then(() => {
                     loginOuts('').then(res => {
                         if(res.code == 0) {
-                            localStorage.clear();
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("teacherName");
                             this.$message({
                                 type: 'success',
                                 message: '您已退出登录!'
                             });
                             let that = this;
-                            console.log(that.GLOBAL.domain);
                             setTimeout(function () {
-                                console.log(that.GLOBAL.domain);
                                 window.location.href = that.GLOBAL.domain + "/#/login";
                             },1000);
                         } else {
@@ -222,7 +226,7 @@
             }
         }
         .user{
-            width: 160px;
+            /*width: 160px;*/
             height: 100%;
             line-height: 100%;
             background: #edf4fa;
@@ -231,6 +235,7 @@
             display: -webkit-flex;
             align-items: center;
             justify-content: center;
+            padding: 0 20px;
             .triangle-icon{
                 margin: 0 10px;
             }

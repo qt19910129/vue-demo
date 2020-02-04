@@ -16,11 +16,11 @@
                 </p>
                 <div v-for="a in dayFoodList" v-if="data.day == a.mDate && dayFoodList.child != [] && data.type == 'current-month'">
                     <div v-for="b in a.child">
-                        <span class="foodStyle" @click="goFoods(2,a.mDate,b.mId)">{{b.mName}}</span>
+                        <span class="foodStyle" @click="goFoods(2,a.mDate,b.mId,b.menuEndtime)">{{b.mName}}</span>
                     </div>
                 </div>
                 <!--{{data}}-->
-                <span class="addFood" v-if="data.type == 'current-month'" @click="goFoods(1,data.day)">+</span>
+                <span class="addFood" v-if="data.type == 'current-month'" @click="goFoods(1,data.day,-1,data.day)">+</span>
             </template>
         </el-calendar>
     </div>
@@ -72,17 +72,28 @@
                     } else if(res.data.show == 0) {
                         this.showHide = true;
                     }
-                    console.log(this.dayFoodList);
                 }).catch((e) => {});
             },
-            goFoods(edit,today,mId) {   //跳转新增修改食谱，1为新增 2为修改
-                if(edit == 1) {
-                    this.$router.push({
-                        path: `/content/details/foods/${edit}`, query: { dates: today },
-                    });
-                } else if(edit == 2) {
-                    this.$router.push({
-                        path: `/content/details/foods/${edit}`, query: { dates: today,mId: mId },
+            goFoods(edit,today,mId,menuEndtime) {   //跳转新增修改食谱，1为新增 2为修改
+                let nowTime = new Date().getTime();
+                if(menuEndtime.length == 10) {
+                    menuEndtime = menuEndtime + ' 23:59'
+                }
+                let startTime = new Date(menuEndtime).getTime();
+                if(startTime > nowTime) {
+                    if(edit == 1) {
+                        this.$router.push({
+                            path: `/content/details/foods/${edit}`, query: { dates: today },
+                        });
+                    } else if(edit == 2) {
+                        this.$router.push({
+                            path: `/content/details/foods/${edit}`, query: { dates: today,mId: mId },
+                        });
+                    }
+                } else {
+                    this.$message({
+                        message: '当前时间大于您需要添加/修改的时间，不能执行此操作',
+                        type: 'warning'
                     });
                 }
             },
@@ -173,6 +184,7 @@
             font-size: 12px;
             line-height: 12px;
             cursor: pointer;
+            word-break: break-word;
         }
     }
 </style>

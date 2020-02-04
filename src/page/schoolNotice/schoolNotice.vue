@@ -11,6 +11,7 @@
                 <el-col :span="18">
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+                        <el-button @click="dataReset()">重置</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -201,6 +202,27 @@
             this.getList();  //列表数据
         },
         methods: {
+            dataReset() {  //重置搜索
+                this.$refs['ruleForm'].resetFields();
+                let data = {
+                    'rows':10,
+                    'page':1
+                };
+                this.rows = 10;
+                this.currentPage = 1;
+                this.page = 1;
+                getSchoolNoticeList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.jqGirdPage.records;
+                        this.noticeData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -210,6 +232,9 @@
                                 type: 'warning'
                             });
                         } else {
+                            this.rows = 10;
+                            this.currentPage = 1;
+                            this.page = 1;
                             let data = {
                                 'title':this.ruleForm.noticeName,
                                 'rows':1,

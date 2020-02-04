@@ -1,5 +1,7 @@
 <template>
-    <div>海报推广</div>
+    <div class="goHtml">
+       <a href="http://www.eqxiu.com" target="_blank">http://www.eqxiu.com</a>
+    </div>
 </template>
 
 <script>
@@ -8,6 +10,11 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+    .goHtml{
+        font-size: 14px;
+        a{
+            color: #333;
+        }
+    }
 </style>

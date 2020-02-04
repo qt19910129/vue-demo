@@ -53,12 +53,13 @@
                 <div class="tableBox">{{addLesson}}</div>
             </el-form-item>
             <el-form-item label="消耗课时" prop="classNum">
-                <el-input v-model.number="ruleForm.classNum"></el-input>
+                <el-input v-model="ruleForm.classNum"></el-input>
             </el-form-item>
             <el-form-item>
                 <!--新增-->
-                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" v-if="edit == 1">立即创建</el-button>
                 <!--编辑-->
+                <el-button type="primary" @click="submitForm('ruleForm')" v-if="edit == 2">保存</el-button>
                 <el-button type="danger" @click="removeClass" v-if="edit == 2">删除</el-button>
                 <el-button @click="resetForm()">取消</el-button>
             </el-form-item>
@@ -75,6 +76,17 @@
     } from "../../axios/timeTableSet";
     export default {
         data() {
+            var checkNum = (rule, value, callback) => {
+                if (value == null || value == '' || value == undefined) {
+                    callback(new Error("请输入消耗课时"));
+                } else if(isNaN(value)) {
+                    callback(new Error("请输入正确的消耗课时"));
+                } else if (value < 0) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("消耗课时不能小于0"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 addDate:'',  //排课时间
                 addClass:[],  //选择班级数据
@@ -123,8 +135,7 @@
                         { required: true, message: '请选择科目', trigger: 'change' }
                     ],
                     classNum: [
-                        { required: true, message: '请输入单次消耗课时数', trigger: 'blur' },
-                        { type: 'number', message: '请输入正确的消耗课时'}
+                        { required: true, validator: checkNum, trigger: 'blur' },
                     ],
                 },
                 edit:-1, //获取新增或者编辑 1新增 2编辑
@@ -275,7 +286,7 @@
                             }
                         }).catch((e) => {});
                     } else {
-                        this.error();
+                        this.$message.error('您的输入有误，请检查您填写的内容');
                         return false;
                     }
                 });

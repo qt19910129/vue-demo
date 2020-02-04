@@ -18,6 +18,7 @@
                 <el-col :span="12">
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+                        <el-button @click="dataReset()">重置</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -100,6 +101,27 @@
             this.classState();  //获取班级状态
         },
         methods: {
+            dataReset() {  //重置搜索
+                this.$refs['ruleForm'].resetFields();
+                let data = {
+                    'rows':10,
+                    'page':1
+                };
+                this.rows = 10;
+                this.currentPage = 1;
+                this.page = 1;
+                getSchoolClassList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.jqGirdPage.records;
+                        this.classSetData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
             getList() {  //获取数据列表
                 let data = {
                     'rows':this.rows,
@@ -131,12 +153,15 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        if(this.ruleForm.className == '' && this.ruleForm.classState == '') {
+                        if(this.ruleForm.className === '' && this.ruleForm.classState === '') {
                             this.$message({
                                 message: '请输入您要搜索的内容',
                                 type: 'warning'
                             });
                         } else {
+                            this.rows = 10;
+                            this.currentPage = 1;
+                            this.page = 1;
                             let data = {
                                 'className':this.ruleForm.className,
                                 'classStatus':this.ruleForm.classState,

@@ -81,6 +81,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitserchTeacherForm('serchTeacherForm')">查询</el-button>
+                    <el-button @click="teacherReset()">重置</el-button>
                 </el-form-item>
             </el-form>
             <!--老师标签名字-->
@@ -148,6 +149,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitserchStuForm('serchStuForm')">查询</el-button>
+                    <el-button @click="studentReset()">重置</el-button>
                 </el-form-item>
             </el-form>
             <!--学生标签名字-->
@@ -245,9 +247,7 @@
         data() {
             var checkphone = (rule, value, callback) => {
                 // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
-                if (value == "") {
-                    callback(new Error("请输入联系电话"));
-                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                if (!this.isCellPhone(value) && value.length > 0) {//引入methods中封装的检查手机格式的方法
                     callback(new Error("请输入正确的11位手机号码!"));
                 } else {
                     callback();
@@ -296,6 +296,7 @@
                 },
                 serchTeacherRules: {
                     phone: [
+                        { required: true, validator: checkphone, trigger: 'blur' },
                     ],
                     name: [
                     ],
@@ -316,7 +317,9 @@
                     state:''
                 },
                 serchStuRules: {
-                    phone: [],
+                    phone: [
+                        { required: true, validator: checkphone, trigger: 'blur' },
+                    ],
                     name: [],
                     state: [],
                 },
@@ -374,6 +377,8 @@
                 let data = {
                     'rows':this.rows1,
                     'page':this.page1,
+                    'name':this.serchTeacherForm.name,
+                    'phone':this.serchTeacherForm.phone,
                 };
                 classTeachers(data).then(res => {
                     if(res.code == 0) {
@@ -402,6 +407,9 @@
                 let data = {
                     'rows':this.rows2,
                     'page':this.page2,
+                    'name':this.serchStuForm.name,
+                    'phone':this.serchStuForm.phone,
+                    'inClass':this.serchStuForm.state,
                 };
                 classStudent(data).then(res => {
                     if(res.code == 0) {
@@ -501,11 +509,60 @@
                 });
             },
             resetAddForm(formName) {  //新增取消
-                this.$refs[formName].resetFields();
-                this.$message({
-                    type: 'info',
-                    message: '取消输入'
+                this.$confirm('此操作将返回上一页, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    history.back(-1);
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
                 });
+            },
+            studentReset() {  //重置查询学生
+                this.$refs['serchStuForm'].resetFields();
+                let data = {
+                    'page':1,
+                    'rows':5
+                };
+                this.rows2 = 5;
+                this.currentPage2 = 1;
+                this.page2 = 1;
+                classStudent(data).then(res => {
+                    if(res.code == 0) {
+                        this.records2 = res.data.jqGirdPage.records;
+                        this.stuTable = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 5) {  //小于10条时 隐藏分页
+                            this.pageValue2 = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
+            teacherReset() {  //重置查询老师
+                this.$refs['serchTeacherForm'].resetFields();
+                let data = {
+                    'page':1,
+                    'rows':5
+                };
+                this.rows1 = 5;
+                this.currentPage1 = 1;
+                this.page1 = 1;
+                classTeachers(data).then(res => {
+                    if(res.code == 0) {
+                        this.records1 = res.data.jqGirdPage.records;
+                        this.teacherTable = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 5) {  //小于10条时 隐藏分页
+                            this.pageValue1 = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
             },
             submitserchTeacherForm(formName) {  //弹窗查询老师
                 this.$refs[formName].validate((valid) => {
@@ -518,10 +575,13 @@
                         } else {
                             let data = {
                                 'name':this.serchTeacherForm.name,
-                                'mobile':this.serchTeacherForm.phone,
+                                'phone':this.serchTeacherForm.phone,
                                 'page':1,
-                                'rows':10
+                                'rows':5
                             };
+                            this.rows1 = 5;
+                            this.currentPage1 = 1;
+                            this.page1 = 1;
                             classTeachers(data).then(res => {
                                 if(res.code == 0) {
                                     this.records1 = res.data.jqGirdPage.records;
@@ -599,8 +659,11 @@
                                 'phone':this.serchStuForm.phone,
                                 'inClass':this.serchStuForm.state,
                                 'page':1,
-                                'rows':10
+                                'rows':5
                             };
+                            this.rows2 = 5;
+                            this.currentPage2 = 1;
+                            this.page2 = 1;
                             classStudent(data).then(res => {
                                 if(res.code == 0) {
                                     this.records2 = res.data.jqGirdPage.records;

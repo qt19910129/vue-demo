@@ -16,6 +16,7 @@
                 <el-col :span="12">
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+                        <el-button @click="dataReset()">重置</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -86,9 +87,7 @@
         data() {
             var checkphone = (rule, value, callback) => {
                 // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
-                if (value == "") {
-                    callback(new Error("请输入联系电话"));
-                } else if (!this.isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
+                if (!this.isCellPhone(value) && value.length > 0) {//引入methods中封装的检查手机格式的方法
                     callback(new Error("请输入正确的11位手机号码!"));
                 } else {
                     callback();
@@ -101,7 +100,9 @@
                 },
                 rules: {
                     name: [],
-                    phoneNum: [],
+                    phoneNum: [
+                        { validator: checkphone, trigger: 'blur' },
+                    ],
                 },
                 studentSetData:[],  //数据
                 dialogFormVisible:false, //续费弹窗
@@ -131,6 +132,27 @@
             this.getList();  //列表数据
         },
         methods: {
+            dataReset() {  //重置搜索
+                this.$refs['ruleForm'].resetFields();
+                let data = {
+                    'rows':10,
+                    'page':1
+                };
+                this.rows = 10;
+                this.currentPage = 1;
+                this.page = 1;
+                getStudentSetList(data).then(res => {
+                    if(res.code == 0) {
+                        this.records = res.data.jqGirdPage.records;
+                        this.studentSetData = res.data.jqGirdPage.rows;
+                        if(res.data.jqGirdPage.records <= 10) {  //小于10条时 隐藏分页
+                            this.pageValue = true;
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            },
             getList() {  //获取数据列表
                 let data = {
                     'rows':this.rows,
@@ -151,12 +173,15 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        if(this.ruleForm.name == '' && this.ruleForm.phoneNum == '') {
+                        if(this.ruleForm.name === '' && this.ruleForm.phoneNum === '') {
                             this.$message({
                                 message: '请输入您要搜索的内容',
                                 type: 'warning'
                             });
                         } else {
+                            this.rows = 10;
+                            this.currentPage = 1;
+                            this.page = 1;
                             let data = {
                                 'name':this.ruleForm.name,
                                 'phone':this.ruleForm.phoneNum,

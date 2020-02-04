@@ -16,7 +16,7 @@
                         </el-form-item>
                         <el-form-item prop="code">
                             <el-input v-model="user.code" placeholder="请输入验证码" class="code" :maxlength="4"></el-input>
-                            <img :src="codeSrc" class="codeImg" @click="clickCodeImg()">
+                            <img :src="codeSrc" class="codeImg" @click="getCode()">
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" icon="el-icon-upload" @click="login" class="land">立即登录</el-button>
@@ -76,9 +76,6 @@
             getCode() {  //获取验证码图片
                 this.codeSrc = 'http://47.104.251.161:8080' + '/school/index/verificationCode?timer=' + new Date();
             },
-            clickCodeImg() {
-                this.codeSrc = 'http://47.104.251.161:8080' + '/school/index/verificationCode?timer=' + new Date();
-            },
             login() {
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
@@ -91,6 +88,7 @@
                             if(res.code == 0) {
                                 localStorage.clear();
                                 localStorage.setItem('token', res.data);
+                                localStorage.setItem('teacherName', this.user.name);
                                 this.$notify({
                                     type: 'success',
                                     message: '欢迎你,' + this.user.name + '!',
@@ -106,10 +104,13 @@
                                 },1000);
                             } else if(res.code == 20001) {
                                 this.$message.error('验证码填写错误，请重新输入');
+                                this.getCode();
                             } else if(res.code == 20002) {
                                 this.$message.error('用户名或密码填写错误，请重新输入');
+                                this.getCode();
                             } else {
                                 this.$message.error('网络异常，请稍后再试');
+                                this.getCode();
                             }
                         }).catch((e) => {});
                     }
