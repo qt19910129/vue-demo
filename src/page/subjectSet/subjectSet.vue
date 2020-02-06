@@ -70,13 +70,13 @@
                 },
                 subjectRules: {
                     name: [
-                        { required: true, message: '请输入科目名称', trigger: 'blur' },
+                        { required: true, message: '请输入科目名称', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     num: [
-                        { required: true, message: '请输入科目编号', trigger: 'blur' },
+                        { required: true, message: '请输入科目编号', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     explain: [
-                        { required: true, message: '请输入科目说明', trigger: 'blur' },
+                        { required: true, message: '请输入科目说明', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                 },
                 currentPage:1,  //分页默认选中哪页

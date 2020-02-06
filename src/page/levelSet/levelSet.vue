@@ -70,13 +70,13 @@
                 },
                 levelRules: {
                     name: [
-                        { required: true, message: '请输入级别名称', trigger: 'blur' },
+                        { required: true, message: '请输入级别名称', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     num: [
-                        { required: true, message: '请输入级别编号', trigger: 'blur' },
+                        { required: true, message: '请输入级别编号', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     explain: [
-                        { required: true, message: '请输入级别说明', trigger: 'blur' },
+                        { required: true, message: '请输入级别说明', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                 },
                 currentPage:1,  //分页默认选中哪页

@@ -46,14 +46,18 @@
                     <el-option v-for="list in addSubject" :label="list.subject" :value="list.subject" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="科目级别" style="padding-left: 10px;">
-                <div class="tableBox">{{addLevel}}</div>
+            <el-form-item label="科目级别" prop="changeLevel">
+                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel">
+                    <el-option v-for="list in addLevel" :label="list.rank" :value="list.rank" :key="list.currId"></el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="选择课程" style="padding-left: 10px;">
-                <div class="tableBox">{{addLesson}}</div>
+            <el-form-item label="选择课程" prop="changeLesson">
+                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson">
+                    <el-option v-for="list in addLesson" :label="list.currName" :value="list.currName" :key="list.currId"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="消耗课时" prop="classNum">
-                <el-input v-model="ruleForm.classNum"></el-input>
+                <el-input v-model.trim="ruleForm.classNum"></el-input>
             </el-form-item>
             <el-form-item>
                 <!--新增-->
@@ -72,7 +76,9 @@
         getTimeTableSetList_add,
         getTimeTableSetList_save,
         getTimeTableSetList_edit,
-        removeClass
+        removeClass,
+        rankChange,
+        lessonChange
     } from "../../axios/timeTableSet";
     export default {
         data() {
@@ -93,8 +99,8 @@
                 addTeacher:[],// 选择讲师，助教
                 addClassRoom:[], //选择教室
                 addSubject:[], //选择科目
-                addLevel:'', //添加科目级别
-                addLesson:'', //添加选择课程
+                addLevel:[], //添加科目级别
+                addLesson:[], //添加选择课程
                 pickTheClass:{},  //选中班级的数据
                 pickTeacher1:{},  //选中主教
                 pickTeacher2:{},  //选中助教
@@ -110,6 +116,8 @@
                     changeTeacher2:'',
                     changeClassRoom:'',
                     changeSubject:'',
+                    changeLevel:'',
+                    changeLesson:'',
                     classNum:''
                 },
                 rules:{
@@ -134,11 +142,18 @@
                     changeSubject: [
                         { required: true, message: '请选择科目', trigger: 'change' }
                     ],
+                    changeLevel: [
+                        { required: true, message: '请选择科目级别', trigger: 'change' }
+                    ],
+                    changeLesson:[
+                        { required: true, message: '请选择课程', trigger: 'change' }
+                    ],
                     classNum: [
                         { required: true, validator: checkNum, trigger: 'blur' },
                     ],
                 },
                 edit:-1, //获取新增或者编辑 1新增 2编辑
+                currId:-1
             }
         },
         mounted() {
@@ -179,9 +194,31 @@
                     this.ruleForm.changeTeacher1 = showData.teacherName;
                     this.ruleForm.changeTeacher2 = showData.assistantName;
                     this.ruleForm.changeSubject = showData.subject;
-                    this.addLevel = showData.rank;
-                    this.addLesson = showData.currName;
+                    this.ruleForm.changeLevel = showData.rank;
+                    this.ruleForm.changeLesson = showData.currName;
                     this.ruleForm.classNum = showData.consumptionHours;
+                    this.currId = showData.currId;
+                    let data = {
+                        'subject':this.ruleForm.changeSubject
+                    };
+                    rankChange(data).then(res => {
+                        if(res.code == 0) {
+                            this.addLevel = res.data.curriculumResults;
+                        } else {
+                            this.error();
+                        }
+                    }).catch((e) => {});
+                    let data1 = {
+                        'subject':this.ruleForm.changeSubject,
+                        'rank':this.ruleForm.changeLevel
+                    };
+                    lessonChange(data1).then(res => {
+                        if(res.code == 0) {
+                            this.addLesson = res.data.curriculumResults;
+                        } else {
+                            this.error();
+                        }
+                    }).catch((e) => {});
                 }).catch((e) => {});
             }
 
@@ -205,10 +242,10 @@
                                 'assistantName':this.pickTeacher2.name,
                                 'crId':this.pickRoom.crId,
                                 'crName':this.pickRoom.crName,
-                                'subject':this.pickSub.subject,
-                                'rank':this.pickSub.rank,
-                                'currId':this.pickSub.currId,
-                                'currName':this.pickSub.currName,
+                                'subject':this.ruleForm.changeSubject,
+                                'rank':this.ruleForm.changeLevel,
+                                'currId':this.currId,
+                                'currName':this.ruleForm.changeLesson,
                                 'consumptionHours':this.ruleForm.classNum
                             };
                         } else if(this.edit == 2) {  //编辑
@@ -236,17 +273,17 @@
                             if(this.pickRoom.crName == undefined) {
                                 this.pickRoom.crName = this.editDatas.crName;
                             }
-                            if(this.pickSub.subject == undefined) {
-                                this.pickSub.subject = this.editDatas.subject;
+                            if(this.ruleForm.changeSubject == undefined) {
+                                this.ruleForm.changeSubject = this.editDatas.subject;
                             }
-                            if(this.pickSub.rank == undefined) {
-                                this.pickSub.rank = this.editDatas.rank;
+                            if(this.ruleForm.changeLevel == undefined) {
+                                this.ruleForm.changeLevel = this.editDatas.rank;
                             }
-                            if(this.pickSub.currId == undefined) {
-                                this.pickSub.currId = this.editDatas.currId;
+                            if(this.currId == undefined) {
+                                this.currId = this.editDatas.currId;
                             }
-                            if(this.pickSub.currName == undefined) {
-                                this.pickSub.currName = this.editDatas.currName;
+                            if(this.ruleForm.changeLesson == undefined) {
+                                this.ruleForm.changeLesson = this.editDatas.currName;
                             }
 
                             //传输的数据
@@ -262,13 +299,14 @@
                                 'assistantName':this.pickTeacher2.name,
                                 'crId':this.pickRoom.crId,
                                 'crName':this.pickRoom.crName,
-                                'subject':this.pickSub.subject,
-                                'rank':this.pickSub.rank,
-                                'currId':this.pickSub.currId,
-                                'currName':this.pickSub.currName,
+                                'subject':this.ruleForm.changeSubject,
+                                'rank':this.ruleForm.changeLevel,
+                                'currId':this.currId,
+                                'currName':this.ruleForm.changeLesson,
                                 'caId':this.editCaId,
                                 'consumptionHours':this.editDatas.classNum
                             };
+                            // console.log(data);
                         }
                         // console.log(data,'传输数据');
                         let that = this;
@@ -276,8 +314,8 @@
                             if(res.code == 0) {
                                 this.editSuccess();
                                 that.$refs[formName].resetFields();
-                                this.addLevel = '';
-                                this.addLesson = '';
+                                // this.addLevel = '';
+                                // this.addLesson = '';
                                 setTimeout(function () {
                                     history.back(-1);
                                 },1000);
@@ -306,14 +344,40 @@
                 });
             },
             pickChangeSubject(vId) {  //获取选择科目后面的数据
-                let obj = {};
-                obj = this.addSubject.find((item)=>{//这里的userList就是上面遍历的数据源
-                    if(item.subject == vId) {
-                        this.addLevel = item.rank;
-                        this.addLesson = item.currName;
-                        this.pickSub = item;
+                this.ruleForm.changeLevel = '';
+                this.ruleForm.changeLesson = '';
+                let data = {
+                    'subject':vId
+                };
+                rankChange(data).then(res => {
+                    if(res.code == 0) {
+                        this.addLevel = res.data.curriculumResults;
+                    } else {
+                        this.error();
                     }
-                    return item.subject === vId;//筛选出匹配数据
+                }).catch((e) => {});
+            },
+            pickChangeLevel(vId) {  //选择科目级别
+                this.ruleForm.changeLesson = '';
+                let data = {
+                    'subject':this.ruleForm.changeSubject,
+                    'rank':vId
+                };
+                lessonChange(data).then(res => {
+                    if(res.code == 0) {
+                        this.addLesson = res.data.curriculumResults;
+                    } else {
+                        this.error();
+                    }
+                }).catch((e) => {});
+            },
+            pickChangeLesson(vId) {
+                let obj = {};
+                obj = this.addLesson.find((item)=>{//这里的userList就是上面遍历的数据源
+                    if(item.currName == vId) {
+                        this.currId = item.currId;
+                    }
+                    return item.currName === vId;//筛选出匹配数据
                 });
             },
             pickClass(vId) {  //选择班级

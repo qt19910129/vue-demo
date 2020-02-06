@@ -75,10 +75,10 @@
                 },
                 roomRules: {
                     name: [
-                        { required: true, message: '请输入教室名称', trigger: 'blur' },
+                        { required: true, message: '请输入教室名称', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     equipment: [
-                        { required: true, message: '请输入教室设备', trigger: 'blur' },
+                        { required: true, message: '请输入教室设备', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     peopleNum: [
                         { required: true, message: '请输入容纳人数', trigger: 'blur' },

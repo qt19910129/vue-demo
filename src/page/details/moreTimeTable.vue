@@ -52,20 +52,24 @@
             </el-form-item>
             <el-form-item label="选择科目" prop="changeSubject">
                 <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject">
-                    <el-option v-for="list in addSubject" :label="list.subject" :value="list.currId" :key="list.currId"></el-option>
+                    <el-option v-for="list in addSubject" :label="list.subject" :value="list.subject" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="科目级别" style="padding-left: 10px;">
-                <div class="tableBox">{{addLevel}}</div>
+            <el-form-item label="科目级别" prop="changeLevel">
+                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel">
+                    <el-option v-for="list in addLevel" :label="list.rank" :value="list.rank" :key="list.currId"></el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="选择课程" style="padding-left: 10px;">
-                <div class="tableBox">{{addLesson}}</div>
+            <el-form-item label="选择课程" prop="changeLesson">
+                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson">
+                    <el-option v-for="list in addLesson" :label="list.currName" :value="list.currName" :key="list.currId"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="排课次数" prop="timeNum">
-                <el-input v-model.number="ruleForm.timeNum"></el-input>
+                <el-input v-model.number.trim="ruleForm.timeNum"></el-input>
             </el-form-item>
             <el-form-item label="消耗课时" prop="classNum">
-                <el-input v-model.number="ruleForm.classNum"></el-input>
+                <el-input v-model.number.trim="ruleForm.classNum"></el-input>
             </el-form-item>
             <el-form-item>
                 <!--新增-->
@@ -79,7 +83,10 @@
 <script>
     import {
         curriculumArrangement_plAdd,
-        plSave
+        plSave,
+        lessonChange,
+        rankChange,
+        selectRepeatPL
     } from "../../axios/timeTableSet";
     export default {
         data() {
@@ -88,8 +95,8 @@
                 addTeacher:[],  //选择主教数据
                 addClassRoom:[],  //选择教室数据
                 addSubject:[], //选择科目数据
-                addLevel:'',  //选择级别数据
-                addLesson:'',  //选择课程数据
+                addLevel:[],  //选择级别数据
+                addLesson:[],  //选择课程数据
                 pickSub:'',  //选中的科目全数据
                 pickTheClass:{},  //选中班级的数据
                 pickTeacher1:{},  //选中主教
@@ -104,6 +111,8 @@
                     changeTeacher2:'',
                     changeClassRoom:'',
                     changeSubject:'',
+                    changeLevel:'',
+                    changeLesson:'',
                     type:[],
                     timeNum:'',
                     classNum:''
@@ -133,6 +142,12 @@
                     changeSubject: [
                         { required: true, message: '请选择科目', trigger: 'change' }
                     ],
+                    changeLevel: [
+                        { required: true, message: '请选择科目级别', trigger: 'change' }
+                    ],
+                    changeLesson: [
+                        { required: true, message: '请选择课程', trigger: 'change' }
+                    ],
                     type: [
                         { type: 'array', required: true, message: '请选择周期规律', trigger: 'change' }
                     ],
@@ -145,6 +160,7 @@
                         { type: 'number', message: '请输入正确的消耗课时'}
                     ],
                 },
+                currId:-1,
             }
         },
         mounted() {
@@ -173,26 +189,37 @@
                             'assistantName':this.pickTeacher2.name,
                             'crId':this.pickRoom.crId,
                             'crName':this.pickRoom.crName,
-                            'subject':this.pickSub.subject,
-                            'rank':this.pickSub.rank,
-                            'currId':this.pickSub.currId,
-                            'currName':this.pickSub.currName,
+                            'subject':this.ruleForm.changeSubject,
+                            'rank':this.ruleForm.changeLevel,
+                            'currId':this.currId,
+                            'currName':this.ruleForm.changeLesson,
                             'curriculumCount':this.ruleForm.timeNum,
                             'period':this.weekChange(this.ruleForm.type),
                             'consumptionHours':this.ruleForm.classNum
                         };
-                        // console.log(data);
-                        //保存 提交
                         let that = this;
-                        plSave(data).then(res => {
+                        //验证
+                        selectRepeatPL(data).then(res => {
                             if(res.code == 0) {
-                                this.success();
-                                that.$refs[formName].resetFields();
-                                this.addLevel = '';
-                                this.addLesson = '';
-                                setTimeout(function () {
-                                    history.back(-1);
-                                },1000);
+                                //保存 提交
+                                plSave(data).then(res => {
+                                    if(res.code == 0) {
+                                        that.success();
+                                        that.$refs[formName].resetFields();
+                                        that.addLevel = '';
+                                        that.addLesson = '';
+                                        setTimeout(function () {
+                                            history.back(-1);
+                                        },1000);
+                                    } else {
+                                        this.error();
+                                    }
+                                }).catch((e) => {});
+                            } else if(res.code == 1) {
+                                this.$message({
+                                    message: '此段时间班级已被占用，请重新选择时间',
+                                    type: 'warning'
+                                });
                             } else {
                                 this.error();
                             }
@@ -217,14 +244,40 @@
                 });
             },
             pickChangeSubject(vId) {  //获取选择科目后面的数据
-                let obj = {};
-                obj = this.addSubject.find((item)=>{//这里的userList就是上面遍历的数据源
-                    if(item.currId == vId) {
-                        this.addLevel = item.rank;
-                        this.addLesson = item.currName;
-                        this.pickSub = item;
+                this.ruleForm.changeLevel = '';
+                this.ruleForm.changeLesson = '';
+                let data = {
+                    'subject':this.ruleForm.changeSubject
+                };
+                rankChange(data).then(res => {
+                    if(res.code == 0) {
+                        this.addLevel = res.data.curriculumResults;
+                    } else {
+                        this.error();
                     }
-                    return item.subject === vId;//筛选出匹配数据
+                }).catch((e) => {});
+            },
+            pickChangeLevel(vId) {
+                this.ruleForm.changeLesson = '';
+                let data = {
+                    'subject':this.ruleForm.changeSubject,
+                    'rank':vId
+                };
+                lessonChange(data).then(res => {
+                    if(res.code == 0) {
+                        this.addLesson = res.data.curriculumResults;
+                    } else {
+                        this.error();
+                    }
+                }).catch((e) => {});
+            },
+            pickChangeLesson(vId) {
+                let obj = {};
+                obj = this.addLesson.find((item)=>{//这里的userList就是上面遍历的数据源
+                    if(item.currName == vId) {
+                        this.currId = item.currId;
+                    }
+                    return item.currName === vId;//筛选出匹配数据
                 });
             },
             pickClass(vId) {  //选择班级

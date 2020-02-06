@@ -84,3 +84,39 @@ export function plSave(query) {
         }
     );
 }
+/**
+ * 科目级别列表联动
+ */
+export function rankChange(query) {
+    return request.post(global.domainUrl + "/school/curriculumArrangement/rankList",query
+        , {
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        }
+    );
+}
+/**
+ * 科目级别列表联动
+ */
+export function lessonChange(query) {
+    return request.post(global.domainUrl + "/school/curriculumArrangement/currNameList",query
+        , {
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        }
+    );
+}
+/**
+ * 批量排课验证接口
+ */
+export function selectRepeatPL(query) {
+    return request.post(global.domainUrl + "/school/curriculumArrangement/selectRepeatPL",query
+        , {
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        }
+    );
+}

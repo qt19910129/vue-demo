@@ -89,11 +89,15 @@
                                 localStorage.clear();
                                 localStorage.setItem('token', res.data);
                                 localStorage.setItem('teacherName', this.user.name);
-                                this.$notify({
-                                    type: 'success',
+                                this.$message({
                                     message: '欢迎你,' + this.user.name + '!',
-                                    duration: 3000
+                                    type: 'success'
                                 });
+                                // this.$notify({
+                                //     type: 'success',
+                                //     message: '欢迎你,' + this.user.name + '!',
+                                //     duration: 3000
+                                // });
                                 let that = this;
                                 setTimeout(function () {
                                     // window.open(that.GLOBAL.domain+'/#/content/pageIndex');

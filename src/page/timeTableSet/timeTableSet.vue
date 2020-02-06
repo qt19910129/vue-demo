@@ -65,7 +65,7 @@
                 if(arrangeBegintime.length > 10) {
                     startTime = arrangeBegintime + ':00';
                 } else {
-                    startTime = arrangeBegintime + ' 00:00';
+                    startTime = arrangeBegintime + ' 23:59';
                 }
                 startTime = new Date(startTime).getTime();
                 if(startTime >= nowTime) {

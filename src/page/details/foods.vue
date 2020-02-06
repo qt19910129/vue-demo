@@ -18,7 +18,7 @@
                     :key="foodName.key"
                     :prop="'foodName.' + index + '.value'"
                     :rules="{
-      required: true, message: '请输入今日菜谱', trigger: 'blur'
+      required: true, message: '请输入今日菜谱', trigger: 'blur',pattern: '[^ \x22]+'
     }"
             >
                 <el-input v-model="foodName.value" placeholder="请输入今日菜谱"></el-input><el-button @click.prevent="removeFoods(foodName)">删除</el-button>

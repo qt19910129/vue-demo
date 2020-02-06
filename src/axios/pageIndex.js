@@ -49,3 +49,15 @@ export function noSignData(query) {
         }
     );
 }
+/**
+ * 首页 是否有新增报名学员
+ */
+export function signUpData(query) {
+    return request.post(global.domainUrl + "/school/register/hasUnRead", query
+        , {
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        }
+    );
+}

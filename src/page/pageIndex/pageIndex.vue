@@ -96,7 +96,7 @@
                     <el-input v-model.number="form.renewNum" autocomplete="off" placeholder="请输入续费课时" style="width: 80%;"></el-input>
                 </el-form-item>
                 <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.renewDay" value-format="yyyy-MM-dd" style="width: 80%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="form.renewDay" value-format="yyyy-MM-dd" style="width: 80%;" :picker-options="pickerOptions"></el-date-picker>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -165,7 +165,8 @@
         allData,
         renewData,
         signInData,
-        noSignData
+        noSignData,
+        signUpData
     } from "../../axios/pageIndex";
     import {
         studentRenew,
@@ -174,6 +175,11 @@
     export default {
         data() {
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now();
+                    }
+                },
                 renewTableData: [], //续费学员列表
                 signTableData: [],  //今日签到信息
                 dialogFormVisible: false,
@@ -185,7 +191,16 @@
                 rules: {
                     renewNum: [
                         { required: true, message: '请输入续费课时数', trigger: 'blur' },
-                        { type: 'number', message: '请输入正确的续费课时数'}
+                        { type: 'number', message: '请输入正确的续费课时数'},
+                        {
+                            validator(rule, value, callback) {
+                                if(value <= 0) {
+                                    callback(new Error('续费课时数不能小于0'));
+                                } else {
+                                    callback();
+                                }
+                            }
+                        }
                     ],
                     renewDay: [
                         { required: true, message: '请选择续费日期', trigger: 'blur' }
@@ -212,6 +227,7 @@
             this.allDatas();
             this.renewList();
             this.signInList();
+            this.signUp();
         },
         methods: {
             allDatas() {  //总数据
@@ -362,6 +378,24 @@
                 this.page1 = `${val}`;
                 this.noSign();
             },
+            signUp() {  //每次加载首页 调取是否有新增报名学员
+                signUpData('').then(res => {
+                    if(res.code == 0) {
+                        if(res.data > 0) {
+                            this.$alert('有新的报名信息，请点击前往查看', '报名信息', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push({
+                                        path: `/content/signSet`,
+                                    })
+                                }
+                            });
+                        }
+                    } else {
+                        this.$message.error('网络异常，请稍后再试');
+                    }
+                }).catch((e) => {});
+            }
         }
     }
 </script>

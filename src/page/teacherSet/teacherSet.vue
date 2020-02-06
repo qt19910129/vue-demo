@@ -231,17 +231,17 @@
                 },
                 teacherRules: {
                     name: [
-                        { required: true, message: '请输入教师姓名', trigger: 'blur' },
+                        { required: true, message: '请输入教师姓名', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     englishName: [
-                        { required: true, message: '请输入英文姓名', trigger: 'blur' },
+                        { required: true, message: '请输入英文姓名', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     phone: [
                         { required: true, message: '请输入手机号', trigger: 'blur' },
                         { min: 11, max: 11, message: '请输入正确的11位手机号码', trigger: 'blur' }
                     ],
                     birthday: [
-                        { type: 'string', required: true, message: '请选择出生日期', trigger: 'change' }
+                        { type: 'string', required: true, message: '请选择出生日期', trigger: 'blur' }
                         // { type: 'date', required: true, message: '请选择出生日期', trigger: 'change' }
                     ],
                     card: [
@@ -249,14 +249,14 @@
                         { min: 18, max: 18, message: '请输入正确的18位身份证号', trigger: 'blur' }
                     ],
                     jobDate: [
-                        { type: 'string', required: true, message: '请选择入职日期', trigger: 'change' }
+                        { type: 'string', required: true, message: '请选择入职日期', trigger: 'blur' }
                         // { type: 'date', required: true, message: '请选择入职日期', trigger: 'change' }
                     ],
                     dep: [
-                        { required: true, message: '请输入所在部门', trigger: 'blur' },
+                        { required: true, message: '请输入所在部门', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     job: [
-                        { required: true, message: '请输入职业头衔', trigger: 'blur' },
+                        { required: true, message: '请输入职业头衔', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     teacherType: [
                         { required: true, message: '请选择在职类型', trigger: 'change' }

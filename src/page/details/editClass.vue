@@ -270,7 +270,7 @@
                 },
                 rules: {
                     className: [
-                        { required: true, message: '请输入班级名称', trigger: 'blur' },
+                        { required: true, message: '请输入班级名称', trigger: 'blur' ,pattern: '[^ \x22]+'},
                     ],
                     classTime: [
                         { required: true, message: '请输入开始时间', trigger: 'blur' },

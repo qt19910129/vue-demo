@@ -131,10 +131,10 @@
                         { required: true, message: '请选择级别', trigger: 'change' },
                     ],
                     name: [
-                        { required: true, message: '请选择课程名称', trigger: 'change' },
+                        { required: true, message: '请选择课程名称', trigger: 'change', pattern: '[^ \x22]+' },
                     ],
                     explain: [
-                        { required: true, message: '请输入课程说明', trigger: 'blur' },
+                        { required: true, message: '请输入课程说明', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                 },
                 currentPage:1,  //分页默认选中哪页

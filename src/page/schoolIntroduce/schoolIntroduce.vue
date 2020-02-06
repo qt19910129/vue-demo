@@ -134,16 +134,16 @@
                 },
                 rules: {
                     name: [
-                        { required: true, message: '请输入联系人', trigger: 'blur' },
+                        { required: true, message: '请输入联系人', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     phoneNum: [
                         { required: true, validator: checkphone, trigger: 'blur' },
                     ],
                     address: [
-                        { required: true, message: '请输入详细地址', trigger: 'blur' },
+                        { required: true, message: '请输入详细地址', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                     content: [
-                        { required: true, message: '请输详细介绍', trigger: 'blur' },
+                        { required: true, message: '请输详细介绍', trigger: 'blur', pattern: '[^ \x22]+' },
                     ],
                 },
                 fileList: [],

@@ -5,12 +5,12 @@
             <el-row>
                 <el-col :span="5">
                     <el-form-item prop="phoneNum" class="signSetStyle">
-                        <el-input v-model="ruleForm.phoneNum" placeholder="请输入用户手机号" :maxlength=11></el-input>
+                        <el-input v-model.trim="ruleForm.phoneNum" placeholder="请输入用户手机号" :maxlength=11></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
                     <el-form-item prop="stuName" class="signSetStyle">
-                        <el-input v-model="ruleForm.stuName" placeholder="请输入孩子姓名"></el-input>
+                        <el-input v-model.trim="ruleForm.stuName" placeholder="请输入孩子姓名"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -97,7 +97,7 @@
                     <el-date-picker v-model="addForm.stuDate" type="date" placeholder="选择出生日期" value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone" :label-width="formLabelWidth">
-                    <el-input v-model="addForm.phone" autocomplete="off" placeholder="请输入联系电话" :maxlength=11></el-input>
+                    <el-input v-model.trim="addForm.phone" autocomplete="off" placeholder="请输入联系电话" :maxlength=11></el-input>
                 </el-form-item>
                 <el-form-item label="所在区域" :label-width="formLabelWidth">
                     <el-cascader
@@ -147,7 +147,7 @@
 
 
                 <el-form-item label="课时数" prop="payNum" :label-width="formLabelWidth">
-                    <el-input v-model.number="payForm.payNum" autocomplete="off" placeholder="请输入课时数"></el-input>
+                    <el-input v-model.number.trim="payForm.payNum" autocomplete="off" placeholder="请输入课时数"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -371,6 +371,8 @@
                                 setTimeout(function () {
                                     window.location.reload();
                                 },1000);
+                            } else if(res.code == 2000) {
+                                this.$message.error('该手机号已完成过注册，请重新输入');
                             } else if(res.code == 1) {
                                 this.$message.error('手机号格式不对，请重新输入');
                             } else {

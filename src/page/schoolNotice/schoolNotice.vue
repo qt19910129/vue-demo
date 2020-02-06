@@ -176,10 +176,10 @@
                         { type: 'array', required: true, message: '请至少选择一个指定群体', trigger: 'change' }
                     ],
                     title: [
-                        { required: true, message: '请输入公告标题', trigger: 'blur' }
+                        { required: true, message: '请输入公告标题', trigger: 'blur', pattern: '[^ \x22]+' }
                     ],
                     content: [
-                        { required: true, message: '请输入公告详情', trigger: 'blur' }
+                        { required: true, message: '请输入公告详情', trigger: 'blur', pattern: '[^ \x22]+' }
                     ],
                 },
                 editorOption: {

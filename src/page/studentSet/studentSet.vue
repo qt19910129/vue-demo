@@ -66,7 +66,7 @@
                     <el-input v-model.number="moneyForm.renewNum" autocomplete="off" placeholder="请输入续费课时"></el-input>
                 </el-form-item>
                 <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="moneyForm.renewDay" value-format="yyyy-MM-dd" style="width: 80%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="moneyForm.renewDay" value-format="yyyy-MM-dd" style="width: 80%;" :picker-options='pickerOptions'></el-date-picker>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -94,6 +94,11 @@
                 }
             };
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now();
+                    }
+                },
                 ruleForm: {
                     name: '',
                     phoneNum: '',
@@ -114,7 +119,16 @@
                 moneyRules: {
                     renewNum: [
                         { required: true, message: '请输入续费课时数', trigger: 'blur' },
-                        { type: 'number', message: '请输入正确的续费课时数'}
+                        { type: 'number', message: '请输入正确的续费课时数'},
+                        {
+                            validator(rule, value, callback) {
+                                if(value <= 0) {
+                                    callback(new Error('续费课时数不能小于0'));
+                                } else {
+                                    callback();
+                                }
+                            }
+                        }
                     ],
                     renewDay: [
                         { required: true, message: '请选择续费日期', trigger: 'blur' }
