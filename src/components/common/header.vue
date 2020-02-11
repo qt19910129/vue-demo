@@ -24,13 +24,13 @@
         <el-dialog title="修改密码" :visible.sync="passwordVisible" :modal-append-to-body="false" :before-close="handleClose">
             <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm">
                 <el-form-item label="原密码" prop="originalPass">
-                    <el-input type="password" v-model="passwordForm.originalPass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model.trim="passwordForm.originalPass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="新密码" prop="pass">
-                    <el-input type="password" v-model="passwordForm.pass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model.trim="passwordForm.pass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
-                    <el-input type="password" v-model="passwordForm.checkPass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model.trim="passwordForm.checkPass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item align="center">
                     <el-button type="primary" @click="submitForm('passwordForm')">确定</el-button>

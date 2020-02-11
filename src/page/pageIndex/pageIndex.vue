@@ -119,7 +119,8 @@
                 <!--<el-table-column prop="noSignNum" label="未签到" width="" align="center"></el-table-column>-->
                 <el-table-column label="未签到" width="" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-user" @click="noSign(scope.row.classId,scope.row.className)">{{scope.row.unAttendanceCount}}</el-button>
+                        <!--<el-button type="text" icon="el-icon-user" @click="noSign(scope.row.classId,scope.row.className)">{{scope.row.unAttendanceCount}}</el-button>-->
+                        <span icon="el-icon-user">{{scope.row.unAttendanceCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="attendance" label="出勤率" width="" align="center">

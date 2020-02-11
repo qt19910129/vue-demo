@@ -9,13 +9,13 @@
                 <el-row type="flex" justify="center">
                     <el-form ref="loginForm" :model="user" :rules="rules" status-icon label-width="80px">
                         <el-form-item prop="name">
-                            <el-input v-model="user.name" placeholder="请输入用户名" class="user"></el-input>
+                            <el-input v-model.trim="user.name" placeholder="请输入用户名" class="user"></el-input>
                         </el-form-item>
                         <el-form-item prop="pass">
-                            <el-input v-model="user.pass" type="password" placeholder="请输入密码" class="password"></el-input>
+                            <el-input v-model.trim="user.pass" type="password" placeholder="请输入密码" class="password"></el-input>
                         </el-form-item>
                         <el-form-item prop="code">
-                            <el-input v-model="user.code" placeholder="请输入验证码" class="code" :maxlength="4"></el-input>
+                            <el-input v-model.trim="user.code" placeholder="请输入验证码" class="code" :maxlength="4"></el-input>
                             <img :src="codeSrc" class="codeImg" @click="getCode()">
                         </el-form-item>
                         <el-form-item>
