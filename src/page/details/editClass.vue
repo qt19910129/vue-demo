@@ -42,7 +42,13 @@
                     <el-table-column type="index" label="ID" align="center"></el-table-column>
                     <el-table-column prop="studentName" label="学生姓名" width="" align="center"></el-table-column>
                     <el-table-column prop="birthDay" label="出生年月" width="100" align="center" :formatter="dateFormat"></el-table-column>
-                    <el-table-column prop="gender" label="性别" width="" align="center"></el-table-column>
+                    <el-table-column prop="gender" label="性别" width="" align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.gender == 1 || scope.row.gender == '男'">男</span>
+                            <span v-else-if="scope.row.gender == 2 || scope.row.gender == '女'">女</span>
+                            <span v-else>其他</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
                     <el-table-column prop="phone" label="家长电话" width="120" align="center"></el-table-column>
                     <el-table-column prop="edit" label="操作" width="140" align="center">

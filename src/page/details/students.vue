@@ -72,7 +72,7 @@
                 <el-col :span="6">{{studentInfo.bonusPoint}}</el-col>
                 <el-col :span="6" class="tableName">学习奖励</el-col>
                 <el-col :span="6">
-                    <span v-if="studentInfo.learningAwards == null" class="color999">
+                    <span v-if="studentInfo.learningAwards == null || studentInfo.learningAwards == 0" class="color999">
                         暂无
                     </span>
                     <span v-else>
@@ -314,7 +314,13 @@
                     inputPattern: /\S/,
                     inputErrorMessage: '请输入要兑换的星星数量'
                 }).then(({ value }) => {
-                    if(this.starNum * 1 < value * 1) {
+                    let reg = /^[-+]?\d+$/;
+                    if(!reg.test(value) || value < 0) {
+                        this.$message({
+                            type: 'error',
+                            message: '兑换失败，请输入正确兑换星星的数量'
+                        });
+                    } else if(this.starNum * 1 < value * 1) {
                         this.$message({
                             type: 'error',
                             message: '兑换失败，您输入的星星数量大于已有的星星数量'
