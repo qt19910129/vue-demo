@@ -52,58 +52,6 @@
                 </el-col>
             </el-row>
         </div>
-        <!--续费学员-->
-        <div class="renewStudent">
-            <div class="renewTitle">续费学员</div>
-            <el-table :data="renewTableData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
-                <el-table-column type="index" label="ID" align="center"></el-table-column>
-                <el-table-column prop="studentName" label="学生姓名" align="center"></el-table-column>
-                <el-table-column prop="renewTime" label="续费截止日期" width="120" align="center" :formatter="dateFormat"></el-table-column>
-                <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
-                <el-table-column prop="phone" label="联系电话" width="" align="center"></el-table-column>
-                <el-table-column prop="className" label="所在班级" width="" align="center"></el-table-column>
-                <el-table-column prop="statusStr" label="学生状态" width="" align="center"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="130" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.id)">查看</el-button>
-                        <!--<router-link to="/content/details/students">-->
-                            <!---->
-                        <!--</router-link>-->
-                        <el-button type="text" icon="el-icon-money" @click="renew(scope.row.id)">续费</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <template>
-                <el-pagination
-                        align="right"
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage"
-                        :page-sizes="[10, 20, 50, 100]"
-                        :page-size="10"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="records"
-                        background
-                        :hide-on-single-page="pageValue"
-                        class="pages">
-                </el-pagination>
-            </template>
-        </div>
-        <!--续费弹窗-->
-        <el-dialog title="续费" :visible.sync="dialogFormVisible" :before-close="handleClose">
-            <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="续费课时" :label-width="formLabelWidth" prop="renewNum">
-                    <el-input v-model.number="form.renewNum" autocomplete="off" placeholder="请输入续费课时" style="width: 80%;"></el-input>
-                </el-form-item>
-                <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.renewDay" value-format="yyyy-MM-dd" style="width: 80%;" :picker-options="pickerOptions"></el-date-picker>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="resetForm('form')">取 消</el-button>
-                <el-button type="primary" @click="submitForm('form')">确 定</el-button>
-            </div>
-        </el-dialog>
         <!--今日签到信息-->
         <div class="signMessage">
             <div class="signTitle">今日签到信息</div>
@@ -158,6 +106,58 @@
                 </template>
             </el-dialog>
         </div>
+        <!--续费学员-->
+        <div class="renewStudent">
+            <div class="renewTitle">续费学员</div>
+            <el-table :data="renewTableData" border style="width: 100%;border: 1px solid #eee;font-size: 14px;" :header-cell-style="{background:'#53A1E8',color:'#fff'}" class="renewTable">
+                <el-table-column type="index" label="ID" align="center"></el-table-column>
+                <el-table-column prop="studentName" label="学生姓名" align="center"></el-table-column>
+                <el-table-column prop="renewTime" label="续费截止日期" width="120" align="center" :formatter="dateFormat"></el-table-column>
+                <el-table-column prop="parentName" label="家长姓名" width="" align="center"></el-table-column>
+                <el-table-column prop="phone" label="联系电话" width="" align="center"></el-table-column>
+                <el-table-column prop="className" label="所在班级" width="" align="center"></el-table-column>
+                <el-table-column prop="statusStr" label="学生状态" width="" align="center"></el-table-column>
+                <el-table-column fixed="right" label="操作" width="130" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.id)">查看</el-button>
+                        <!--<router-link to="/content/details/students">-->
+                            <!---->
+                        <!--</router-link>-->
+                        <el-button type="text" icon="el-icon-money" @click="renew(scope.row.id)">续费</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <template>
+                <el-pagination
+                        align="right"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="10"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="records"
+                        background
+                        :hide-on-single-page="pageValue"
+                        class="pages">
+                </el-pagination>
+            </template>
+        </div>
+        <!--续费弹窗-->
+        <el-dialog title="续费" :visible.sync="dialogFormVisible" :before-close="handleClose">
+            <el-form :model="form" :rules="rules" ref="form">
+                <el-form-item label="续费课时" :label-width="formLabelWidth" prop="renewNum">
+                    <el-input v-model.number="form.renewNum" autocomplete="off" placeholder="请输入续费课时" style="width: 80%;"></el-input>
+                </el-form-item>
+                <el-form-item label="续费日期" :label-width="formLabelWidth" prop="renewDay">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="form.renewDay" value-format="yyyy-MM-dd" style="width: 80%;" :picker-options="pickerOptions"></el-date-picker>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="resetForm('form')">取 消</el-button>
+                <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 

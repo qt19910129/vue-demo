@@ -111,7 +111,7 @@
                     <el-input v-model="addForm.home" autocomplete="off" placeholder="请输入家庭住址"></el-input>
                 </el-form-item>
                 <el-form-item label="性别" :label-width="formLabelWidth">
-                    <el-select v-model="addForm.sex" placeholder="请选择性别">
+                    <el-select v-model="addForm.sex" placeholder="请选择性别" filterable clearable>
                         <el-option label="男" value="1"></el-option>
                         <el-option label="女" value="2"></el-option>
                     </el-select>
@@ -138,7 +138,7 @@
         <el-dialog title="缴费信息" :visible.sync="payVisible" class="pay">
             <el-form :model="payForm" :rules="payRules" ref="payForm">
                 <el-form-item label="缴费日期" prop="payDate" :label-width="formLabelWidth">
-                    <el-date-picker type="date" placeholder="选择缴费日期" v-model="payForm.payDate" value-format="yyyy-MM-dd"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择缴费日期" v-model="payForm.payDate" value-format="yyyy-MM-dd" :picker-options="pickerOptions"></el-date-picker>
                 </el-form-item>
 
                 <!--<el-form-item label="缴费日期" prop="payDate" :label-width="formLabelWidth">-->
@@ -180,6 +180,11 @@
                 }
             };
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now();
+                    }
+                },
                 ruleForm: {
                     phoneNum: '',
                     stuName: '',

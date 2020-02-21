@@ -5,7 +5,7 @@
             <el-row>
                 <el-col :span="6">
                     <el-form-item prop="state">
-                        <el-select v-model="ruleForm.state" placeholder="请选择物品分类">
+                        <el-select v-model="ruleForm.state" placeholder="请选择物品分类" filterable clearable>
                             <el-option label="文具类" value="1"></el-option>
                             <el-option label="玩具类" value="2"></el-option>
                             <el-option label="教具类" value="3"></el-option>
@@ -87,7 +87,7 @@
                     </el-form-item>
                 </div>
                 <el-form-item prop="state">
-                    <el-select v-model="goodsForm.state" placeholder="请选择物品分类">
+                    <el-select v-model="goodsForm.state" placeholder="请选择物品分类" filterable clearable>
                         <el-option label="文具类" value="1"></el-option>
                         <el-option label="玩具类" value="2"></el-option>
                         <el-option label="教具类" value="3"></el-option>
@@ -136,13 +136,13 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="" prop="changeTeacher" v-if="collarForm.teacherClass == '老师'">
-                    <el-select v-model="collarForm.changeTeacher" placeholder="请选择老师">
+                    <el-select v-model="collarForm.changeTeacher" placeholder="请选择老师" filterable clearable>
                         <el-option label="王老师" value="shanghai"></el-option>
                         <el-option label="李老师" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="" prop="changeClass" v-if="collarForm.teacherClass == '班级'">
-                    <el-select v-model="collarForm.changeClass" placeholder="请选择班级">
+                    <el-select v-model="collarForm.changeClass" placeholder="请选择班级" filterable clearable>
                         <el-option label="A班级" value="a"></el-option>
                         <el-option label="B班级" value="b"></el-option>
                     </el-select>

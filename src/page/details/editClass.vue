@@ -148,7 +148,7 @@
                     <el-input v-model="serchStuForm.phone" autocomplete="off" placeholder="请输入家长电话" :maxlength="11"></el-input>
                 </el-form-item>
                 <el-form-item prop="state">
-                    <el-select v-model="serchStuForm.state" placeholder="请选择状态">
+                    <el-select v-model="serchStuForm.state" placeholder="请选择状态" filterable clearable>
                         <el-option label="已有班级" value="1"></el-option>
                         <el-option label="暂无班级" value="2"></el-option>
                     </el-select>
@@ -210,7 +210,7 @@
         <el-dialog title="换班" :visible.sync="changeClassVisible" class="addSubject" :before-close="handleCloseClass">
             <el-form :model="changeClassForm" :rules="changeClassRules" ref="changeClassForm">
                 <el-form-item prop="className">
-                    <el-select v-model="changeClassForm.className" placeholder="请选择班级">
+                    <el-select v-model="changeClassForm.className" placeholder="请选择班级" filterable clearable>
                         <el-option v-for="list in classList" :label="list.name" :value="list.id" :key="list.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -223,7 +223,7 @@
         <el-dialog title="添加科目" :visible.sync="addSubjctVisible" class="addSubject">
             <el-form :model="addSubjectForm" :rules="addSubjectRules" ref="addSubjectForm">
                 <el-form-item prop="subject">
-                    <el-select v-model="addSubjectForm.name" placeholder="请选择科目">
+                    <el-select v-model="addSubjectForm.name" placeholder="请选择科目" filterable clearable>
                         <el-option label="语文" value="语文"></el-option>
                         <el-option label="数学" value="数学"></el-option>
                         <el-option label="英语" value="英语"></el-option>

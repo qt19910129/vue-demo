@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item prop="teacher">
-                        <el-select v-model="ruleForm.teacher" placeholder="请选择主讲老师">
+                        <el-select v-model="ruleForm.teacher" placeholder="请选择主讲老师" filterable clearable>
                             <el-option v-for="list in teacherList" :label="list.name" :value="list.id" :key="list.id"></el-option>
                         </el-select>
                     </el-form-item>

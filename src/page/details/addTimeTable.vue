@@ -14,7 +14,7 @@
                 <!--<el-date-picker type="date" placeholder="请选择排课日期" v-model="ruleForm.classTime"></el-date-picker>-->
             </el-form-item>
             <el-form-item label="选择班级" prop="changeClass">
-                <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级" @change="pickClass">
+                <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级" @change="pickClass" filterable clearable>
                     <el-option v-for="list in addClass" :label="list.name" :value="list.id" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
@@ -26,33 +26,33 @@
                 <el-time-picker placeholder="请选择结束时间" v-model="ruleForm.endTime" format="HH:mm" value-format="HH:mm"
                                 :picker-options="{selectableRange:`${ruleForm.startTime ? ruleForm.startTime+':00' : '00:00:00'}-23:59:00`}"></el-time-picker>
             </el-form-item>
-            <el-form-item label="选择讲师" prop="changeTeacher1">
-                <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师" @change="pickT1">
+            <el-form-item label="选择助教" prop="changeTeacher2">
+                <el-select v-model="ruleForm.changeTeacher2" placeholder="请选选择助教" @change="pickT2" filterable clearable>
                     <el-option v-for="list in addTeacher" :label="list.name" :value="list.name" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="选择助教" prop="changeTeacher2">
-                <el-select v-model="ruleForm.changeTeacher2" placeholder="请选选择助教" @change="pickT2">
+            <el-form-item label="选择讲师" prop="changeTeacher1">
+                <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师" @change="pickT1" filterable clearable>
                     <el-option v-for="list in addTeacher" :label="list.name" :value="list.name" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择教室" prop="changeClassRoom">
-                <el-select v-model="ruleForm.changeClassRoom" placeholder="请选选择教室" @change="pickClassRoom">
+                <el-select v-model="ruleForm.changeClassRoom" placeholder="请选选择教室" @change="pickClassRoom" filterable clearable>
                     <el-option v-for="list in addClassRoom" :label="list.crName" :value="list.crId" :key="list.crId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择科目" prop="changeSubject">
-                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject">
+                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject" filterable clearable>
                     <el-option v-for="list in addSubject" :label="list.subject" :value="list.subject" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="科目级别" prop="changeLevel">
-                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel">
+                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel" filterable clearable>
                     <el-option v-for="list in addLevel" :label="list.rank" :value="list.rank" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择课程" prop="changeLesson">
-                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson">
+                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson" filterable clearable>
                     <el-option v-for="list in addLesson" :label="list.currName" :value="list.currName" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
@@ -87,9 +87,11 @@
                     callback(new Error("请输入消耗课时"));
                 } else if(isNaN(value)) {
                     callback(new Error("请输入正确的消耗课时"));
-                } else if (value < 0) {//引入methods中封装的检查手机格式的方法
-                    callback(new Error("消耗课时不能小于0"));
-                } else {
+                } else if (value * 1 < 0) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("消耗课时数不能小于0"));
+                } else if (value * 1 > 10.5) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("消耗课时数不能大于10.5"));
+                }  else {
                     callback();
                 }
             };
@@ -149,7 +151,7 @@
                         { required: true, message: '请选择课程', trigger: 'change' }
                     ],
                     classNum: [
-                        { required: true, validator: checkNum, trigger: 'blur' },
+                        { required: true, validator: checkNum, trigger: 'change' },
                     ],
                 },
                 edit:-1, //获取新增或者编辑 1新增 2编辑
@@ -230,6 +232,13 @@
                         let data = {};
                         if(this.edit == 1) {
                             //传输的数据
+                            let key = this.ruleForm.classNum.split("");
+                            key = key.filter(s => {
+                                return s == ".";
+                            });
+                            if (key.length == 1) {
+                                this.ruleForm.classNum = Math.round(this.ruleForm.classNum* 10) / 10;
+                            }
                             data = { //新增
                                 'arrangeDate':this.$route.query.dates,
                                 'arrangeBegintime':this.ruleForm.startTime,
@@ -285,7 +294,16 @@
                             if(this.ruleForm.changeLesson == undefined) {
                                 this.ruleForm.changeLesson = this.editDatas.currName;
                             }
-
+                            if(this.ruleForm.classNum == undefined) {
+                                this.ruleForm.classNum = this.editDatas.classNum;
+                            }
+                            let key = this.ruleForm.classNum.split("");
+                            key = key.filter(s => {
+                                return s == ".";
+                            });
+                            if (key.length == 1) {
+                                this.ruleForm.classNum = Math.round(this.ruleForm.classNum* 10) / 10;
+                            }
                             //传输的数据
                             data = {
                                 'arrangeDate':this.addDate,
@@ -304,9 +322,8 @@
                                 'currId':this.currId,
                                 'currName':this.ruleForm.changeLesson,
                                 'caId':this.editCaId,
-                                'consumptionHours':this.editDatas.classNum
+                                'consumptionHours':this.ruleForm.classNum
                             };
-                            // console.log(data);
                         }
                         // console.log(data,'传输数据');
                         let that = this;

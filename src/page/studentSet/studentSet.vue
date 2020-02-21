@@ -38,7 +38,7 @@
             <el-table-column fixed="right" prop="studentState" label="操作" width="180" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" icon="el-icon-view" @click="goDetail(scope.row.id)">查看</el-button>
-                    <el-button type="text" v-if="scope.row.status == 1" icon="el-icon-notebook-2" @click="classEnd()">停课</el-button>
+                    <!--<el-button type="text" v-if="scope.row.status == 1" icon="el-icon-notebook-2" @click="classEnd()">停课</el-button>-->
                     <el-button type="text" v-if="scope.row.status == 2" icon="el-icon-notebook-2" @click="classBegin()">开课</el-button>
                     <el-button type="text" icon="el-icon-money" @click="renew(scope.row.id)">续费</el-button>
                 </template>
@@ -318,7 +318,7 @@
             },
             dateFormat(row, column, cellValue, index){  //表格日期格式化
                 var date = row[column.property];
-                if(date == undefined){return ''};
+                if(date == undefined || date == '' || date == null){return ''};
                 return moment(date).format("YYYY-MM-DD");
             },
             renew(ids) {

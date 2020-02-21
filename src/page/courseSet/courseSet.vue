@@ -10,14 +10,14 @@
                 </el-col>
                 <el-col :span="5">
                     <el-form-item>
-                        <el-select v-model="ruleForm.subject" placeholder="请选择科目">
+                        <el-select v-model="ruleForm.subject" placeholder="请选择科目" filterable clearable>
                             <el-option v-for="list in kmList" :label="list.name" :value="list.name" :key="list.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
                     <el-form-item>
-                        <el-select v-model="ruleForm.level" placeholder="请选择级别">
+                        <el-select v-model="ruleForm.level" placeholder="请选择级别" filterable clearable>
                             <el-option v-for="list in jbList" :label="list.name" :value="list.name" :key="list.id"></el-option>
                         </el-select>
                     </el-form-item>
@@ -74,12 +74,12 @@
         <el-dialog title="新增课程" :visible.sync="courseVisible" class="courseAlert" :before-close="handleClose">
             <el-form :model="courseForm" :rules="courseRules" ref="courseForm">
                 <el-form-item label="选择科目" prop="subject">
-                    <el-select v-model="courseForm.subject" placeholder="请选择科目">
+                    <el-select v-model="courseForm.subject" placeholder="请选择科目" filterable clearable>
                         <el-option v-for="list in kmList" :label="list.name" :value="list.name" :key="list.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择级别" prop="level">
-                    <el-select v-model="courseForm.level" placeholder="请选择级别">
+                    <el-select v-model="courseForm.level" placeholder="请选择级别" filterable clearable>
                         <el-option v-for="list in jbList" :label="list.name" :value="list.name" :key="list.id"></el-option>
                     </el-select>
                 </el-form-item>

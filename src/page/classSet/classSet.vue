@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item prop="classState">
-                        <el-select v-model="ruleForm.classState" placeholder="请选择班级状态">
+                        <el-select v-model="ruleForm.classState" placeholder="请选择班级状态" filterable clearable>
                             <el-option v-for="list in statusValue" :label="list.statusValue" :value="list.statusKey" :key="list.statusKey"></el-option>
                         </el-select>
                     </el-form-item>
@@ -211,6 +211,11 @@
                             setTimeout(function () {
                                 window.location.reload();
                             },1000);
+                        } else if(res.code == 2001) {
+                            this.$message({
+                                message: '部分学生课时未完成签到',
+                                type: 'warning'
+                            });
                         } else {
                             this.$message.error('网络异常，请稍后再试');
                         }

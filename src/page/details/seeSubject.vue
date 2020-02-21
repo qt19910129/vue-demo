@@ -69,31 +69,31 @@
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="选择讲师" prop="teacher1">
-                    <el-select v-model="addClassTimeForm.teacher1" placeholder="请选择讲师">
+                    <el-select v-model="addClassTimeForm.teacher1" placeholder="请选择讲师" filterable clearable>
                         <el-option label="老师1" value="1"></el-option>
                         <el-option label="老师2" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择助教" prop="teacher2">
-                    <el-select v-model="addClassTimeForm.teacher2" placeholder="请选择助教">
+                    <el-select v-model="addClassTimeForm.teacher2" placeholder="请选择助教" filterable clearable>
                         <el-option label="助教1" value="1"></el-option>
                         <el-option label="助教2" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择教室" prop="classRoom">
-                    <el-select v-model="addClassTimeForm.classRoom" placeholder="请选择教室">
+                    <el-select v-model="addClassTimeForm.classRoom" placeholder="请选择教室" filterable clearable>
                         <el-option label="教室1" value="1"></el-option>
                         <el-option label="教室2" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="课程级别" prop="level">
-                    <el-select v-model="addClassTimeForm.level" placeholder="请选择课程级别">
+                    <el-select v-model="addClassTimeForm.level" placeholder="请选择课程级别" filterable clearable>
                         <el-option label="级别1" value="1"></el-option>
                         <el-option label="级别2" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择课程" prop="lesson">
-                    <el-select v-model="addClassTimeForm.lesson" placeholder="请选择课程">
+                    <el-select v-model="addClassTimeForm.lesson" placeholder="请选择课程" filterable clearable>
                         <el-option label="课程1" value="1"></el-option>
                         <el-option label="课程2" value="2"></el-option>
                     </el-select>

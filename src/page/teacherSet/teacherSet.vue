@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="5">
                     <el-form-item prop="teacherJob">
-                        <el-select v-model="ruleForm.teacherJob" placeholder="请选择教师在职类型">
+                        <el-select v-model="ruleForm.teacherJob" placeholder="请选择教师在职类型" filterable clearable>
                             <el-option label="全职" value="全职"></el-option>
                             <el-option label="兼职" value="兼职"></el-option>
                             <el-option label="试用期" value="试用期"></el-option>
@@ -19,7 +19,7 @@
                 </el-col>
                 <el-col :span="5">
                     <el-form-item prop="status">
-                        <el-select v-model="ruleForm.status" placeholder="请选择教师状态">
+                        <el-select v-model="ruleForm.status" placeholder="请选择教师状态" filterable clearable>
                             <el-option label="在职" value="1"></el-option>
                             <el-option label="离职" value="2"></el-option>
                         </el-select>
@@ -137,7 +137,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="在职类型" prop="teacherType">
-                            <el-select v-model="teacherForm.teacherType" placeholder="请选择在职类型">
+                            <el-select v-model="teacherForm.teacherType" placeholder="请选择在职类型" filterable clearable>
                                 <el-option label="全职" value="全职"></el-option>
                                 <el-option label="兼职" value="兼职"></el-option>
                                 <el-option label="试用期" value="试用期"></el-option>
@@ -146,7 +146,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="教师状态" prop="status">
-                            <el-select v-model="teacherForm.status" placeholder="请选择教师状态">
+                            <el-select v-model="teacherForm.status" placeholder="请选择教师状态" filterable clearable>
                                 <el-option label="在职" value="1"></el-option>
                                 <el-option label="离职" value="2"></el-option>
                             </el-select>
@@ -245,7 +245,7 @@
                         // { type: 'date', required: true, message: '请选择出生日期', trigger: 'change' }
                     ],
                     card: [
-                        { required: true, validator: checkcard, trigger: 'blur' },
+                        // { validator: checkcard, trigger: 'blur' },
                         { min: 18, max: 18, message: '请输入正确的18位身份证号', trigger: 'blur' }
                     ],
                     jobDate: [
@@ -412,7 +412,7 @@
                                     this.$refs[formName].resetFields();
                                     this.teacherVisible = false;
                                     setTimeout(function () {
-                                        // window.location.reload();
+                                        window.location.reload();
                                     },1000);
                                 } else {
                                     this.$message.error('网络异常，请稍后再试');

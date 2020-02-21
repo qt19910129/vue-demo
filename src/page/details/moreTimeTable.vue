@@ -9,7 +9,7 @@
 
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" style="margin-top: 20px;">
             <el-form-item label="选择班级" prop="changeClass">
-                <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级" @change="pickClass">
+                <el-select v-model="ruleForm.changeClass" placeholder="请选选择班级" @change="pickClass" filterable clearable>
                     <el-option v-for="list in addClass" :label="list.name" :value="list.id" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
@@ -35,33 +35,33 @@
                     <el-checkbox label="每周日" name="type" border size="small"></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="选择讲师" prop="changeTeacher1">
-                <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师" @change="pickT1">
+            <el-form-item label="选择助教" prop="changeTeacher2">
+                <el-select v-model="ruleForm.changeTeacher2" placeholder="请选选择助教" @change="pickT2" filterable clearable>
                     <el-option v-for="list in addTeacher" :label="list.name" :value="list.id" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="选择助教" prop="changeTeacher2">
-                <el-select v-model="ruleForm.changeTeacher2" placeholder="请选选择助教" @change="pickT2">
+            <el-form-item label="选择讲师" prop="changeTeacher1">
+                <el-select v-model="ruleForm.changeTeacher1" placeholder="请选选择讲师" @change="pickT1" filterable clearable>
                     <el-option v-for="list in addTeacher" :label="list.name" :value="list.id" :key="list.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择教室" prop="changeClassRoom">
-                <el-select v-model="ruleForm.changeClassRoom" placeholder="请选选择教室" @change="pickClassRoom">
+                <el-select v-model="ruleForm.changeClassRoom" placeholder="请选选择教室" @change="pickClassRoom" filterable clearable>
                     <el-option v-for="list in addClassRoom" :label="list.crName" :value="list.crId" :key="list.crId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择科目" prop="changeSubject">
-                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject">
+                <el-select v-model="ruleForm.changeSubject" placeholder="请选选择科目" @change="pickChangeSubject" filterable clearable>
                     <el-option v-for="list in addSubject" :label="list.subject" :value="list.subject" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="科目级别" prop="changeLevel">
-                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel">
+                <el-select v-model="ruleForm.changeLevel" placeholder="请选选择科目级别" @change="pickChangeLevel" filterable clearable>
                     <el-option v-for="list in addLevel" :label="list.rank" :value="list.rank" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="选择课程" prop="changeLesson">
-                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson">
+                <el-select v-model="ruleForm.changeLesson" placeholder="请选选择课程" @change="pickChangeLesson" filterable clearable>
                     <el-option v-for="list in addLesson" :label="list.currName" :value="list.currName" :key="list.currId"></el-option>
                 </el-select>
             </el-form-item>
@@ -69,7 +69,7 @@
                 <el-input v-model.number.trim="ruleForm.timeNum"></el-input>
             </el-form-item>
             <el-form-item label="消耗课时" prop="classNum">
-                <el-input v-model.number.trim="ruleForm.classNum"></el-input>
+                <el-input v-model.trim="ruleForm.classNum"></el-input>
             </el-form-item>
             <el-form-item>
                 <!--新增-->
@@ -90,6 +90,19 @@
     } from "../../axios/timeTableSet";
     export default {
         data() {
+            var checkNum = (rule, value, callback) => {
+                if (value == null || value == '' || value == undefined) {
+                    callback(new Error("请输入消耗课时"));
+                } else if(isNaN(value)) {
+                    callback(new Error("请输入正确的消耗课时"));
+                } else if (value * 1 < 0) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("消耗课时数不能小于0"));
+                } else if (value * 1 > 10.5) {//引入methods中封装的检查手机格式的方法
+                    callback(new Error("消耗课时数不能大于10.5"));
+                }  else {
+                    callback();
+                }
+            };
             return {
                 addClass:[],  //选择班级数据
                 addTeacher:[],  //选择主教数据
@@ -156,8 +169,8 @@
                         { type: 'number', message: '请输入正确的排课次数'}
                     ],
                     classNum: [
-                        { required: true, message: '请输入单次消耗课时数', trigger: 'blur' },
-                        { type: 'number', message: '请输入正确的消耗课时'}
+                        { required: true, validator: checkNum, trigger: 'change' },
+
                     ],
                 },
                 currId:-1,
@@ -177,6 +190,13 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         //批量排课 传输数据接口
+                        let key = this.ruleForm.classNum.split("");
+                        key = key.filter(s => {
+                            return s == ".";
+                        });
+                        if (key.length == 1) {
+                            this.ruleForm.classNum = Math.round(this.ruleForm.classNum* 10) / 10;
+                        }
                         let data = {
                             'curriculum_timeStart':this.formatDate(this.ruleForm.changeMonth),
                             'arrangeBegintime':this.ruleForm.startTime,
@@ -197,6 +217,7 @@
                             'period':this.weekChange(this.ruleForm.type),
                             'consumptionHours':this.ruleForm.classNum
                         };
+                        // console.log(data);
                         let that = this;
                         //验证
                         selectRepeatPL(data).then(res => {
