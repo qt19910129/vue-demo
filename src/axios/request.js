@@ -87,6 +87,11 @@ service.interceptors.response.use(
                 },1000);
             }
             return;
+        } else if (res.code == 4001) {
+            Message.error('手机号已注册');
+            setTimeout(function () {
+                tryHideFullScreenLoading();
+            },2000);
         } else {
             tryHideFullScreenLoading();
             return Promise.resolve(response.data);
